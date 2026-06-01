@@ -1,0 +1,117 @@
+documents:
+  - eba_id: "EBA/GL/2021/02"
+    title: "Guidelines on customer due diligence and the factors credit and financial institutions should consider when assessing the money laundering and terrorist financing risk associated with individual business relationships and occasional transactions"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/963637/Final%20Report%20on%20Guidelines%20on%20revised%20ML%20TF%20Risk%20Factors.pdf"
+    publication_url: "https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-1"
+    language: en
+    published_at: "2021-03-01"
+    expected_difficulty: hard
+    publication_status: final
+    applicability_status: applicable
+    notes: "Base ML/TF Risk Factors Guidelines; long final report with sector-specific titles, annexes, tables, and numbered paragraphs; application starts three months after EU-language publication."
+
+  - eba_id: "EBA/GL/2023/03"
+    title: "Guidelines amending Guidelines EBA/GL/2021/02 on customer due diligence and the factors credit and financial institutions should consider when assessing the money laundering and terrorist financing risk associated with individual business relationships and occasional transactions"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1054143/Amending%20GLs%20to%20the%20RFGLs%20in%20relation%20to%20NPOs.pdf"
+    publication_url: "https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-1"
+    language: en
+    published_at: "2023-03-31"
+    expected_difficulty: medium
+    publication_status: final
+    applicability_status: applicable
+    notes: "Amending guideline to EBA/GL/2021/02 adding NPO customer risk factors; numbered amendment paragraphs and annex-style material."
+
+  - eba_id: "EBA/GL/2024/01"
+    title: "Guidelines amending Guidelines EBA/GL/2021/02 on customer due diligence and the factors credit and financial institutions should consider when assessing the money laundering and terrorist financing risk associated with individual business relationships and occasional transactions"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/2024-01/a3e89f4f-fbf3-4bd6-9e07-35f3243555b3/Final%20Amending%20%20Guidelines%20on%20MLTF%20Risk%20Factors.pdf"
+    publication_url: "https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-1"
+    language: en
+    published_at: "2024-01-16"
+    expected_difficulty: medium
+    publication_status: final
+    applicability_status: applicable
+    notes: "Amends EBA/GL/2021/02 for crypto-asset service provider risk factors; application date 2024-12-30."
+
+  - eba_id: "EBA/GL/2022/05"
+    title: "Guidelines on policies and procedures in relation to compliance management and the role and responsibilities of the AML/CFT Compliance Officer"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-05%20GLs%20on%20AML%20compliance%20officers/1035126/Guidelines%20on%20AMLCFT%20compliance%20officers.pdf"
+    publication_url: "https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-1"
+    language: en
+    published_at: "2022-06-14"
+    expected_difficulty: medium
+    publication_status: final
+    applicability_status: applicable
+    notes: "AML/CFT compliance officer and management body responsibilities; numbered paragraphs, group compliance section, applies from 2022-12-01."
+
+  - eba_id: "EBA/GL/2022/15"
+    title: "Guidelines on the use of Remote Customer Onboarding Solutions"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-15%20GL%20on%20remote%20customer%20onboarding/1043884/Guidelines%20on%20the%20use%20of%20Remote%20Customer%20Onboarding%20Solutions.pdf"
+    publication_url: "https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-4"
+    language: en
+    published_at: "2022-11-22"
+    expected_difficulty: medium
+    publication_status: final
+    applicability_status: applicable
+    notes: "Remote CDD onboarding under AMLD; numbered paragraphs with technical subsections; applies from 2023-10-02."
+
+  - eba_id: "EBA/GL/2023/04"
+    title: "Guidelines on policies and controls for the effective management of money laundering and terrorist financing risks when providing access to financial services"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1054144/Guidelines%20on%20MLTF%20risk%20management%20and%20access%20to%20financial%20services.pdf"
+    publication_url: "https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-6"
+    language: en
+    published_at: "2023-03-31"
+    expected_difficulty: medium
+    publication_status: final
+    applicability_status: applicable
+    notes: "De-risking/access to financial services guideline; numbered paragraphs and policy-option analysis; application date 2023-11-03."
+
+  - eba_id: "EBA/GL/2021/15"
+    title: "Guidelines on cooperation and information exchange between prudential supervisors, AML/CFT supervisors and financial intelligence units"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-15%20GL%20on%20CFT%20cooperation/1025384/Final%20AML-CFT%20Cooperation%20Guidelines.pdf"
+    publication_url: "https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/guidelines-cooperation-and-information-exchange-between-prudential-supervisors-amlcft-supervisors"
+    language: en
+    published_at: "2021-12-16"
+    expected_difficulty: easy
+    publication_status: final
+    applicability_status: applicable
+    notes: "EBA-only cooperation guideline for prudential supervisors, AML/CFT supervisors and FIUs; numbered paragraphs; application date 2022-06-01."
+
+  - eba_id: "EBA/GL/2024/11"
+    title: "Guidelines on information requirements in relation to transfers of funds and certain crypto-assets transfers under Regulation (EU) 2023/1113"
+    document_type: guidelines
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/2024-07/6de6e9b9-0ed9-49cd-985d-c0834b5b4356/Travel%20Rule%20Guidelines.pdf"
+    publication_url: "https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/guidelines-information-requirements-relation-transfers-funds-and-certain-crypto-assets-transfers"
+    language: en
+    published_at: "2024-07-04"
+    expected_difficulty: hard
+    publication_status: final
+    applicability_status: future
+    notes: "Travel Rule guideline for PSPs, IPSPs, CASPs and ICASPs; complex transfer scenarios, tables, and annex-like implementation sections; applies from 2024-12-30."
+
+  - eba_id: "EBA/Op/2022/01"
+    title: "Opinion and Report on de-risking and its impact on access to financial services"
+    document_type: opinion
+    topic: AML/CFT
+    file_url: "https://www.eba.europa.eu/sites/default/files/document_library/Publications/Opinions/2022/Opinion%20on%20de-risking%20%28EBA-Op-2022-01%29/1025705/EBA%20Opinion%20and%20annexed%20report%20on%20de-risking.pdf"
+    publication_url: "https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism"
+    language: en
+    published_at: "2022-01-05"
+    expected_difficulty: easy
+    publication_status: final
+    applicability_status: applicable
+    notes: "Final EBA opinion/report on AML/CFT de-risking; included to exercise fallback citation where narrative report sections are not consistently paragraph-numbered."

@@ -1,0 +1,2494 @@
+documents:
+- eba_id: EBA/LARGE-GL/2026/0001
+  title: Consolidated version of EBA ameding Guidelines on ICT and security risk management
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-05/c8fb6168-0aef-42f6-8da9-114a8baf21b9/Consolidated%20version%20of%20EBA%20ameding%20Guidelines%20on%20ICT%20and%20security%20risk%20management.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2026/0002
+  title: Consolidated EBA Guidelines on connected clients
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-04/bad26f38-bdc5-4d75-b8bf-ce9b07dfde50/Consolidated%20EBA%20Guidelines%20on%20connected%20clients.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2026/0003
+  title: Final Report on Guidelines on Supervisory Independence
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-04/eb2fb353-b42d-4289-8929-b44e236a93a8/Final%20Report%20on%20Guidelines%20on%20Supervisory%20Independence.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2026/0004
+  title: Guidelines on third country branches capital endowment requirement
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-03/fa3aadf2-ac8a-4645-8196-a2c1ddf2a1f5/Guidelines%20on%20the%20TCB%20capital%20endowment%20requirement.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2026/0005
+  title: Final Report on Guidelines on retail diversification
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-02/dcc09076-7ce9-4062-ac17-1615309aa728/Final%20Report%20on%20Guidelines%20on%20retail%20diversification.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-02-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2026/0006
+  title: Final Report on Guidelines on ancillary services undertakings
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-01/a3172e12-c2bb-41bd-9420-7ac0d44b3d9b/Final%20Report%20on%20Guidelines%20on%20ancillary%20services%20undertakings.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2026/0007
+  title: Final Report on Joint ESAs Guidelines on ESG Stress Testing
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-01/60ba0389-2d7a-46b7-96e8-9072c481d8ce/EIOPA-BoS-25-602%20-%20ESAs%20Final%20Report%20-%20Joint%20Guidelines%20on%20ESG%20Stress%20Testing.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2025/0008
+  title: Guidelines on environmental scenario analysis
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-11/170da4c8-9b56-4fb0-ad60-94d433b7e866/Guidelines%20on%20environmental%20scenario%20analysis.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2025/0009
+  title: Guidelines on ADC exposures to residential property under CRR 3
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-06/e7b307b5-efab-4c59-ab8a-1b9622ce5b0f/GLs%20on%20ADC%20exposures%20to%20residential%20property%20under%20Article%20126a.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2025/0010
+  title: Final Report on Guidelines on high risk
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-05/e2092eda-80f3-48aa-84b8-eef19be33aa0/Final%20Report%20on%20EBA%20GL%20on%20High%20Risk2.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2012/04
+  title: Guidelines on the remuneration benchmarking exercise EBA-GL-2012-04
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-03/8a6dce0a-0e34-467e-a048-725b18fd78bf/EBA-GL-2012-04---GL-4-on-remuneration-benchmarking-exercise-.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2025/0012
+  title: Final Guidelines on the management of ESG risks
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-01/fb22982a-d69d-42cc-9d62-1023497ad58a/Final%20Guidelines%20on%20the%20management%20of%20ESG%20risks.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0013
+  title: Final report on Guidelines on reporting on ARTs and EMTs
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/907cde4b-7d25-4f41-b1ef-bb0a469f00ac/Final%20report%20on%20Guidelines%20on%20reporting%20on%20ARTs%20and%20EMTs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0014
+  title: Joint ESA Final Report on Art 97 Guidelines MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/f4d876e5-5351-4314-b45f-ac3cd702f95b/Joint%20ESA%20Final%20Report%20on%20Art%2097%20Guidelines%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0015
+  title: Joint Guidelines on ESAs system for exchange of information on fit and proper
+    assessment
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-11/43114fbe-9a5a-412e-b461-955f86848ac3/Guidelines%20on%20ESAs%20system%20for%20exchange%20of%20information%20on%20fit%20and%20proper%20assessment.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0016
+  title: Guidelines on internal policies, procedures and controls to ensure the implementation
+    of Union and national restrictive measures
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-11/eaeae49d-81a5-4154-8af9-5014f6ee8881/Final%20Report%20Guidelines%20restrictive%20measures%20.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0017
+  title: Final report on Guidelines on redemption plans under MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-10/f8fda168-4d97-4549-9cfe-46d1d1a27636/Final%20report%20on%20Guidelines%20on%20redemption%20plans%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-10-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0018
+  title: Joint Guidelines on the estimation of aggregated costs/losses caused by major
+    ICT-related incidents
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/48958acb-1c6d-40f0-9784-961713759972/JC%202024-34%20-%20Final%20report%20GL%20on%20costs%20and%20losses.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0019
+  title: Joint Guidelines on oversight cooperation
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/e0701aa1-d1a5-4996-8b30-5a933d15058e/JC%202024-36%20-%20Final%20report%20on%20GL%20on%20oversight%20cooperation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0020
+  title: Joint EBA and ESMA Guidelines on suitability of management body and qualifying
+    holdings under MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/2a0668ab-5d70-495a-a723-f6568fe8c830/Joint%20GL%20suitability%20members%20management%20body%20and%20QH%20%28MiCAR%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0021
+  title: Final Report on Guidelines on liquidity stress testing under MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/2bd7add3-35b1-40d7-9c45-67c8cccbe97a/Final%20report%20on%20Guidelines%20on%20liquidity%20stress%20testing%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0022
+  title: Final report on Guidelines on the minimum content of the governance arrangements
+    for issuers of asset-referenced tokens
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/611ef3d4-4d67-467f-bf0d-4c2b1dd0ef5e/Final%20report%20on%20draft%20Guidelines%20on%20internal%20governance%20of%20issuers%20of%20ARTs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0023
+  title: Final report on Guidelines on STS criteria for on-balance-sheet securitisation
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-05/c2643528-9d43-4f64-863b-053864465f96/Final%20report%20on%20GL%20on%20STS%20criteria%20for%20OBS%20securitisation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0024
+  title: Guidelines on the application of the group capital test for investment firms
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-04/9fd4f7ea-1aaa-432d-a7dd-f575e6c14f31/Final%20guidelines%20on%20GCT%20for%20investment%20firms.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0025
+  title: Guidelines on resubmission of historical data under the EBA reporting framework
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-04/37408afd-8884-4ca6-b8c5-7011093c9528/Final%20Report%20-%20Guidelines%20on%20resubmission%20of%20historical%20data%20under%20the%20EBA%20reporting%20framework.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2024/0026
+  title: Guidelines on the establishment and maintenance of national lists or registers
+    of credit servicers
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-03/a19c8fde-15f1-4692-ad3b-f03e0bb2fff7/Final%20report%20on%20GL%20on%20CS%20registers.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2024-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2023/0027
+  title: Guidelines on disclosure of G-SIIs indicators (consolidated)
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-12/0762513a-18f4-4055-8964-943e26335061/Guidelines%20on%20disclosure%20of%20G-SIIs%20indicators_consolidated.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2023/0028
+  title: Final report on Guidelines on the diversity benchmarking exercise
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-12/213cc021-d991-43ed-977d-c60245301e70/Final%20report%20on%20Guidelines%20on%20the%20diversity%20benchmarking%20exercise.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2023/0029
+  title: Final report on Guidelines on the assessment of knowledge and experience
+    of the organs of credit servicers
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-12/5244af0f-ea2b-4a6d-982c-251696057a77/Report%20on%20GL%20on%20the%20assessment%20of%20knowledge%20and%20experience%20of%20the%20organs%20of%20credit%20servicers.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2023/0030
+  title: Guidelines on risk-based supervision - consolidated version
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-11/6fa613c3-54cd-4f21-a6bc-c3d775ce5545/EBA%20GL%20on%20RBA%20AML%20CFT_consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/2023/0031
+  title: Corrigendum to the Guidelines on risk-based supervision
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-11/26170943-836e-402c-bf4e-de11095ac7d0/Corrigendum%20to%20the%20Risk-Based%20Supervision%20Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2023/03
+  title: Guidelines ML TF Risk Factors_conslidated.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-03/1061654/Guidelines%20ML%20TF%20Risk%20Factors_conslidated.pdf.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2023/02
+  title: Consolidated version - GLs AFMs (EBA GL 2021 17) amended by EBA GL 2023 02.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-02/1061621/Consolidated%20version%20-%20GLs%20AFMs%20%28EBA%20GL%202021%2017%29%20amended%20by%20EBA%20GL%202023%2002.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2023/06
+  title: Explanatory box on the ORC determination.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-06/1061160/Explanatory%20box%20on%20the%20ORC%20determination.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2023/06/DUP2
+  title: Final Report on GLs on overall recovery capacity in recovery planning.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-06/1061158/Final%20Report%20on%20GLs%20on%20overall%20recovery%20capacity%20in%20recovery%20planning.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/17
+  title: GLs on delineation and reporting of AFMs_consolidated version.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-17%20GL%20on%20delineation%20and%20reporting%20AFM/1055687/GLs%20on%20delineation%20and%20reporting%20of%20AFMs_consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2023/02/DUP2
+  title: CORRIGENDUM_Final report of the revised GL on DGS contributions.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-02/1055416/CORRIGENDUM_Final%20report%20of%20the%20revised%20GL%20on%20DGS%20contributions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0038
+  title: Guidelines on MLTF risk management and access to financial services.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1054144/Guidelines%20on%20MLTF%20risk%20management%20and%20access%20to%20financial%20services.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0039
+  title: Final report of the revised GL on DGS contributions.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1052023/Final%20report%20of%20the%20revised%20GL%20on%20DGS%20contributions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0040
+  title: Final Report on Guidelines on the publication of the write-down and conversion
+    and bail-in exchange mechanic.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1051851/Final%20Report%20on%20Guidelines%20on%20the%20publication%20of%20the%20write-down%20and%20conversion%20and%20bail-in%20exchange%20mechanic.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/15
+  title: Guidelines on the use of Remote Customer Onboarding Solutions.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-15%20GL%20on%20remote%20customer%20onboarding/1043884/Guidelines%20on%20the%20use%20of%20Remote%20Customer%20Onboarding%20Solutions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/14
+  title: Guidelines on IRRBB and CSRBB.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-14%20GL%20on%20IRRBB%20and%20CSRBB/1041754/Guidelines%20on%20IRRBB%20and%20CSRBB.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0043
+  title: Consolidated GL on disclosure of non-performing and forborne exposures.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/1041279/Consolidated%20%20GL%20on%20disclosure%20of%20non-performing%20and%20forborne%20exposures.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/11
+  title: Final report on Guidelines on transferability.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-11%20GL%20on%20transferability/1039809/Final%20report%20on%20Guidelines%20on%20transferability.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/10
+  title: Guidelines on liquidity exemption investment firms - Art 43(4) IFR.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-10%20GL%20on%20liquidity%20exemption/1037489/Guidelines%20on%20liquidity%20exemption%20investment%20firms%20-%20Art%2043%284%29%20IFR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/09
+  title: Final report on SREP guidelines under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-09%20GL%20on%20SREP%20for%20IF/1037290/Final%20report%20on%20SREP%20guidelines%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/06
+  title: Final report on GLs on remuneration and gender pay gap benchmarking under
+    CRD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-06%20GL%20on%20remuneration%20CRD/1036475/Final%20report%20on%20GLs%20on%20remuneration%20and%20gender%20pay%20gap%20benchmarking%20under%20CRD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/07
+  title: Final report on GLs on remuneration and pay gap benchmarking under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-07%20GLs%20on%20remuneration%20IFD/1036476/Final%20report%20on%20GLs%20on%20remuneration%20and%20pay%20gap%20benchmarking%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/08
+  title: Final report on GLs on the high earner data collections under CRD and IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-08%20GL%20on%20high%20earners/1036477/Final%20report%20on%20GLs%20on%20the%20high%20earner%20data%20collections%20under%20CRD%20and%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/05
+  title: Guidelines on AMLCFT compliance officers.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-05%20GLs%20on%20AML%20compliance%20officers/1035126/Guidelines%20on%20AMLCFT%20compliance%20officers.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0051
+  title: Guidelines on equivalence of confidentiality regimes.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/Guidelines%20on%20the%20equivalence%20of%20confidentiality%20regimes/1032151/Guidelines%20on%20equivalence%20of%20confidentiality%20regimes.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0052
+  title: Principles for the assessment of confidentiality and professional secrecy.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/Guidelines%20on%20the%20equivalence%20of%20confidentiality%20regimes/1032150/Confidentiality%20Principles%20.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/03
+  title: Final Report on Guidelines on common procedures and methodologies for SREP
+    and supervisory stress testing.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-03%20Revised%20SREP%20Guidelines/1028500/Final%20Report%20on%20Guidelines%20on%20common%20procedures%20and%20methodologies%20for%20SREP%20and%20supervisory%20stress%20testing.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/02
+  title: Final report on draft Guidelines on the limited network exclusion under PSD2.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-02%20GL%20on%20limited%20network%20exclusions/1027516/Final%20report%20on%20draft%20Guidelines%20on%20the%20limited%20network%20exclusion%20under%20PSD2.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2022/01
+  title: Final Report on Guidelines on improving resolvability for institutions and
+    resolution authorities.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-01%20Guidelines%20on%20resolvability/1025905/Final%20Report%20on%20Guidelines%20on%20improving%20resolvability%20for%20institutions%20and%20resolution%20authorities%20%282%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/17/DUP2
+  title: Final report on GLs on delineation and reporting of AFMs.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-17%20GL%20on%20delineation%20and%20reporting%20AFM/1025710/Final%20report%20on%20GLs%20on%20delineation%20and%20reporting%20of%20AFMs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/15
+  title: Guidelines on AML CFT cooperation.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-15%20GL%20on%20CFT%20cooperation/1025384/Final%20AML-CFT%20Cooperation%20Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/16
+  title: EBA Final Report on GL on RBA AML CFT.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-16%20GL%20on%20RBA%20to%20AML%20CFT/1025507/EBA%20Final%20Report%20on%20GL%20on%20RBA%20AML%20CFT.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/13
+  title: Final Report on GL on sound remuneration policies under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-13%20Guidelines%20on%20remuneration%20under%20IFD/1024533/Final%20Report%20on%20GL%20on%20sound%20remuneration%20policies%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/14
+  title: Final Report on GL on internal governance under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-14%20Guidelines%20on%20internal%20governance%20under%20IFD/1024534/Final%20Report%20on%20GL%20on%20internal%20governance%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/gl/2021/12
+  title: GL on a common assessment methodology.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-gl-2021-12%20Guidelines%20on%20the%20authorisation%20of%20credit%20institutions/1023885/Report%20GL%20on%20a%20common%20assessment%20methodology%20%28002%29%20-%20clean.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/11
+  title: Final Report on Guidelines on recovery plan indicators.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-11%20Guidelines%20on%20recovery%20plan%20indicators%20/1023794/Final%20Report%20on%20Guidelines%20on%20recovery%20plan%20indicators.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/10
+  title: Final Report on Revised Gudelines on DGS stress tests.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-10%20revised%20GL%20on%20DGS%20stress%20test/1019607/Final%20Report%20on%20Revised%20Gudelines%20on%20DGS%20stress%20tests.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2021/09
+  title: Final Report on Guidelines on large exposures breaches and time and measures
+    to return to compliance.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-09%20GL%20on%20large%20exposure%20breaches/1019615/Final%20Report%20on%20Guidelines%20on%20large%20exposures%20breaches%20and%20time%20and%20measures%20to%20return%20to%20compliance.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0065
+  title: Guidelines on the monitoring of IPU threshold.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/GLs%20on%20IPU%202021-08/1017776/Guidelines%20on%20the%20monitoring%20of%20IPU%20threshold.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0066
+  title: Guidelines on use of data inputs in the IMA.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/1017268/Guidelines%20on%20use%20of%20data%20inputs%20in%20the%20IMA.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0067
+  title: Draft Final report on GL on remuneration policies under CRD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/1016720/Draft%20Final%20report%20on%20GL%20on%20remuneration%20policies%20under%20CRD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0068
+  title: Final report on Guidelines on internal governance under CRD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/1016721/Final%20report%20on%20Guidelines%20on%20internal%20governance%20under%20CRD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0069
+  title: Final revised Guidelines on major incident reporting under PSD2.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/Guidelines%20on%20major%20incident%20reporting%20under%20PSD2%20EBA-GL-2021-03/1014562/Final%20revised%20Guidelines%20on%20major%20incident%20reporting%20under%20PSD2.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0070
+  title: Final Report on Guidelines on revised ML TF Risk Factors.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/963637/Final%20Report%20on%20Guidelines%20on%20revised%20ML%20TF%20Risk%20Factors.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0071
+  title: Final guidelines on tri-party repos for LE purposes.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/963185/Final%20guidelines%20on%20tri-party%20repos%20for%20LE%20purposes.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2020/02
+  title: Final report on EBA-GL-2020-02 Guidelines on payment moratoria - consolidated
+    version.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/GL%20amending%20EBA-GL-2020-02%20on%20payment%20moratoria/960349/Final%20report%20on%20EBA-GL-2020-02%20Guidelines%20on%20payment%20moratoria%20-%20consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0073
+  title: Final report - EBA GLs on disclosure of G-SIIs indicators.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/Guidelines%20on%20the%20specification%20and%20disclosure%20of%20systemic%20importance%20indicators/935707/Final%20report%20-%20EBA%20GLs%20on%20disclosure%20of%20G-SIIs%20indicators.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0074
+  title: Guidelines on supervisory reporting and disclosures - CRR quick fix.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/GLs%20on%20supervisory%20reporting%20and%20disclosure%20requirements%20in%20compliance%20with%20CRR%20%E2%80%9Cquick%20fix%E2%80%9D/923102/Guidelines%20on%20supervisory%20reporting%20and%20disclosures%20-%20CRR%20quick%20fix.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2020/10
+  title: EBA-GL-2020-10 Guidelines on the pragmatic 2020 SREP.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/Guidelines%20on%20the%20pragmatic%202020%20SREP/897419/EBA-GL-2020-10%20Guidelines%20on%20the%20pragmatic%202020%20SREP.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0076
+  title: Guidelines on Structural FX.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/GLs%20on%20the%20treatment%20of%20structural%20FX/886962/Guidelines%20on%20Structural%20FX.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2018/03
+  title: Revised Guidelines on SREP (EBA-GL-2018-03).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282666/6c2e3962-6b95-4753-a7dc-68070a5ba662/Revised%20Guidelines%20on%20SREP%20%28EBA-GL-2018-03%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2018/02
+  title: Guidelines on the management of interest rate risk arising from non-trading
+    activities (EBA-GL-2018-02).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282655/169993e1-ad7a-4d78-8a27-1975b4860da0/Guidelines%20on%20the%20management%20of%20interest%20rate%20risk%20arising%20from%20non-trading%20activities%20%28EBA-GL-2018-02%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2018/04
+  title: Guidelines on institutions stress testing (EBA-GL-2018-04).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282644/2b604bc8-fd08-4b17-ac4a-cdd5e662b802/Guidelines%20on%20institutions%20stress%20testing%20%28EBA-GL-2018-04%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0080
+  title: Guidelines on common procedures and methodologies for SREP and supervisory
+    stress testing - Consolidated version.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282666/fb883094-3a8a-49d9-a3db-1d39884e2659/Guidelines%20on%20common%20procedures%20and%20methodologies%20for%20SREP%20and%20supervisory%20stress%20testing%20-%20Consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2018/05
+  title: Final report on Guidelines on fraud reporting under Article 96(6) PSD2 (EBA-GL-2018-05)
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2281937/5653b876-90c9-476f-9f44-507f5f3e0a1e/Final%20report%20on%20Guidelines%20on%20fraud%20reporting%20under%20Article%2096%286%29%20PSD2%20%28EBA-GL-2018-05%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2016/07
+  title: Guidelines on default definition (EBA-GL-2016-07)_EN.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1721448/052c260f-da9a-4c86-8f0a-09a1d8ae56e7/Guidelines%20on%20default%20definition%20%28EBA-GL-2016-07%29_EN.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2015/12
+  title: EBA-RTS-2015-12 RTS and EBA-GL-2015-21 GLs on Business Reorganisation Plans.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1312845/4f2b2315-426a-4c50-94f4-7aed385807c3/EBA-RTS-2015-12%20RTS%20and%20EBA-GL-2015-21%20GLs%20on%20Business%20Reorganisation%20Plans.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2015/12/DUP2
+  title: EBA-RTS-2015-12 RTS and EBA-GL-2015-21 GLs on Business Reorganisation Plans.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1312804/9ecf6b00-dbcf-493d-9ff4-016d7442e410/EBA-RTS-2015-12%20RTS%20and%20EBA-GL-2015-21%20GLs%20on%20Business%20Reorganisation%20Plans.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/GL/2015/17
+  title: EBA-GL-2015-17 Guidelines on group financial support_EN.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1137032/fb55f0f7-822d-4fb2-8995-9a775cecf0c9/EBA-GL-2015-17%20Guidelines%20on%20group%20financial%20support_EN.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0086
+  title: EBA GL 2014 14-Compliance Table-Guidelines on materiality proprietary& confidentiality
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/937948/4d202ca9-9d7f-4481-8c04-f23843d45a8c/EBA%20GL%202014%2014-Compliance%20Table-Guidelines%20on%20materiality%20proprietary%26%20confidentiality.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0087
+  title: CEBS' Guidelines for Joint Risk Assessment (GL 39).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/5b4f246e-1a52-4204-9d74-4b1a2dbcce44/CEBS%27%20Guidelines%20for%20Joint%20Risk%20Assessment%20%28GL%2039%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0088
+  title: Guidelines on the assessment of the suitability of members of the management
+    body and key function holders
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/106695/ad951633-f9bf-4cb0-b4c4-5b3fc7b87f0b/Compliance-GL-2012_06.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0089
+  title: Implementation-survey-on-CEBS--Guidelines-on-Remuneration--final-.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/106961/1aa3364a-f7c5-4ada-9c2b-798b0783557a/Implementation-survey-on-CEBS--Guidelines-on-Remuneration--final-.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/BS/2011/126
+  title: EBA-BS-2011-126-rev1QA-on-guidelines-Artt122a.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16325/5f87e701-8c49-49a3-b7f9-efc0b660ed0f/EBA-BS-2011-126-rev1QA-on-guidelines-Artt122a.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/BS/2011/116
+  title: EBA-BS-2011-116-final-EBA-Guidelines-on-Internal-Governance-(2)_1.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/103861/e03ae4b3-1059-4d2a-a5ff-35a287f8c850/EBA-BS-2011-116-final-EBA-Guidelines-on-Internal-Governance-%282%29_1.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0092
+  title: Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/106961/a3ab77c9-980f-4994-b2cd-397413b77084/Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0093
+  title: ST_Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/ee1e7b7b-5b45-4758-bc64-22b159c3f66c/ST_Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0094
+  title: cebs8_Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/7b1932b0-9788-4127-85a8-29968d17cb6a/cebs8_Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0095
+  title: Guidelines_article57a.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/30468/8d4f1631-f828-454d-a968-7b062ab7e611/Guidelines_article57a.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0096
+  title: Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/630d6f9a-4a33-4754-bea0-78fe3c2fbced/Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-GL/0000/0097
+  title: Passporting-Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/a1220988-9c8f-4f3f-96ab-ebf4ba0d8e6c/Passporting-Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2026/0098
+  title: Final report on draft RTS on IRB material model changes
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-03/7bbbbcd4-caa4-489d-b2b4-a837d04e709e/Final%20report%20RTS%20on%20material%20model%20changes.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2026-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2026/0099
+  title: Draft Regulatory Technical Standards on booking arrangements
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-01/1856ce6e-6727-43f0-b10d-05d9d75b0bb7/Final%20Report%20on%20draft%20Regulatory%20Technical%20Standards%20on%20booking%20arrangements.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2026-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2026/0100
+  title: Final draft Regulatory Technical Standards on cooperation and colleges of
+    supervisors for third-country branches
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-01/2db87aaf-7c13-4640-a2b2-25b589e002fb/Final%20draft%20RTS%20on%20cooperation%20and%20colleges%20of%20supervisors%20for%20third-country%20branches.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2026-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2025/0101
+  title: Final draft RTS on the threshold for Central Securities Depositories (CSDs)
+    providing 'banking type ancillary services'
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-12/1bbd42c8-2267-4b56-aba2-5b833e378ee7/Final%20draft%20RTS%20on%20%20Threshold%20for%20Central%20Securities%20Depositories.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2025-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2025/0102
+  title: Final draft RTS on Structural FX
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-12/cc915222-b050-4d07-86c1-42b6d4a31993/Final%20draft%20RTS%20on%20Structural%20FX.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2025-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2025/0103
+  title: Final report on draft RTS on credit valuation adjustment risk of securities
+    financing transactions
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-10/ed09f5f3-babd-44bb-a721-5e7a72a13e06/Final%20Report%20on%20draft%20RTS%20on%20CVA%20risk%20of%20SFTs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2025-10-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2025/0104
+  title: RTS on equivalent mechanism for unfinished property
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-08/b24309a7-8b20-4f88-8504-fcb89f6335df/RTS%20on%20equivalent%20mechanism%20for%20unfinished%20property.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2025-08-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2025/0105
+  title: Final Report on RTS Operational risk losses mandates
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-08/1f9809f8-13bf-4365-aadc-4e7a8cdf89f1/Final%20Report%20on%20RTS%20Operational%20risk%20losses%20mandates.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2025-08-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2025/0106
+  title: Final Report Draft RTS on the criteria for the appointment of CCP for CASPs
+    and with rules on their functions
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-04/53283e48-b107-46e4-ae85-9c3b783cd557/Final%20Report%20Draft%20RTS%20on%20the%20criteria%20for%20the%20appointment%20of%20CCP%20for%20CASPs%20and%20with%20rules%20on%20their%20functions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2025-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0107
+  title: Final Draft Regulatory Technical Standards on the exemption from the residual
+    risk add-on own funds requirements for certain type of hedges
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/4db1f532-a589-4a2d-b65f-f6298a76f5a1/Final%20draft%20RTS%20on%20RRAO%20hedges.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0108
+  title: Final report RTS on long and short positions for the thresholds calculation
+    in market and counterparty credit risk
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/bd9aff44-c97f-4293-b72d-0249aa2a2155/Final%20report%20RTS%20on%20long%20and%20short%20positions%20for%20the%20thresholds%20calculation%20in%20market%20and%20counterparty%20credit%20risk.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0109
+  title: Joint Technical Standards on major incident reporting
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/6d341d14-0c54-44ff-a849-21561baee157/JC%202024-33%20-%20Final%20report%20on%20the%20draft%20RTS%20and%20ITS%20on%20incident%20reporting.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0110
+  title: Joint Regulatory Technical Standards on the criteria for determining the
+    composition of the joint examination team
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/619a6c58-6044-41b3-a841-06b01863020b/JC%202024%2054%20-%20Final%20Report%20RTS%20on%20JET.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0111
+  title: Joint Regulatory Technical Standards specifying elements related to threat
+    led penetration tests
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/427a52cf-5772-4b69-8eb5-d121c90c470a/JC%202024-29%20-%20Final%20report_DORA%20RTS%20on%20TLPT.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0112
+  title: Joint Regulatory Technical Standards on the harmonization of conditions enabling
+    the conduct of the oversight activities
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/30e5ef75-b0a5-4ab0-8ce6-36c619c5e093/JC%202024-35%20-%20Final%20report%20on%20RTS%20on%20harmonisation%20of%20conditions%20for%20OVS%20conduct.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0113
+  title: Final report on RTS on extraordinary circumstances
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/332b467c-6a45-477a-b3da-daf95aa1ae25/Final%20report%20on%20RTS%20on%20extraordinary%20circumstances.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0114
+  title: Draft RTS on the materiality of extensions and changes to the use of FRTB
+    IMA and changes to the subset of MRF
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/3592deeb-c277-48d6-85f9-ba40e1a42203/Final%20report%20draft%20RTS%20on%20model%20extensions%20and%20changes.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0115
+  title: Final Report on RTS on use of ARTs and EMTs as a means of exchange under
+    MiCAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/4befe99b-36d3-4b92-96b1-13a0f47e039a/Final%20Report%20on%20RTS%20on%20use%20of%20ARTs%20and%20EMTs%20as%20a%20means%20of%20exchange%20under%20MICAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0116
+  title: Final Report on RTS on colleges under MiCAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/a4ac65e2-fd2c-45a3-98d3-1f9aa5ac608b/Final%20Report%20on%20RTS%20on%20colleges%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0117
+  title: Final report on draft RTS on additional own funds requirements and stress
+    testing
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/517f476a-186f-45b7-9a5c-7a5fc9cab5dd/Final%20Report%20draft%20RTS%20on%20additional%20own%20funds%20requirements%20and%20stress%20testing%20Art%2035%206%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0118
+  title: Final report on draft RTS on the procedure and timeframe to adjust own funds
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/3786a572-7066-46f7-967b-cd3e3b45287c/Final%20Report%20draft%20RTS%20on%20the%20procedure%20and%20timeframe%20to%20adjust%20own%20funds%20Art%2045%207%20c%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0119
+  title: Final report on draft RTS further specifying the liquidity requirements
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/580db2f3-8370-4927-baa3-0f995722b417/Final%20report_draft%20RTS%20further%20specifying%20the%20liquidity%20requirements%20Article%2036%204.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0120
+  title: Final report on draft RTS to specify the highly liquid financial instruments
+    in the reserve of assets
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/d92b94f8-8260-43b6-abae-d21e022414ed/Final%20report_draft%20RTS%20to%20specify%20the%20HLFI%20in%20the%20reserve%20of%20assets%20Article%2038%205.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0121
+  title: Final report on draft RTS to specify the minimum content of liquidity management
+    policy
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/3f3557fa-deb0-4765-add9-51666791e12c/Final%20report_draft%20RTS%20to%20specify%20the%20minimum%20content%20of%20liquidity%20management%20policy%20Article%2045%207.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0122
+  title: Final report on Guidelines on recovery plans under MiCAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/a4619671-df54-42ff-a6d8-2819f51ebe83/Final%20report%20on%20Guidelines%20on%20recovery%20plans%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0123
+  title: Final report on draft RTS on governance arrangements for remuneration under
+    MICAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/4998fc26-cc88-4ada-835c-292f831a4ccd/Final%20report%20on%20draft%20RTS%20on%20governance%20arrangements%20for%20remuneration%20under%20%20MICAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0124
+  title: Final report on draft RTS on conflicts of interest under MICAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/8c8b0d34-5f61-49d6-88c3-01ea6b0c0649/Final%20report%20on%20draft%20RTS%20on%20conflicts%20of%20interest%20under%20MICAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0125
+  title: Final Report on draft RTS on qualifying holdings_0
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-05/d8b13fc6-5609-43ee-9725-41e278e55bdf/Final%20Report%20on%20draft%20RTS%20on%20qualifying%20holdings_0.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0126
+  title: Final Report on draft RTS on the procedure for the approval of white papers
+    of ARTs issued by credit institutions
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-05/1f78ca69-f9b1-4fe8-bd63-12754e76d3d5/Final%20report%20on%20draft%20RTS%20white%20paper%20approval%20process%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0127
+  title: Final Report on draft RTS and ITS on information for authorisation as issuers
+    of ARTs under MiCAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-05/5a7e097f-a2e0-4f8c-b19d-294533774abf/Final%20report%20on%20draft%20RTS%20and%20ITS%20information%20for%20authorisation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0128
+  title: Draft RTS on ICT Risk Management Framework and on simplified ICT Risk Management
+    Framework
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-01/bf5a2976-1a48-44f3-b5a7-56acd23ba55c/JC%202023%2086%20-%20Final%20report%20on%20draft%20RTS%20on%20ICT%20Risk%20Management%20Framework%20and%20on%20simplified%20ICT%20Risk%20Management%20Framework.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0129
+  title: Draft RTS to specify the policy on ICT services supporting critical or important
+    functions
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-01/88355b09-d6e6-4d39-a3e6-c710549cc717/JC%202023%2084%20-%20Final%20report%20on%20draft%20RTS%20to%20specify%20the%20policy%20on%20ICT%20services%20supporting%20critical%20or%20important%20functions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0130
+  title: Draft RTS on classification of major incidents and significant cyber threats
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-01/4f2654f4-3152-48b6-af01-431215400f9f/JC%202023%2083%20-%20Final%20Report%20on%20draft%20RTS%20on%20classification%20of%20major%20incidents%20and%20significant%20cyber%20threats.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=3
+  language: en
+  published_at: '2024-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/2024/0131
+  title: Final Report on RTS and ITS on supervisory colleges
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-01/8b7b932d-3c25-4c82-9913-72eee2cbbcdf/Final%20Report%20on%20RTS%20and%20ITS%20on%20supervisory%20colleges.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=3
+  language: en
+  published_at: '2024-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2023/04
+  title: Final Draft RTS on Initial Margin Model Validation.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2023/EBA-RTS-2023-04%20RTS%20on%20IMMV/1057304/Final%20Draft%20RTS%20on%20Initial%20Margin%20Model%20Validation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2023/03
+  title: Final report on RTS on scope and methods for prudential consolidation of
+    investment firm groups.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2023/EBA-RTS-2023-03%20RTS%20on%20scope%20and%20methods%20of%20consolidation%20of%20an%20investment%20firm%20group%20/1055390/Final%20report%20on%20RTS%20on%20scope%20and%20methods%20for%20prudential%20consolidation%20of%20investment%20firm%20groups.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2022/12
+  title: Final report on draft RTS on group of connected clients.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-12%20RTS%20on%20connected%20clients/1050300/Final%20report%20on%20draft%20RTS%20on%20group%20of%20connected%20clients.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2022/09
+  title: Final draft RTS on SA.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-09%20RTS%20on%20SA/1041755/Final%20draft%20RTS%20on%20SA.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2022/10
+  title: Final draft RTS on SOTs.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-10%20RTS%20on%20SOTs/1041756/Final%20draft%20RTS%20on%20SOTs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2022/08
+  title: Final draft RTS on performance-related triggers in STS OBS securitisations.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-08%20RTS%20on%20performance-related%20triggers%20in%20STS%20OBS%20securitisations/1039196/Final%20draft%20RTS%20on%20performance-related%20triggers%20in%20STS%20OBS%20securitisations.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2022/07
+  title: Final report on draft RTS on P2 add-ons for IF.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-07%20RTS%20on%20Pillar%202%20add-ons%20for%20investment%20firms/1037291/Final%20report%20on%20draft%20RTS%20on%20P2%20add-ons%20for%20IF.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0139
+  title: ESA 2022 13 - Final Report - Bilateral margin amendments (intragroup) 2022.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/ESA%202022%2013%20EMIR%20RTS/1034960/ESA%202022%2013%20-%20Final%20Report%20-%20Bilateral%20margin%20amendments%20%28intragroup%29%202022.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2022/04
+  title: Final Draft RTS on Risk Retention in securitisation.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-04%20RTS%20on%20risk%20retention%20requirements%20for%20securitisations%20/1030491/Final%20Draft%20RTS%20on%20Risk%20Retention%20in%20securitisation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2022/02
+  title: Final Report on draft RTS on PD and LGD under the internal default risk model.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-02%20RTS%20on%20PD%20and%20LGD/1028513/Final%20Report%20on%20draft%20RTS%20on%20PD%20and%20LGD%20under%20the%20internal%20default%20risk%20model.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0142
+  title: Final draft RTS on emerging markets and advanced economies for equity risk.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-RTS-2022-01RTS%20on%20emerging%20markets%20and%20advanced%20economies/1026500/Final%20draft%20RTS%20on%20emerging%20markets%20and%20advanced%20economies%20for%20equity%20risk.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=5
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0143
+  title: Final report on draft RTS on EUR 30bn threshold methodology.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/RTS%20on%20threshold%20methodology%20and%20monitoring/1025587/Final%20report%20on%20draft%20RTS%20on%20EUR%2030bn%20threshold%20methodology.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0144
+  title: Final Report on the RTS on threshold monitoring.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/RTS%20on%20threshold%20methodology%20and%20monitoring/1025589/Final%20Report%20on%20the%20RTS%20on%20threshold%20monitoring.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0145
+  title: Final Report on RTS on CIUs.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/1024753/Final%20Report%20on%20RTS%20on%20CIUs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0146
+  title: EBA Final Report on draft RTS on Articles 124 (4) and 164 (8) of the CRR.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/1023596/EBA%20RTS%202021%2012%20EBA%20Final%20Report%20on%20draft%20RTS%20%20on%20Articles%20124%20%284%29%20and%20164%20%288%29%20of%20the%20CRR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2021/09
+  title: EBA-RTS-2021-09 (Final draft RTS on gross JTD amounts).pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/RTS%20on%20gross%20JTD%20amounts%20/1022461/EBA-RTS-2021-09%20%28Final%20draft%20RTS%20on%20gross%20JTD%20amounts%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0148
+  title: Final Report on draft RTS on RRAO.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/RTS%20on%20residual%20risk%20add-on/1022462/Final%20Report%20on%20draft%20RTS%20on%20RRAO.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0149
+  title: Final Draft RTS disclosure investment policy by IF (Art 52 IFR).pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/RTS%20on%20disclosure%20of%20investment%20policy%20by%20investment%20firms/1022201/Final%20Draft%20RTS%20disclosure%20investment%20policy%20by%20IF%20%28Art%2052%20IFR%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0150
+  title: Final Report on draft RTS on colleges of investment firms.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/1016778/Final%20Report%20on%20draft%20RTS%20on%20colleges%20of%20investment%20firms.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0151
+  title: Final Report on draft RTS and ITS on information exchange between the competent
+    authorities of home and host Member States.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/1016779/Final%20Report%20on%20draft%20RTS%20and%20ITS%20on%20information%20exchange%20between%20the%20competent%20authorities%20of%20home%20and%20host%20Member%20States.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0152
+  title: Final Report on draft RTS on OFs and ELs.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/1012878/Final%20Report%20on%20draft%20RTS%20on%20OFs%20and%20ELs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0153
+  title: Final Report Draft RTS methods of consolidation.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/973355/Final%20Report%20Draft%20RTS%20methods%20of%20consolidation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0154
+  title: Final draft RTS on instruments for variable remuneration under IFD.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/962223/Final%20draft%20RTS%20on%20instruments%20for%20variable%20remuneration%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0155
+  title: Final Report on ITS and RTS Impracticability contractual recognition bail-in
+    (55BRRD).pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/ITS/ITS%20%26%20RTS%20Impracticability%20contractual%20recognition%20bail-in%20%2855BRRD%29/961822/Final%20Report%20ITS%20RTS%20Impracticability%20contractual%20recognition%20bail-in%20%2855BRRD%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0156
+  title: Final Report RTS on methodology to estimate P2 and CBR for setting MREL requirements.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/RTS/961829/Final%20Report%20RTS%20on%20methodology%20to%20estimate%20P2%20and%20CBR%20for%20setting%20MREL%20requirements.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0157
+  title: Final draft RTS on the calculation of stress scenario risk measure.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/RTS/961600/Final%20draft%20RTS%20on%20the%20calculation%20of%20stress%20scenario%20risk%20measure.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2020/11
+  title: Final draft RTS on prudential requirements for Investment Firms (EBA-RTS-2020-11).pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/RTS/961461/Final%20draft%20RTS%20on%20prudential%20requirements%20for%20Investment%20Firms%20%28EBA-RTS-2020-11%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-RTS/0000/0159
+  title: Final report - Draft RTS on methodology for GSIIs_.pdf
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/RTS/935712/Final%20report%20-%20Draft%20RTS%20on%20methodology%20for%20GSIIs_.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2026/0160
+  title: Final Report on draft ITS on the supervisory reporting of third country branches
+    under CRD VI
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-03/250092d3-4244-44d1-885e-7122bf157e5c/Final%20Report%20on%20draft%20ITS%20on%20TCB%20supervisory%20reporting.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=0
+  language: en
+  published_at: '2026-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2025/0161
+  title: Final report on draft ITS Supervisory reporting for operational risk (CRR3
+    - phase 1)
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-06/f51be2a6-4b07-40ba-b970-465ab515f378/Final%20report%20on%20draft%20ITS%20Supervisory%20reporting%20for%20operational%20risk%20%28CRR3%20-%20phase%201%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=0
+  language: en
+  published_at: '2025-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2025/0162
+  title: Final report on draft ITS on Resolution Planning reporting
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-05/5f84cf59-c0d2-4b28-9cfc-5ba7835e64ab/Final%20report%20on%20draft%20ITS%20on%20Resolution%20Planning%20reporting.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=1
+  language: en
+  published_at: '2025-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0163
+  title: Final Draft ITS on reporting and dicslosures requirements for investment
+    firms
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/afdcb867-6f06-4031-b6a1-52bfd86498a1/Final%20Draft%20ITS%20on%20reporting%20and%20dicslosures%20requirements%20for%20investment%20firms%20under%20Reg%20EU%2020192033.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0164
+  title: Final draft ITS on Supervisory reporting (Revised 14/11/2024 - Legal act)
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-11/ee1d29f2-a61c-4a31-a832-96eb03836322/Final%20draft%20ITS%20on%20Supervisory%20reporting%20-%20Revised%202024%2011%2014.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=1
+  language: en
+  published_at: '2024-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0165
+  title: Final draft ITS on disclosure (Revised 14/11/2024)
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-11/762349e4-6312-4672-8548-142b81b08944/final_draft_its_on_disclosure_-_revised_2024_11_14.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=1
+  language: en
+  published_at: '2024-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0166
+  title: Implementing Technical Standards specifying certain tasks of collection bodies
+    and certain functionalities of the ESAP
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-10/a387c76a-f4c0-4cd9-80e6-c4c176b4a81a/JC%202024%2074%20Final%20Report%20on%20JC%20ITS%20on%20ESAP.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=2
+  language: en
+  published_at: '2024-10-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0167
+  title: Final Report on amendments to the ITS on Supervisory reporting-CRR3 CRD6
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/b6be4507-e772-4bfb-a8f4-631f424ed12a/final_report_on_amendments_to_the_its_on_supervisory_reporting-crr3_crd6.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=2
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0168
+  title: Final report on draft Pillar 3 ITS on amendments due to CRD VI and CRR 3
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/41bc7db5-c480-46e4-adb7-eda37b5853bb/Final%20report%20on%20draft%20ITS%20on%20Pillar%203%20on%20amendments%20due%20to%20CRD%20VI%20and%20CRR%203.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0169
+  title: Final Report on draft ITS on reporting on asset-referenced tokens under MiCAR
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/a7bb4083-f886-4a44-8b03-3810155248a7/Final%20Report%20on%20draft%20ITS%20on%20reporting%20on%20asset-referenced%20tokens%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2024/0170
+  title: Draft ITS on Register of Information
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-01/30b47816-8d6d-432f-8dbd-b900c4306cf4/JC%202023%2085%20-%20Final%20report%20on%20draft%20ITS%20on%20Register%20of%20Information%20%281%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=3
+  language: en
+  published_at: '2024-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2023/0171
+  title: CP ITS on reporting on asset referenced tokens under MiCAR Article 22%287%29
+    MiCAR
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-11/714b28a6-7d40-446a-8038-0c5db684da3a/CP%20ITS%20on%20reporting%20on%20asset-referenced%20tokens%20under%20MiCAR%20Article%2022%287%29%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=4
+  language: en
+  published_at: '2023-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/2023/0172
+  title: cp_rts_on_the_use_of_arts_and_emts_denominated_in_a_non-eu_currency_as_a_means_of_exchange_under_art._226_micar.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-11/dd95fa32-662f-47e6-8dd5-2965cb8bb230/cp_rts_on_the_use_of_arts_and_emts_denominated_in_a_non-eu_currency_as_a_means_of_exchange_under_art._226_micar.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=4
+  language: en
+  published_at: '2023-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/ITS/2023/03
+  title: Final report on draft ITS on supervisory reporting on IRRBB.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2023/EBA-ITS-2023-03%20ITS%20on%20supervisory%20reporting%20regarding%20IRRBB/1061394/Final%20report%20on%20Final%20draft%20ITS%20on%20supervisory%20reporting%20on%20IRRBB.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=5
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/ITS/2023/02
+  title: Final Report on draft ITS on supervisory disclosure under CRD.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2023/EBA-ITS-2023-02%20ITS%20on%20supervisory%20disclosure%20under%20CRD/1056605/Report%20on%20draft%20ITS%20on%20supervisory%20disclosure%20under%20CRD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=5
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/RTS/2023/01
+  title: Final draft Regulatory Technical Standards on the homogeneity of the underlying
+    exposures in STS securitisation.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2023/EBA-RTS-2023-01%20RTS%20on%20homogeneity/1051902/Final%20draft%20Regulatory%20Technical%20Standards%20on%20the%20homogeneity%20of%20the%20underlying%20exposures%20in%20STS%20securitisation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=5
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0176
+  title: Updated ITS on diversified indices 2022.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/1050306/Updated%20ITS%20on%20diversified%20indices%202022.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=5
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/ITS/2022/04
+  title: Final Draft ITS 2023 on Benchmarking.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2022/EBA-ITS-2022-04%20ITS%20on%20package%20for%202023%20benchmarking/1032214/Final%20Draft%20ITS%202023%20on%20Benchmarking.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=5
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0178
+  title: Final Report on draft ITS on Supervisory Reporting regarding COREP, AE, ALMM
+    and GSIIs.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/ITS%20on%20OF%20GSII%20ALMM/1025603/Final%20Report%20on%20draft%20ITS%20on%20Supervisory%20Reporting%20regarding%20COREP%2C%20AE%2C%20ALMM%20and%20GSIIs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=6
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0179
+  title: Draft final report on draft ITS on IRRBB disclosure.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/ITS%20on%20Pillar%203%20disclosure%20of%20institutions%E2%80%99%20exposures%20to%20interest%20rate%20risk%20on%20positions%20not%20held%20in%20IRRBB/D/1023859/Draft%20final%20report%20on%20draft%20ITS%20on%20IRRBB%20disclosure.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=7
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0180
+  title: Final report on draft ITS on supervisory disclosure for competent authorities
+    of investment firms.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/1015832/Final%20report%20on%20draft%20ITS%20on%20supervisory%20disclosure%20for%20competent%20authorities%20of%20investment%20firms.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=7
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0181
+  title: Final Draft ITS 2022 on Benchmarking.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/ITS%20on%20benchmarking%20of%20internal%20approaches/1013729/Final%20Draft%20ITS%202022%20on%20Benchmarking.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=7
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0182
+  title: Final Draft ITS on Reporting and disclosures for investment firms.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/ITS%20on%20reporting%20and%20disclosures%20requirements%20for%20investment%20firms/963716/Final%20Draft%20ITS%20on%20Reporting%20and%20disclosures%20for%20investment%20firms.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=8
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0183
+  title: Final Draft ITS on disclosure of indicators of global systemic importance
+    by G-SIIs.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2021/963304/Final%20Draft%20ITS%20on%20disclosure%20of%20indicators%20of%20global%20systemic%20importance%20by%20G-SIIs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=8
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0184
+  title: Final Report on ITS on reporting of MREL decisions.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/ITS/ITS%20on%20reporting%20of%20MREL%20decisions/961825/Final%20Report%20on%20ITS%20on%20reporting%20of%20MREL%20decisions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=8
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0185
+  title: Final report on the draft ITS on supervisory reporting v3.0 - CRR quick fix.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/ITS/Revised%20final%20draft%20ITS%20on%20reporting%20for%20v3.0/923100/Final%20report%20on%20the%20draft%20ITS%20on%20supervisory%20reporting%20v3.0%20-%20CRR%20quick%20fix.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=9
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0186
+  title: Final draft ITS on public disclosures by institutions under Part Eight of
+    Regulation (EU) No 5752013.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/ITS/ITS%20on%20institutions%E2%80%99%20public%20disclosures%20of%20the%20information%20referred%20to%20Titles%20II%20and%20III%20of%20Part%20Eight%20of%20Regulation%20%28EU%29%20No%20575/2013/886493/Final%20draft%20ITS%20on%20public%20disclosures%20by%20institutions%20under%20Part%20Eight%20of%20Regulation%20%28EU%29%20No%205752013.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=9
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0187
+  title: Final draft ITS on supervisory reporting requirements for institutions under
+    Regulation EU No 5752013.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/ITS/ITS%20on%20supervisory%20reporting%20changes%20related%20to%20CRR2%20and%20Backstop%20Regulation/886494/Final%20draft%20ITS%20on%20supervisory%20reporting%20requirements%20for%20institutions%20under%20Regulation%20EU%20No%205752013.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=9
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+- eba_id: EBA/LARGE-ITS/0000/0188
+  title: Final report on draft ITS on specific reporting requirements for market risk.pdf
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Draft%20Technical%20Standards/2020/ITS/Final%20draft%20ITS%20on%20specific%20reporting%20requirements%20for%20market%20risk/883201/Final%20report%20on%20draft%20ITS%20on%20specific%20reporting%20requirements%20for%20market%20risk.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=9
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eba-pipeline"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "pymupdf",
+  "pymupdf4llm",
+  "click",
+  "pyyaml",
+  "pydantic",
+  "requests",
+  "sqlite-vec",
+]
+
+[project.scripts]
+eba-pipeline = "eba_pipeline.cli:cli"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.15",
+]

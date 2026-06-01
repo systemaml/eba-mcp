@@ -1,0 +1,6 @@
+# Manual relationship overrides (takes precedence over auto-detected)
+relationships: []
+# Example:
+# - source: "EBA/GL/2023/03"
+#   target: "EBA/GL/2021/02"
+#   type: "amends"

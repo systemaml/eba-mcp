@@ -1,0 +1,733 @@
+queries:
+  # --- Exact ID lookups (tag: exact_id) ---
+  - id: q001
+    query: "EBA/GL/2021/02"
+    expected_answerability: exact
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    tags: [exact_id, aml_cft]
+
+  - id: q002
+    query: "EBA/GL/2023/03"
+    expected_answerability: exact
+    expected_eba_id: "EBA/GL/2023/03"
+    expected_min_results: 1
+    tags: [exact_id, aml_cft]
+
+  - id: q003
+    query: "EBA/GL/2024/01"
+    expected_answerability: exact
+    expected_eba_id: "EBA/GL/2024/01"
+    expected_min_results: 1
+    tags: [exact_id, aml_cft]
+
+  - id: q004
+    query: "EBA/GL/2021/15"
+    expected_answerability: exact
+    expected_eba_id: "EBA/GL/2021/15"
+    expected_min_results: 1
+    tags: [exact_id]
+
+  - id: q005
+    query: "EBA/GL/2022/05"
+    expected_answerability: exact
+    expected_eba_id: "EBA/GL/2022/05"
+    expected_min_results: 1
+    tags: [exact_id]
+
+  - id: q006
+    query: "EBA/GL/2022/15"
+    expected_answerability: exact
+    expected_eba_id: "EBA/GL/2022/15"
+    expected_min_results: 1
+    tags: [exact_id]
+
+  - id: q007
+    query: "EBA/Op/2022/01"
+    expected_answerability: exact
+    expected_eba_id: "EBA/Op/2022/01"
+    expected_min_results: 1
+    tags: [exact_id]
+
+  - id: q008
+    query: "EBA GL 2021 02"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [exact_id, variant_format]
+
+  - id: q009
+    query: "Guidelines on customer due diligence"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [exact_id, keyword]
+
+  - id: q010
+    query: "AML/CFT supervisory convergence guidelines"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [exact_id, keyword]
+
+  # --- Paragraph/keyword searches (tag: keyword) ---
+  - id: q011
+    query: "money laundering"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword, aml_cft]
+
+  - id: q012
+    query: "terrorist financing"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword, aml_cft]
+
+  - id: q013
+    query: "beneficial owner"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q014
+    query: "risk-based approach"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q015
+    query: "customer due diligence"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q016
+    query: "politically exposed persons"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q017
+    query: "correspondent banking"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q018
+    query: "transaction monitoring"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q019
+    query: "suspicious activity"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q020
+    query: "enhanced due diligence"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q021
+    query: "simplified due diligence"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q022
+    query: "wire transfer"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q023
+    query: "shell company"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q024
+    query: "de-risking"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword]
+
+  - id: q025
+    query: "AML/CFT"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [keyword, aml_cft]
+
+  # --- Paragraph ref lookups (tag: paragraph_ref) ---
+  - id: q026
+    query: "customer identification procedures"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q027
+    query: "beneficial ownership verification"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q028
+    query: "risk assessment methodology"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q029
+    query: "governance arrangements"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q030
+    query: "internal controls AML"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q031
+    query: "training requirements staff"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q032
+    query: "record keeping obligations"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q033
+    query: "reporting suspicious transactions"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q034
+    query: "politically exposed persons"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  - id: q035
+    query: "application date compliance"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [paragraph_ref]
+
+  # --- Negative queries (tag: negative) ---
+  - id: q036
+    query: "XYZNONEXISTENTTERM99999"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q037
+    query: "alien invasion banking protocol"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q038
+    query: "quantum entanglement financial regulation"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q039
+    query: "medieval dragon compliance framework"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q040
+    query: "dinosaur transaction monitoring"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q041
+    query: "pizza delivery financial regulation"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q042
+    query: "basketball tournament reporting requirement"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q043
+    query: "time travel wire transfer"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q044
+    query: "unicorn beneficial ownership"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  - id: q045
+    query: "interstellar money transfer protocol"
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [negative]
+
+  # --- Edge cases (tag: edge_case) ---
+  - id: q046
+    query: 'EBA/GL/2024/01"'
+    expected_answerability: partial
+    expected_min_results: 0
+    tags: [edge_case, fts_injection]
+
+  - id: q047
+    query: "money OR laundering"
+    expected_answerability: partial
+    expected_min_results: 0
+    tags: [edge_case, fts_operator]
+
+  - id: q048
+    query: "anti* money"
+    expected_answerability: partial
+    expected_min_results: 0
+    tags: [edge_case, fts_wildcard]
+
+  - id: q049
+    query: "   "
+    expected_answerability: no_match
+    expected_min_results: 0
+    tags: [edge_case, whitespace]
+
+  - id: q050
+    query: "AML/CFT risk-based approach customer due diligence"
+    expected_answerability: partial
+    expected_min_results: 0
+    tags: [edge_case, long_query]
+
+  - id: q051
+    query: "AML/CFT"
+    expected_answerability: partial
+    expected_min_results: 1
+    tags: [edge_case, slash_in_query, aml_cft]
+
+  - id: m4_get_status_amended
+    description: "Get status for document with amendments"
+    tool: eba_get_status
+    args:
+      eba_id: "EBA/GL/2021/02"
+    expect:
+      min_results: 0
+      fields:
+        - name: "status.amended_by"
+          not_empty: true
+
+  - id: m4_get_status_clean
+    description: "Get status for document with no relationships"
+    tool: eba_get_status
+    args:
+      eba_id: "EBA/GL/2022/05"
+    expect:
+      min_results: 0
+      fields:
+        - name: "status.is_superseded"
+          value: false
+
+  - id: m4_get_versions
+    description: "Get version history for known document"
+    tool: eba_get_versions
+    args:
+      eba_id: "EBA/GL/2021/02"
+    expect:
+      min_results: 0
+      fields:
+        - name: "versions"
+          not_empty: true
+
+  - id: m4_validate_citation_valid
+    description: "Validate a real chunk_id"
+    tool: eba_validate_citation
+    args:
+      chunk_id: "EBA-GL-2021-02:001921c3:en:p:seq-527"
+    expect:
+      min_results: 0
+      fields:
+        - name: "validation.valid"
+          value: true
+
+  - id: m4_validate_citation_invalid
+    description: "Validate a fake chunk_id"
+    tool: eba_validate_citation
+    args:
+      chunk_id: "nonexistent-chunk-id-xyz"
+    expect:
+      min_results: 0
+      fields:
+        - name: "validation.valid"
+          value: false
+
+  - id: m4_diff_versions_error
+    description: "Diff with missing version returns error"
+    tool: eba_diff_versions
+    args:
+      eba_id: "EBA/GL/2021/02"
+      version_a: "1.0"
+      version_b: "99.0"
+    expect:
+      min_results: 0
+      fields:
+        - name: "answerability"
+          value: "error"
+
+  # --- Semantic queries (tag: semantic) ---
+  # These queries test concept-level retrieval that benefits from vector search.
+  # expected_eba_id and expected_keywords guide top-k quality measurement.
+
+  - id: s001
+    query: "how should institutions assess customer risk level using a methodology"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["1.19", "1.3", "3.1"]
+    tags: [semantic, aml_cft]
+
+  - id: s002
+    query: "politically exposed persons enhanced measures and risk factors"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["10.10", "4.47", "4.48", "4.49"]
+    tags: [semantic, aml_cft]
+
+  - id: s003
+    query: "geographic and country jurisdiction risk indicators for money laundering"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["11.11", "18.6", "4.55"]
+    tags: [semantic, aml_cft]
+
+  - id: s004
+    query: "weighting and scoring of risk factors in the overall risk assessment"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["3.5", "3.6", "3.1"]
+    tags: [semantic, aml_cft]
+
+  - id: s005
+    query: "non-face-to-face delivery channel and distance customer onboarding risk"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["14.10", "9.10", "4.29"]
+    tags: [semantic, aml_cft]
+
+  - id: s006
+    query: "source of funds and source of wealth verification procedures"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["12.8", "8.24"]
+    tags: [semantic, aml_cft]
+
+  - id: s007
+    query: "conditions for applying simplified due diligence to low-risk customers"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["1.25", "9.18"]
+    tags: [semantic, aml_cft]
+
+  - id: s008
+    query: "transparency of beneficial ownership structures and identification"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.12", "4.14", "4.15"]
+    tags: [semantic, aml_cft]
+
+  - id: s009
+    query: "cash-intensive businesses and products presenting higher money laundering risk"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["10.4", "10.5", "11.9"]
+    tags: [semantic, aml_cft]
+
+  - id: s010
+    query: "automated risk scoring model override manual review process"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["3.7", "3.8", "5.1"]
+    tags: [semantic, aml_cft]
+
+  - id: s011
+    query: "correspondent banking relationship due diligence obligations"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["16.17", "8.17", "8.2"]
+    tags: [semantic, aml_cft]
+
+  - id: s012
+    query: "ongoing monitoring of customer transactions and business relationship"
+    expected_answerability: partial
+    expected_eba_id: "EBA/GL/2021/02"
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.70", "4.73", "10.13"]
+    tags: [semantic, aml_cft]
+
+  # --- Full-curated semantic queries (tag: full_curated_semantic) ---
+  # Calibrated against data/eba-curated-embedded.db (188 docs, 29,952 chunks).
+  # expected_eba_ids lists all acceptable doc IDs (EBA/GL/2023/03 is the primary
+  # CDD/AML guidelines in the full corpus; EBA/LARGE-GL/0000/0070 is an annotated
+  # version that duplicates the same paragraph numbering and content).
+  # Hit criterion: eba_id in expected_eba_ids AND paragraph_ref in expected_paragraph_refs.
+
+  - id: fc001
+    query: "AML CFT customer risk scoring methodology business relationship"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["9.18", "1.22", "3.1", "1.3"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc002
+    query: "politically exposed persons PEP enhanced due diligence risk factors"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070", "EBA/GL/2021/16", "EBA/LARGE-GL/2023/0030"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["20.7", "42"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc003
+    query: "geographic and country jurisdiction risk indicators for money laundering"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["8.8", "11.11", "10.10"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc004
+    query: "risk factor weighting scoring AML customer due diligence"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070", "EBA/GL/2021/16", "EBA/LARGE-GL/2023/0030"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["3.6", "18.5", "64", "3.5"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc005
+    query: "non-face-to-face delivery channel and distance customer onboarding risk"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["14.10", "4.29", "9.10"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc006
+    query: "source of funds and source of wealth verification procedures"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["12.8", "8.24"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc007
+    query: "conditions for applying simplified due diligence to low-risk customers"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["1.25", "9.23", "9.18"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc008
+    query: "transparency of beneficial ownership structures and identification"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.12", "4.13", "4.14"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc009
+    query: "cash-intensive businesses and products presenting higher money laundering risk"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["12.2", "10.4", "16.12"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc010
+    query: "ongoing monitoring of customer transactions and business relationship"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.70", "4.73", "4.50"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc011
+    query: "correspondent banking relationship due diligence obligations"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["16.17", "13.18", "8.17"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc012
+    query: "risk scoring model manual override alert transaction monitoring"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.74", "4.73", "4.75"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc013
+    query: "enhanced due diligence EDD measures senior management approval high risk customer onboarding"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.4", "16.15"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc014
+    query: "simplified due diligence electronic money product prepaid card low risk threshold conditions"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["10.17", "10.11", "10.4"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc015
+    query: "third country jurisdiction high risk geographic AML flag enhanced monitoring"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["8.8", "8.19"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc016
+    query: "group-wide AML CFT policies procedures parent institution subsidiaries branches compliance officer"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2022/05"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["83", "4"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc017
+    query: "occasional transactions cash EUR threshold 10000 customer identification AML CDD"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.7"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc018
+    query: "new technologies innovative products anonymity features money laundering risk assessment"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["9.4", "10.4"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc019
+    query: "risk-based approach AML CFT supervision competent authority supervisory methodology frequency"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2021/16", "EBA/LARGE-GL/2023/0030"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["20", "2", "4"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc020
+    query: "AML CFT compliance officer role responsibilities reporting line management body governance"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2022/05"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.2", "2"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc021
+    query: "politically exposed person PEP enhanced monitoring ongoing review senior management prior approval"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.50", "4.49"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc022
+    query: "remote customer onboarding digital identity verification solutions attended unattended eIDAS"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2022/15"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["38", "42", "43"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc023
+    query: "beneficial ownership complex structures legal persons trusts identification verification measures"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.14", "4.15"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc024
+    query: "internal audit AML CFT independent review effectiveness controls third line of defence"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2021/14"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["27"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc025
+    query: "third party reliance AML CDD conditions AMLD Article 26 firm responsibility intermediary"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["5", "9"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc026
+    query: "nominee shareholder trust arrangement beneficial owner risk indicator complex structure"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["1.32", "4.24"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc027
+    query: "private banking wealth management high net worth customer source of wealth enhanced measures"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["12.1", "12.2"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc028
+    query: "delivery channel non-face-to-face online internet banking risk factors increasing reducing"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["14.10", "19.6"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc029
+    query: "AML CFT staff training awareness programme requirements credit financial institution"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2022/05"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4"]
+    tags: [full_curated_semantic, aml_cft]
+
+  - id: fc030
+    query: "record keeping data retention CDD AML documents minimum period five years obligation"
+    expected_answerability: partial
+    expected_eba_ids: ["EBA/GL/2023/03", "EBA/LARGE-GL/0000/0070"]
+    expected_min_results: 1
+    expected_paragraph_refs: ["4.74"]
+    tags: [full_curated_semantic, aml_cft]

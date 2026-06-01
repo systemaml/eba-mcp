@@ -1,0 +1,1620 @@
+documents:
+- eba_id: EBA/GL/2019/04
+  title: Consolidated version of EBA ameding Guidelines on ICT and security risk management
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-05/c8fb6168-0aef-42f6-8da9-114a8baf21b9/Consolidated%20version%20of%20EBA%20ameding%20Guidelines%20on%20ICT%20and%20security%20risk%20management.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2026-0001
+  is_canonical: true
+- eba_id: EBA/GL/2017/15
+  title: Consolidated EBA Guidelines on connected clients
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-04/bad26f38-bdc5-4d75-b8bf-ce9b07dfde50/Consolidated%20EBA%20Guidelines%20on%20connected%20clients.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2026-0002
+  application_date: '2019-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2026/04
+  title: Final Report on Guidelines on Supervisory Independence
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-04/eb2fb353-b42d-4289-8929-b44e236a93a8/Final%20Report%20on%20Guidelines%20on%20Supervisory%20Independence.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2026-0003
+  is_canonical: true
+- eba_id: EBA/GL/2026/03
+  title: Guidelines on third country branches capital endowment requirement
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-03/fa3aadf2-ac8a-4645-8196-a2c1ddf2a1f5/Guidelines%20on%20the%20TCB%20capital%20endowment%20requirement.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2026-0004
+  application_date: '2027-01-11'
+  is_canonical: true
+- eba_id: EBA/GL/2026/02
+  title: Final Report on Guidelines on retail diversification
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-02/dcc09076-7ce9-4062-ac17-1615309aa728/Final%20Report%20on%20Guidelines%20on%20retail%20diversification.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-02-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2026-0005
+  is_canonical: true
+- eba_id: EBA/GL/2026/01
+  title: Final Report on Guidelines on ancillary services undertakings
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-01/a3172e12-c2bb-41bd-9420-7ac0d44b3d9b/Final%20Report%20on%20Guidelines%20on%20ancillary%20services%20undertakings.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2026-0006
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/2026/0007
+  title: Final Report on Joint ESAs Guidelines on ESG Stress Testing
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-01/60ba0389-2d7a-46b7-96e8-9072c481d8ce/EIOPA-BoS-25-602%20-%20ESAs%20Final%20Report%20-%20Joint%20Guidelines%20on%20ESG%20Stress%20Testing.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2026-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2027-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2025/04
+  title: Guidelines on environmental scenario analysis
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-11/170da4c8-9b56-4fb0-ad60-94d433b7e866/Guidelines%20on%20environmental%20scenario%20analysis.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2025-0008
+  application_date: '2027-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2025/03
+  title: Guidelines on ADC exposures to residential property under CRR 3
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-06/e7b307b5-efab-4c59-ab8a-1b9622ce5b0f/GLs%20on%20ADC%20exposures%20to%20residential%20property%20under%20Article%20126a.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2025-0009
+  is_canonical: true
+- eba_id: EBA/GL/2019/01
+  title: Final Report on Guidelines on high risk
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-05/e2092eda-80f3-48aa-84b8-eef19be33aa0/Final%20Report%20on%20EBA%20GL%20on%20High%20Risk2.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2025-0010
+  is_canonical: true
+- eba_id: EBA/GL/2012/04
+  title: Guidelines on the remuneration benchmarking exercise EBA-GL-2012-04
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-03/8a6dce0a-0e34-467e-a048-725b18fd78bf/EBA-GL-2012-04---GL-4-on-remuneration-benchmarking-exercise-.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2025/01
+  title: Final Guidelines on the management of ESG risks
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-01/fb22982a-d69d-42cc-9d62-1023497ad58a/Final%20Guidelines%20on%20the%20management%20of%20ESG%20risks.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=0
+  language: en
+  published_at: '2025-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2025-0012
+  application_date: '2026-01-11'
+  is_canonical: true
+- eba_id: EBA/GL/2024/16
+  title: Final report on Guidelines on reporting on ARTs and EMTs
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/907cde4b-7d25-4f41-b1ef-bb0a469f00ac/Final%20report%20on%20Guidelines%20on%20reporting%20on%20ARTs%20and%20EMTs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0013
+  application_date: '2024-12-30'
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/2024/0014
+  title: Joint ESA Final Report on Art 97 Guidelines MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/f4d876e5-5351-4314-b45f-ac3cd702f95b/Joint%20ESA%20Final%20Report%20on%20Art%2097%20Guidelines%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2024-12-30'
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/2024/0015
+  title: Joint Guidelines on ESAs system for exchange of information on fit and proper
+    assessment
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-11/43114fbe-9a5a-412e-b461-955f86848ac3/Guidelines%20on%20ESAs%20system%20for%20exchange%20of%20information%20on%20fit%20and%20proper%20assessment.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2024/15
+  title: Guidelines on internal policies, procedures and controls to ensure the implementation
+    of Union and national restrictive measures
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-11/eaeae49d-81a5-4154-8af9-5014f6ee8881/Final%20Report%20Guidelines%20restrictive%20measures%20.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0016
+  application_date: '2024-12-30'
+  is_canonical: true
+- eba_id: EBA/GL/2024/13
+  title: Final report on Guidelines on redemption plans under MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-10/f8fda168-4d97-4549-9cfe-46d1d1a27636/Final%20report%20on%20Guidelines%20on%20redemption%20plans%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-10-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0017
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/2024/0018
+  title: Joint Guidelines on the estimation of aggregated costs/losses caused by major
+    ICT-related incidents
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/48958acb-1c6d-40f0-9784-961713759972/JC%202024-34%20-%20Final%20report%20GL%20on%20costs%20and%20losses.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2025-01-17'
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/2024/0019
+  title: Joint Guidelines on oversight cooperation
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/e0701aa1-d1a5-4996-8b30-5a933d15058e/JC%202024-36%20-%20Final%20report%20on%20GL%20on%20oversight%20cooperation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2025-01-17'
+  is_canonical: true
+- eba_id: EBA/GL/2024/09
+  title: Joint EBA and ESMA Guidelines on suitability of management body and qualifying
+    holdings under MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/2a0668ab-5d70-495a-a723-f6568fe8c830/Joint%20GL%20suitability%20members%20management%20body%20and%20QH%20%28MiCAR%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0020
+  is_canonical: true
+- eba_id: EBA/GL/2024/08
+  title: Final Report on Guidelines on liquidity stress testing under MiCAR
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/2bd7add3-35b1-40d7-9c45-67c8cccbe97a/Final%20report%20on%20Guidelines%20on%20liquidity%20stress%20testing%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0021
+  is_canonical: true
+- eba_id: EBA/GL/2024/05
+  title: Final report on Guidelines on STS criteria for on-balance-sheet securitisation
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-05/c2643528-9d43-4f64-863b-053864465f96/Final%20report%20on%20GL%20on%20STS%20criteria%20for%20OBS%20securitisation.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-05-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0022
+  application_date: '2019-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2024/03
+  title: Guidelines on the application of the group capital test for investment firms
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-04/9fd4f7ea-1aaa-432d-a7dd-f575e6c14f31/Final%20guidelines%20on%20GCT%20for%20investment%20firms.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0023
+  is_canonical: true
+- eba_id: EBA/GL/2024/04
+  title: Guidelines on resubmission of historical data under the EBA reporting framework
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-04/37408afd-8884-4ca6-b8c5-7011093c9528/Final%20Report%20-%20Guidelines%20on%20resubmission%20of%20historical%20data%20under%20the%20EBA%20reporting%20framework.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=1
+  language: en
+  published_at: '2024-04-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0024
+  is_canonical: true
+- eba_id: EBA/GL/2024/02
+  title: Guidelines on the establishment and maintenance of national lists or registers
+    of credit servicers
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-03/a19c8fde-15f1-4692-ad3b-f03e0bb2fff7/Final%20report%20on%20GL%20on%20CS%20registers.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2024-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2024-0025
+  application_date: '2024-12-30'
+  is_canonical: true
+- eba_id: EBA/GL/2016/01
+  title: Guidelines on disclosure of G-SIIs indicators (consolidated)
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-12/0762513a-18f4-4055-8964-943e26335061/Guidelines%20on%20disclosure%20of%20G-SIIs%20indicators_consolidated.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2023-0026
+  is_canonical: true
+- eba_id: EBA/GL/2023/08
+  title: Final report on Guidelines on the diversity benchmarking exercise
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-12/213cc021-d991-43ed-977d-c60245301e70/Final%20report%20on%20Guidelines%20on%20the%20diversity%20benchmarking%20exercise.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2023-0027
+  is_canonical: true
+- eba_id: EBA/GL/2023/09
+  title: Final report on Guidelines on the assessment of knowledge and experience
+    of the organs of credit servicers
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-12/5244af0f-ea2b-4a6d-982c-251696057a77/Report%20on%20GL%20on%20the%20assessment%20of%20knowledge%20and%20experience%20of%20the%20organs%20of%20credit%20servicers.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2023-0028
+  is_canonical: true
+- eba_id: EBA/GL/2021/16
+  title: Guidelines on risk-based supervision - consolidated version
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-11/6fa613c3-54cd-4f21-a6bc-c3d775ce5545/EBA%20GL%20on%20RBA%20AML%20CFT_consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2023-0029
+  is_canonical: true
+- eba_id: EBA/GL/2021/16/DUP2
+  title: Corrigendum to the Guidelines on risk-based supervision
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/2023-11/26170943-836e-402c-bf4e-de11095ac7d0/Corrigendum%20to%20the%20Risk-Based%20Supervision%20Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-11-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-2023-0030
+  is_canonical: false
+- eba_id: EBA/GL/2023/03
+  title: Guidelines ML TF Risk Factors_conslidated.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-03/1061654/Guidelines%20ML%20TF%20Risk%20Factors_conslidated.pdf.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2023/02
+  title: Consolidated version - GLs AFMs (EBA GL 2021 17) amended by EBA GL 2023 02.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-02/1061621/Consolidated%20version%20-%20GLs%20AFMs%20%28EBA%20GL%202021%2017%29%20amended%20by%20EBA%20GL%202023%2002.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2023/06
+  title: Explanatory box on the ORC determination.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-06/1061160/Explanatory%20box%20on%20the%20ORC%20determination.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2023/06/DUP2
+  title: Final Report on GLs on overall recovery capacity in recovery planning.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-06/1061158/Final%20Report%20on%20GLs%20on%20overall%20recovery%20capacity%20in%20recovery%20planning.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: false
+- eba_id: EBA/GL/2021/17
+  title: GLs on delineation and reporting of AFMs_consolidated version.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-17%20GL%20on%20delineation%20and%20reporting%20AFM/1055687/GLs%20on%20delineation%20and%20reporting%20of%20AFMs_consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2023/02/DUP2
+  title: CORRIGENDUM_Final report of the revised GL on DGS contributions.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/EBA-GL-2023-02/1055416/CORRIGENDUM_Final%20report%20of%20the%20revised%20GL%20on%20DGS%20contributions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=2
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2024-07-03'
+  is_canonical: false
+- eba_id: EBA/GL/2023/04
+  title: Guidelines on MLTF risk management and access to financial services.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1054144/Guidelines%20on%20MLTF%20risk%20management%20and%20access%20to%20financial%20services.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0037
+  is_canonical: true
+- eba_id: EBA/GL/2023/02/DUP3
+  title: Final report of the revised GL on DGS contributions.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1052023/Final%20report%20of%20the%20revised%20GL%20on%20DGS%20contributions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0038
+  application_date: '2024-07-03'
+  is_canonical: false
+- eba_id: EBA/GL/2023/01
+  title: Final Report on Guidelines on the publication of the write-down and conversion
+    and bail-in exchange mechanic.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1051851/Final%20Report%20on%20Guidelines%20on%20the%20publication%20of%20the%20write-down%20and%20conversion%20and%20bail-in%20exchange%20mechanic.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2023-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0039
+  application_date: '2024-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2022/15
+  title: Guidelines on the use of Remote Customer Onboarding Solutions.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-15%20GL%20on%20remote%20customer%20onboarding/1043884/Guidelines%20on%20the%20use%20of%20Remote%20Customer%20Onboarding%20Solutions.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2022/14
+  title: Guidelines on IRRBB and CSRBB.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-14%20GL%20on%20IRRBB%20and%20CSRBB/1041754/Guidelines%20on%20IRRBB%20and%20CSRBB.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2019-06-01'
+  is_canonical: true
+- eba_id: EBA/GL/2018/10
+  title: Consolidated GL on disclosure of non-performing and forborne exposures.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/1041279/Consolidated%20%20GL%20on%20disclosure%20of%20non-performing%20and%20forborne%20exposures.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0042
+  application_date: '2019-12-31'
+  is_canonical: true
+- eba_id: EBA/GL/2022/11
+  title: Final report on Guidelines on transferability.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-11%20GL%20on%20transferability/1039809/Final%20report%20on%20Guidelines%20on%20transferability.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2022/10
+  title: Guidelines on liquidity exemption investment firms - Art 43(4) IFR.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-10%20GL%20on%20liquidity%20exemption/1037489/Guidelines%20on%20liquidity%20exemption%20investment%20firms%20-%20Art%2043%284%29%20IFR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2022/09
+  title: Final report on SREP guidelines under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-09%20GL%20on%20SREP%20for%20IF/1037290/Final%20report%20on%20SREP%20guidelines%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2022/06
+  title: Final report on GLs on remuneration and gender pay gap benchmarking under
+    CRD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-06%20GL%20on%20remuneration%20CRD/1036475/Final%20report%20on%20GLs%20on%20remuneration%20and%20gender%20pay%20gap%20benchmarking%20under%20CRD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2022-12-31'
+  is_canonical: true
+- eba_id: EBA/GL/2022/07
+  title: Final report on GLs on remuneration and pay gap benchmarking under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-07%20GLs%20on%20remuneration%20IFD/1036476/Final%20report%20on%20GLs%20on%20remuneration%20and%20pay%20gap%20benchmarking%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2022-12-31'
+  is_canonical: true
+- eba_id: EBA/GL/2022/08
+  title: Final report on GLs on the high earner data collections under CRD and IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-08%20GL%20on%20high%20earners/1036477/Final%20report%20on%20GLs%20on%20the%20high%20earner%20data%20collections%20under%20CRD%20and%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=3
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2022-12-31'
+  is_canonical: true
+- eba_id: EBA/GL/2022/05
+  title: Guidelines on AMLCFT compliance officers.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-05%20GLs%20on%20AML%20compliance%20officers/1035126/Guidelines%20on%20AMLCFT%20compliance%20officers.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2022-12-01'
+  is_canonical: true
+- eba_id: EBA/GL/2022/04
+  title: Guidelines on equivalence of confidentiality regimes.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/Guidelines%20on%20the%20equivalence%20of%20confidentiality%20regimes/1032151/Guidelines%20on%20equivalence%20of%20confidentiality%20regimes.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0050
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0051
+  title: Principles for the assessment of confidentiality and professional secrecy.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/Guidelines%20on%20the%20equivalence%20of%20confidentiality%20regimes/1032150/Confidentiality%20Principles%20.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2022/03
+  title: Final Report on Guidelines on common procedures and methodologies for SREP
+    and supervisory stress testing.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-03%20Revised%20SREP%20Guidelines/1028500/Final%20Report%20on%20Guidelines%20on%20common%20procedures%20and%20methodologies%20for%20SREP%20and%20supervisory%20stress%20testing.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2023-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2022/01
+  title: Final Report on Guidelines on improving resolvability for institutions and
+    resolution authorities.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-01%20Guidelines%20on%20resolvability/1025905/Final%20Report%20on%20Guidelines%20on%20improving%20resolvability%20for%20institutions%20and%20resolution%20authorities%20%282%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2022-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2021/17/DUP2
+  title: Final report on GLs on delineation and reporting of AFMs.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-17%20GL%20on%20delineation%20and%20reporting%20AFM/1025710/Final%20report%20on%20GLs%20on%20delineation%20and%20reporting%20of%20AFMs.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2022-03-30'
+  is_canonical: false
+- eba_id: EBA/GL/2021/15
+  title: Guidelines on AML CFT cooperation.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-15%20GL%20on%20CFT%20cooperation/1025384/Final%20AML-CFT%20Cooperation%20Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2021/16/DUP3
+  title: EBA Final Report on GL on RBA AML CFT.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-16%20GL%20on%20RBA%20to%20AML%20CFT/1025507/EBA%20Final%20Report%20on%20GL%20on%20RBA%20AML%20CFT.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: false
+- eba_id: EBA/GL/2021/13
+  title: Final Report on GL on sound remuneration policies under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-13%20Guidelines%20on%20remuneration%20under%20IFD/1024533/Final%20Report%20on%20GL%20on%20sound%20remuneration%20policies%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2022-04-30'
+  is_canonical: true
+- eba_id: EBA/GL/2021/14
+  title: Final Report on GL on internal governance under IFD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-14%20Guidelines%20on%20internal%20governance%20under%20IFD/1024534/Final%20Report%20on%20GL%20on%20internal%20governance%20under%20IFD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/gl/2021/12
+  title: GL on a common assessment methodology.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-gl-2021-12%20Guidelines%20on%20the%20authorisation%20of%20credit%20institutions/1023885/Report%20GL%20on%20a%20common%20assessment%20methodology%20%28002%29%20-%20clean.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2021/11
+  title: Final Report on Guidelines on recovery plan indicators.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-11%20Guidelines%20on%20recovery%20plan%20indicators%20/1023794/Final%20Report%20on%20Guidelines%20on%20recovery%20plan%20indicators.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=4
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2021/10
+  title: Final Report on Revised Gudelines on DGS stress tests.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-10%20revised%20GL%20on%20DGS%20stress%20test/1019607/Final%20Report%20on%20Revised%20Gudelines%20on%20DGS%20stress%20tests.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2021-09-15'
+  is_canonical: true
+- eba_id: EBA/GL/2021/09
+  title: Final Report on Guidelines on large exposures breaches and time and measures
+    to return to compliance.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-09%20GL%20on%20large%20exposure%20breaches/1019615/Final%20Report%20on%20Guidelines%20on%20large%20exposures%20breaches%20and%20time%20and%20measures%20to%20return%20to%20compliance.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2021/08
+  title: Guidelines on the monitoring of IPU threshold.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/GLs%20on%20IPU%202021-08/1017776/Guidelines%20on%20the%20monitoring%20of%20IPU%20threshold.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0063
+  is_canonical: true
+- eba_id: EBA/GL/2021/07
+  title: Guidelines on use of data inputs in the IMA.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/1017268/Guidelines%20on%20use%20of%20data%20inputs%20in%20the%20IMA.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0064
+  application_date: '2022-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2021/05
+  title: Final report on Guidelines on internal governance under CRD.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/1016721/Final%20report%20on%20Guidelines%20on%20internal%20governance%20under%20CRD.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0065
+  is_canonical: true
+- eba_id: EBA/GL/2021/03
+  title: Final revised Guidelines on major incident reporting under PSD2.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/Guidelines%20on%20major%20incident%20reporting%20under%20PSD2%20EBA-GL-2021-03/1014562/Final%20revised%20Guidelines%20on%20major%20incident%20reporting%20under%20PSD2.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0066
+  application_date: '2022-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2021/02
+  title: Final Report on Guidelines on revised ML TF Risk Factors.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/963637/Final%20Report%20on%20Guidelines%20on%20revised%20ML%20TF%20Risk%20Factors.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0067
+  is_canonical: true
+- eba_id: EBA/GL/2021/01
+  title: Final guidelines on tri-party repos for LE purposes.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/963185/Final%20guidelines%20on%20tri-party%20repos%20for%20LE%20purposes.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2021-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0068
+  application_date: '2021-06-28'
+  is_canonical: true
+- eba_id: EBA/GL/2020/02
+  title: Final report on EBA-GL-2020-02 Guidelines on payment moratoria - consolidated
+    version.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/GL%20amending%20EBA-GL-2020-02%20on%20payment%20moratoria/960349/Final%20report%20on%20EBA-GL-2020-02%20Guidelines%20on%20payment%20moratoria%20-%20consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2020/14
+  title: Final report - EBA GLs on disclosure of G-SIIs indicators.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/Guidelines%20on%20the%20specification%20and%20disclosure%20of%20systemic%20importance%20indicators/935707/Final%20report%20-%20EBA%20GLs%20on%20disclosure%20of%20G-SIIs%20indicators.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=5
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0070
+  is_canonical: true
+- eba_id: EBA/GL/2020/11
+  title: Guidelines on supervisory reporting and disclosures - CRR quick fix.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/GLs%20on%20supervisory%20reporting%20and%20disclosure%20requirements%20in%20compliance%20with%20CRR%20%E2%80%9Cquick%20fix%E2%80%9D/923102/Guidelines%20on%20supervisory%20reporting%20and%20disclosures%20-%20CRR%20quick%20fix.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0071
+  application_date: '2020-08-11'
+  is_canonical: true
+- eba_id: EBA/GL/2020/10
+  title: EBA-GL-2020-10 Guidelines on the pragmatic 2020 SREP.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/Guidelines%20on%20the%20pragmatic%202020%20SREP/897419/EBA-GL-2020-10%20Guidelines%20on%20the%20pragmatic%202020%20SREP.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2020-07-23'
+  is_canonical: true
+- eba_id: EBA/GL/2020/09
+  title: Guidelines on Structural FX.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2020/GLs%20on%20the%20treatment%20of%20structural%20FX/886962/Guidelines%20on%20Structural%20FX.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: '2020-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0073
+  is_canonical: true
+- eba_id: EBA/GL/2018/03
+  title: Revised Guidelines on SREP (EBA-GL-2018-03).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282666/6c2e3962-6b95-4753-a7dc-68070a5ba662/Revised%20Guidelines%20on%20SREP%20%28EBA-GL-2018-03%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2019-01-01'
+  is_canonical: true
+- eba_id: EBA/GL/2018/02
+  title: Guidelines on the management of interest rate risk arising from non-trading
+    activities (EBA-GL-2018-02).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282655/169993e1-ad7a-4d78-8a27-1975b4860da0/Guidelines%20on%20the%20management%20of%20interest%20rate%20risk%20arising%20from%20non-trading%20activities%20%28EBA-GL-2018-02%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2018/04
+  title: Guidelines on institutions stress testing (EBA-GL-2018-04).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282644/2b604bc8-fd08-4b17-ac4a-cdd5e662b802/Guidelines%20on%20institutions%20stress%20testing%20%28EBA-GL-2018-04%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2014/13
+  title: Guidelines on common procedures and methodologies for SREP and supervisory
+    stress testing - Consolidated version.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2282666/fb883094-3a8a-49d9-a3db-1d39884e2659/Guidelines%20on%20common%20procedures%20and%20methodologies%20for%20SREP%20and%20supervisory%20stress%20testing%20-%20Consolidated%20version.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0077
+  is_canonical: true
+- eba_id: EBA/GL/2018/05
+  title: Final report on Guidelines on fraud reporting under Article 96(6) PSD2 (EBA-GL-2018-05)
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2281937/5653b876-90c9-476f-9f44-507f5f3e0a1e/Final%20report%20on%20Guidelines%20on%20fraud%20reporting%20under%20Article%2096%286%29%20PSD2%20%28EBA-GL-2018-05%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2018-01-13'
+  is_canonical: true
+- eba_id: EBA/GL/2016/07
+  title: Guidelines on default definition (EBA-GL-2016-07)_EN.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1721448/052c260f-da9a-4c86-8f0a-09a1d8ae56e7/Guidelines%20on%20default%20definition%20%28EBA-GL-2016-07%29_EN.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2021-01-01'
+  is_canonical: true
+- eba_id: EBA/RTS/2015/12
+  title: EBA-RTS-2015-12 RTS and EBA-GL-2015-21 GLs on Business Reorganisation Plans.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1312845/4f2b2315-426a-4c50-94f4-7aed385807c3/EBA-RTS-2015-12%20RTS%20and%20EBA-GL-2015-21%20GLs%20on%20Business%20Reorganisation%20Plans.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/RTS/2015/12/DUP2
+  title: EBA-RTS-2015-12 RTS and EBA-GL-2015-21 GLs on Business Reorganisation Plans.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1312804/9ecf6b00-dbcf-493d-9ff4-016d7442e410/EBA-RTS-2015-12%20RTS%20and%20EBA-GL-2015-21%20GLs%20on%20Business%20Reorganisation%20Plans.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=6
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: false
+- eba_id: EBA/GL/2015/17
+  title: EBA-GL-2015-17 Guidelines on group financial support_EN.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1137032/fb55f0f7-822d-4fb2-8995-9a775cecf0c9/EBA-GL-2015-17%20Guidelines%20on%20group%20financial%20support_EN.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/GL/2014/14
+  title: EBA GL 2014 14-Compliance Table-Guidelines on materiality proprietary& confidentiality
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/937948/4d202ca9-9d7f-4481-8c04-f23843d45a8c/EBA%20GL%202014%2014-Compliance%20Table-Guidelines%20on%20materiality%20proprietary%26%20confidentiality.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0083
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0084
+  title: CEBS' Guidelines for Joint Risk Assessment (GL 39).pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/5b4f246e-1a52-4204-9d74-4b1a2dbcce44/CEBS%27%20Guidelines%20for%20Joint%20Risk%20Assessment%20%28GL%2039%29.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  application_date: '2010-12-31'
+  is_canonical: true
+- eba_id: EBA/GL/2012/06
+  title: Guidelines on the assessment of the suitability of members of the management
+    body and key function holders
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/106695/ad951633-f9bf-4cb0-b4c4-5b3fc7b87f0b/Compliance-GL-2012_06.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-GL-0000-0085
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0086
+  title: Implementation-survey-on-CEBS--Guidelines-on-Remuneration--final-.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/106961/1aa3364a-f7c5-4ada-9c2b-798b0783557a/Implementation-survey-on-CEBS--Guidelines-on-Remuneration--final-.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/BS/2011/126
+  title: EBA-BS-2011-126-rev1QA-on-guidelines-Artt122a.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16325/5f87e701-8c49-49a3-b7f9-efc0b660ed0f/EBA-BS-2011-126-rev1QA-on-guidelines-Artt122a.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=7
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/BS/2011/116
+  title: EBA-BS-2011-116-final-EBA-Guidelines-on-Internal-Governance-(2)_1.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/103861/e03ae4b3-1059-4d2a-a5ff-35a287f8c850/EBA-BS-2011-116-final-EBA-Guidelines-on-Internal-Governance-%282%29_1.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0089
+  title: Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/106961/a3ab77c9-980f-4994-b2cd-397413b77084/Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0090
+  title: ST_Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/ee1e7b7b-5b45-4758-bc64-22b159c3f66c/ST_Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0091
+  title: cebs8_Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/7b1932b0-9788-4127-85a8-29968d17cb6a/cebs8_Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0092
+  title: Guidelines_article57a.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/30468/8d4f1631-f828-454d-a968-7b062ab7e611/Guidelines_article57a.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0093
+  title: Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/630d6f9a-4a33-4754-bea0-78fe3c2fbced/Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-GL/0000/0094
+  title: Passporting-Guidelines.pdf
+  document_type: guidelines
+  topic: EBA guidelines
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/16094/a1220988-9c8f-4f3f-96ab-ebf4ba0d8e6c/Passporting-Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=250&media_topics=All&page=8
+  language: en
+  published_at: ''
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=250; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/RTS/2026/05
+  title: Final report RTS on material model changes
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2026-03/7bbbbcd4-caa4-489d-b2b4-a837d04e709e/Final%20report%20RTS%20on%20material%20model%20changes.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2026-03-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2026-0095
+  is_canonical: true
+- eba_id: EBA/RTS/2025/05
+  title: RTS on equivalent mechanism for unfinished property
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-08/b24309a7-8b20-4f88-8504-fcb89f6335df/RTS%20on%20equivalent%20mechanism%20for%20unfinished%20property.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2025-08-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2025-0096
+  is_canonical: true
+- eba_id: EBA/RTS/2025/03
+  title: Final Report on RTS Operational risk losses mandates
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-08/1f9809f8-13bf-4365-aadc-4e7a8cdf89f1/Final%20Report%20on%20RTS%20Operational%20risk%20losses%20mandates.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=0
+  language: en
+  published_at: '2025-08-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2025-0097
+  is_canonical: true
+- eba_id: EBA/RTS/2025/19
+  title: Final report RTS on long and short positions for the thresholds calculation
+    in market and counterparty credit risk
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/bd9aff44-c97f-4293-b72d-0249aa2a2155/Final%20report%20RTS%20on%20long%20and%20short%20positions%20for%20the%20thresholds%20calculation%20in%20market%20and%20counterparty%20credit%20risk.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-12-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2024-0098
+  is_canonical: true
+- eba_id: EBA/LARGE-RTS/2024/0099
+  title: Joint Regulatory Technical Standards on the criteria for determining the
+    composition of the joint examination team
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/619a6c58-6044-41b3-a841-06b01863020b/JC%202024%2054%20-%20Final%20Report%20RTS%20on%20JET.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-RTS/2024/0100
+  title: Joint Regulatory Technical Standards specifying elements related to threat
+    led penetration tests
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/427a52cf-5772-4b69-8eb5-d121c90c470a/JC%202024-29%20-%20Final%20report_DORA%20RTS%20on%20TLPT.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/LARGE-RTS/2024/0101
+  title: Joint Regulatory Technical Standards on the harmonization of conditions enabling
+    the conduct of the oversight activities
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/30e5ef75-b0a5-4ab0-8ce6-36c619c5e093/JC%202024-35%20-%20Final%20report%20on%20RTS%20on%20harmonisation%20of%20conditions%20for%20OVS%20conduct.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/RTS/2024/17
+  title: Final report on RTS on extraordinary circumstances
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/332b467c-6a45-477a-b3da-daf95aa1ae25/Final%20report%20on%20RTS%20on%20extraordinary%20circumstances.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2024-0102
+  is_canonical: true
+- eba_id: EBA/RTS/2024/13
+  title: Final Report on RTS on use of ARTs and EMTs as a means of exchange under
+    MiCAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/4befe99b-36d3-4b92-96b1-13a0f47e039a/Final%20Report%20on%20RTS%20on%20use%20of%20ARTs%20and%20EMTs%20as%20a%20means%20of%20exchange%20under%20MICAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=1
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2024-0103
+  application_date: '2024-12-30'
+  is_canonical: true
+- eba_id: EBA/LARGE-RTS/2024/0104
+  title: Final Report on RTS on colleges under MiCAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/a4ac65e2-fd2c-45a3-98d3-1f9aa5ac608b/Final%20Report%20on%20RTS%20on%20colleges%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  application_date: '2024-12-30'
+  is_canonical: true
+- eba_id: EBA/GL/2024/07
+  title: Final report on Guidelines on recovery plans under MiCAR
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-06/a4619671-df54-42ff-a6d8-2819f51ebe83/Final%20report%20on%20Guidelines%20on%20recovery%20plans%20under%20MiCAR.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=2
+  language: en
+  published_at: '2024-06-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2024-0105
+  is_canonical: true
+- eba_id: EBA/RTS/2024/01
+  title: Final Report on RTS and ITS on supervisory colleges
+  document_type: rts
+  topic: EBA regulatory technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-01/8b7b932d-3c25-4c82-9913-72eee2cbbcdf/Final%20Report%20on%20RTS%20and%20ITS%20on%20supervisory%20colleges.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=248&media_topics=All&page=3
+  language: en
+  published_at: '2024-01-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=248; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-RTS-2024-0106
+  is_canonical: true
+- eba_id: EBA/LARGE-ITS/2024/0107
+  title: Implementing Technical Standards specifying certain tasks of collection bodies
+    and certain functionalities of the ESAP
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-10/a387c76a-f4c0-4cd9-80e6-c4c176b4a81a/JC%202024%2074%20Final%20Report%20on%20JC%20ITS%20on%20ESAP.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=2
+  language: en
+  published_at: '2024-10-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+  is_canonical: true
+- eba_id: EBA/ITS/2024/06
+  title: Final Report on amendments to the ITS on Supervisory reporting-CRR3 CRD6
+  document_type: its
+  topic: EBA implementing technical standard
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/b6be4507-e772-4bfb-a8f4-631f424ed12a/final_report_on_amendments_to_the_its_on_supervisory_reporting-crr3_crd6.pdf
+  publication_url: https://www.eba.europa.eu/publications-and-media/publications?text=&document_type=247&media_topics=All&page=2
+  language: en
+  published_at: '2024-07-01'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Discovered from official EBA publications listing; English inferred from
+    PDF filename/path; document_type_facet=247; discovery_profile=current-applicable.
+  _original_slug: EBA-LARGE-ITS-2024-0108
+  is_canonical: true

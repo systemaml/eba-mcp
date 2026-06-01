@@ -1,0 +1,485 @@
+documents:
+- eba_id: EBA/GL/2021/02
+  title: Guidelines on customer due diligence and the factors credit and financial
+    institutions should consider when assessing the money laundering and terrorist
+    financing risk associated with individual business relationships and occasional
+    transactions
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/963637/Final%20Report%20on%20Guidelines%20on%20revised%20ML%20TF%20Risk%20Factors.pdf
+  publication_url: https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-1
+  language: en
+  published_at: '2021-03-01'
+  expected_difficulty: hard
+  publication_status: final
+  applicability_status: applicable
+  notes: Base ML/TF Risk Factors Guidelines; long final report with sector-specific
+    titles, annexes, tables, and numbered paragraphs; application starts three months
+    after EU-language publication.
+- eba_id: EBA/GL/2023/03
+  title: Guidelines amending Guidelines EBA/GL/2021/02 on customer due diligence and
+    the factors credit and financial institutions should consider when assessing the
+    money laundering and terrorist financing risk associated with individual business
+    relationships and occasional transactions
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1054143/Amending%20GLs%20to%20the%20RFGLs%20in%20relation%20to%20NPOs.pdf
+  publication_url: https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-1
+  language: en
+  published_at: '2023-03-31'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Amending guideline to EBA/GL/2021/02 adding NPO customer risk factors; numbered
+    amendment paragraphs and annex-style material.
+- eba_id: EBA/GL/2024/01
+  title: Guidelines amending Guidelines EBA/GL/2021/02 on customer due diligence and
+    the factors credit and financial institutions should consider when assessing the
+    money laundering and terrorist financing risk associated with individual business
+    relationships and occasional transactions
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-01/a3e89f4f-fbf3-4bd6-9e07-35f3243555b3/Final%20Amending%20%20Guidelines%20on%20MLTF%20Risk%20Factors.pdf
+  publication_url: https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-1
+  language: en
+  published_at: '2024-01-16'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Amends EBA/GL/2021/02 for crypto-asset service provider risk factors; application
+    date 2024-12-30.
+- eba_id: EBA/GL/2022/05
+  title: Guidelines on policies and procedures in relation to compliance management
+    and the role and responsibilities of the AML/CFT Compliance Officer
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-05%20GLs%20on%20AML%20compliance%20officers/1035126/Guidelines%20on%20AMLCFT%20compliance%20officers.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-1
+  language: en
+  published_at: '2022-06-14'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: AML/CFT compliance officer and management body responsibilities; numbered
+    paragraphs, group compliance section, applies from 2022-12-01.
+- eba_id: EBA/GL/2022/15
+  title: Guidelines on the use of Remote Customer Onboarding Solutions
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2022/EBA-GL-2022-15%20GL%20on%20remote%20customer%20onboarding/1043884/Guidelines%20on%20the%20use%20of%20Remote%20Customer%20Onboarding%20Solutions.pdf
+  publication_url: https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-4
+  language: en
+  published_at: '2022-11-22'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: Remote CDD onboarding under AMLD; numbered paragraphs with technical subsections;
+    applies from 2023-10-02.
+- eba_id: EBA/GL/2023/04
+  title: Guidelines on policies and controls for the effective management of money
+    laundering and terrorist financing risks when providing access to financial services
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2023/1054144/Guidelines%20on%20MLTF%20risk%20management%20and%20access%20to%20financial%20services.pdf
+  publication_url: https://www.eba.europa.eu/legacy/regulation-and-policy/regulatory-activities/anti-money-laundering-and-countering-financing-6
+  language: en
+  published_at: '2023-03-31'
+  expected_difficulty: medium
+  publication_status: final
+  applicability_status: applicable
+  notes: De-risking/access to financial services guideline; numbered paragraphs and
+    policy-option analysis; application date 2023-11-03.
+- eba_id: EBA/GL/2021/15
+  title: Guidelines on cooperation and information exchange between prudential supervisors,
+    AML/CFT supervisors and financial intelligence units
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Guidelines/2021/EBA-GL-2021-15%20GL%20on%20CFT%20cooperation/1025384/Final%20AML-CFT%20Cooperation%20Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/guidelines-cooperation-and-information-exchange-between-prudential-supervisors-amlcft-supervisors
+  language: en
+  published_at: '2021-12-16'
+  expected_difficulty: easy
+  publication_status: final
+  applicability_status: applicable
+  notes: EBA-only cooperation guideline for prudential supervisors, AML/CFT supervisors
+    and FIUs; numbered paragraphs; application date 2022-06-01.
+- eba_id: EBA/GL/2024/11
+  title: Guidelines on information requirements in relation to transfers of funds
+    and certain crypto-assets transfers under Regulation (EU) 2023/1113
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-07/6de6e9b9-0ed9-49cd-985d-c0834b5b4356/Travel%20Rule%20Guidelines.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/guidelines-information-requirements-relation-transfers-funds-and-certain-crypto-assets-transfers
+  language: en
+  published_at: '2024-07-04'
+  expected_difficulty: hard
+  publication_status: final
+  applicability_status: future
+  notes: Travel Rule guideline for PSPs, IPSPs, CASPs and ICASPs; complex transfer
+    scenarios, tables, and annex-like implementation sections; applies from 2024-12-30.
+- eba_id: EBA/Op/2022/01
+  title: Opinion and Report on de-risking and its impact on access to financial services
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Opinions/2022/Opinion%20on%20de-risking%20%28EBA-Op-2022-01%29/1025705/EBA%20Opinion%20and%20annexed%20report%20on%20de-risking.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2022-01-05'
+  expected_difficulty: easy
+  publication_status: final
+  applicability_status: applicable
+  notes: Final EBA opinion/report on AML/CFT de-risking; included to exercise fallback
+    citation where narrative report sections are not consistently paragraph-numbered.
+- eba_id: EBA/Op/2023/08
+  title: Opinion and Report on money laundering and terrorist financing risks affecting
+    the EU financial sector
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Opinions/2023/1058335/EBA%20Op%202023%2008%20Opinion%20on%20MLTF%20risks%20EBA%20REP%202023%2021.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2023-07-13'
+  publication_status: final
+  applicability_status: applicable
+  notes: Combined opinion+report PDF; useful multi-part annex-heavy stress case.
+- eba_id: EBA/Op/2021/04
+  title: Opinion on the risks of money laundering and terrorist financing affecting
+    the European Union financial sector
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Opinions/2021/963685/Opinion%20on%20MLTF%20risks.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2021-03-03'
+  publication_status: final
+  applicability_status: applicable
+  notes: Opinion with attached sector-risk report content.
+- eba_id: EBA/Op/2020/INTERPLAY-AMLD-DGSD
+  title: Opinion on the interplay between the EU AMLD and the EU DGSD
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Opinions/2020/961347/EBA%20Opinion%20on%20the%20interplay%20between%20the%20AMLD%20and%20the%20DGSD.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2020-12-14'
+  publication_status: final
+  applicability_status: applicable
+  notes: Legacy opinion without simple numeric official ID visible in listing; synthetic
+    suffix retained for reproducibility.
+- eba_id: EBA/Op/2020/SREP-MLTF
+  title: Opinion on how to take into account ML/TF risks in the Supervisory Review
+    and Evaluation Process
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Opinions/2020/935606/Opinion%20on%20how%20to%20take%20into%20account%20MLTF%20risks%20in%20SREP.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2020-11-04'
+  publication_status: final
+  applicability_status: applicable
+  notes: Long-form prudential/AML crossover opinion.
+- eba_id: EBA/Op/2020/FUTURE-AML-CFT-FRAMEWORK
+  title: Opinion on the future AML/CFT framework in the EU
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Opinions/2020/931092/Opinion%20on%20the%20future%20AML%20CFT%20framework%20in%20the%20EU.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2020-09-10'
+  publication_status: final
+  applicability_status: applicable
+  notes: Pre-AMLA framework advice; narrative structure stress case.
+- eba_id: JC/Op/2019/MLTF-RISKS
+  title: Joint Opinion on the risks of ML and TF affecting the EU financial sector
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2622242/1605240c-57b0-49e1-bccf-60916e28b633/Joint%20Opinion%20on%20the%20risks%20on%20ML%20and%20TF%20affecting%20the%20EU%27s%20financial%20sector.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2019-10-04'
+  publication_status: final
+  applicability_status: applicable
+  notes: Older joint opinion from legacy site paths.
+- eba_id: EBA/Op/2019/COMMUNICATION-MLTF-RISKS
+  title: Opinion on communication of ML/TF risks to supervised entities
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/2622242/a8270e12-b0c2-4194-a70f-1f1ece5c71a3/Opinion%20on%20Communication%20of%20ML%20TF%20risks%20to%20supervised%20entities.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2019-07-24'
+  publication_status: final
+  applicability_status: applicable
+  notes: Legacy opinion file without simple numbered ID visible in listing.
+- eba_id: EBA/Op/2016/07
+  title: Opinion on Customer Due Diligence on Asylum Seekers
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1359456/4d12c223-105f-4cf0-a533-a8dae1f6047e/EBA-Op-2016-07%20%28Opinion%20on%20Customer%20Due%20Diligence%20on%20Asylum%20Seekers%29.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2016-04-12'
+  publication_status: final
+  applicability_status: applicable
+  notes: Older official opinion PDF.
+- eba_id: JC/Op/2017/81
+  title: Opinion on the use of innovative solutions by credit and financial institutions
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/930583/Opinion%20on%20the%20use%20of%20innovative%20solutions%20by%20credit%20and%20financial%20institutions%20%28JC-2017-81%29.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2018-01-23'
+  publication_status: final
+  applicability_status: applicable
+  notes: Joint Committee remote/onboarding precursor opinion.
+- eba_id: JC/Op/2017/07
+  title: Joint Opinion on the risks of money laundering and terrorist financing affecting
+    the Union financial sector
+  document_type: opinion
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1759750/cedce61c-279b-4312-98f1-a5424a1891ad/ESAS%2520Joint%2520Opinion%2520on%20the%20risks%20of%20money%20laundering%20and%20terrorist%20financing%20affecting%20the%20Union%25E2%2580%2599s%20financial%20sector%2520%2528JC-2017-07%2529.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2017-02-20'
+  publication_status: final
+  applicability_status: applicable
+  notes: Double-encoded legacy URL; good downloader robustness case.
+- eba_id: EBA/GL/2024/14-15
+  title: Guidelines on internal policies, procedures and controls to ensure the implementation
+    of Union and national restrictive measures
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-11/eaeae49d-81a5-4154-8af9-5014f6ee8881/Final%20Report%20Guidelines%20restrictive%20measures%20.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/guidelines-internal-policies-procedures-and-controls-ensure-implementation-union-and-national
+  language: en
+  published_at: '2024-11-14'
+  publication_status: final
+  applicability_status: future
+  notes: Single PDF covers two guideline sets (EBA/GL/2024/14 and /15); combined-document
+    stress case.
+- eba_id: JC/GL/2019/81
+  title: Joint Committee Guidelines on cooperation and information exchange for AML/CFT
+    supervision purposes
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library//Joint%20Guidelines%20on%20cooperation%20and%20information%20exchange%20on%20AML%20-%20CFT.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/joint-committee-guidelines-cooperation-and-information-exchange-amlcft-supervision-purposes
+  language: en
+  published_at: '2019-12-16'
+  publication_status: final
+  applicability_status: applicable
+  notes: Large joint-guideline PDF from nonstandard document_library path.
+- eba_id: JC/GL/2017/16
+  title: Joint Guidelines to prevent terrorist financing and money laundering in electronic
+    fund transfers
+  document_type: guidelines
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/documents/10180/1969371/49f8aa4b-6d6d-4ea9-a84d-bc9a6eba75eb/Joint%20Guidelines%20to%20prevent%20terrorist%20financing%20and%20money%20laundering%20in%20electronic%20fund%20transfers%20%28JC-GL-2017-16%29.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/joint-guidelines-prevent-abuse-fund-transfers-mltf-purposes
+  language: en
+  published_at: '2017-09-22'
+  publication_status: repealed
+  applicability_status: historical
+  notes: Historical joint guideline later repealed by travel-rule guidance.
+- eba_id: EBA/CP/2025/04
+  title: Consultation Paper on Response to Call for Advice on new AMLA mandates
+  document_type: consultation-paper
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-03/9bc83e61-e9a1-4e91-93de-2af8325e0182/Consultation%20Paper%20on%20Response%20to%20Call%20for%20Advice%20new%20AMLA%20mandates.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/regulatory-technical-standards-package-compliance-institutions-and-supervisors-their-amlcft
+  language: en
+  published_at: '2025-03-06'
+  publication_status: consultation
+  applicability_status: future
+  notes: Large consultation paper with draft RTS annexes.
+- eba_id: EBA/RTS/2025/CCP-CASP
+  title: Final Report Draft RTS on the criteria for the appointment of CCP for CASPs
+    and with rules on their functions
+  document_type: draft-rts
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-04/53283e48-b107-46e4-ae85-9c3b783cd557/Final%20Report%20Draft%20RTS%20on%20the%20criteria%20for%20the%20appointment%20of%20CCP%20for%20CASPs%20and%20with%20rules%20on%20their%20functions.pdf
+  publication_url: https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/anti-money-laundering-and-countering-financing-terrorism/regulatory-technical-standards-ccp-strengthen-fight-against-financial-crime
+  language: en
+  published_at: '2025-04-25'
+  publication_status: draft-rts
+  applicability_status: future
+  notes: Draft RTS package; tables/recitals heavy.
+- eba_id: EBA/REP/2025/28
+  title: Report on tackling ML/TF risks in crypto-asset services through supervision
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-10/6a64efb9-98e9-4e90-a5c5-2704a8ca8ef9/Report%20on%20tackling%20ML%20TF%20risks%20in%20crypto-asset%20services%20through%20supervision.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2025-10-09'
+  publication_status: final
+  applicability_status: applicable
+  notes: Exa snippet exposed official EBA/REP/2025/28 identifier.
+- eba_id: EBA/REP/2025/AMLCFT-COLLEGES-2024-2025
+  title: Report on the functioning of AML/CFT colleges in 2024 and 2025
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-10/0e56a26c-b379-4820-81ef-c02d9a5e37b5/Report%20on%20the%20functioning%20of%20AMLCFT%20colleges%20in%202024%20and%202025.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2025-10-22'
+  publication_status: final
+  applicability_status: applicable
+  notes: Synthetic suffix because listing did not expose short official REP number.
+- eba_id: EBA/REP/2025/IMPLEMENTATION-REVIEWS
+  title: Final report on implementation reviews for AML/CFT supervision of banks
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-10/2dede85b-9ee8-4d12-bb87-0c6d217e687d/EBA%20Final%20report%20on%20Implementation%20Reviews.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2025-10-08'
+  publication_status: final
+  applicability_status: applicable
+  notes: Long supervision review report.
+- eba_id: EBA/OPREP/2025/MLTF-RISKS
+  title: Opinion and Report on money laundering and terrorist financing risks affecting
+    the EU financial sector
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2025-07/13ae2f94-dc04-4a50-9f24-af2808e78944/Opinion%20and%20Report%20on%20ML%20TF%20risks.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2025-07-28'
+  publication_status: final
+  applicability_status: applicable
+  notes: Combined opinion/report publication from AMLA transition period.
+- eba_id: EBA/REP/2024/AMLCFT-COLLEGES-2023
+  title: Report on the functioning of AML/CFT colleges in 2023
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/95b3c1e2-cf83-4ff3-9648-b6dde709dca0/Report%20on%20the%20functioning%20of%20AMLCFT%20colleges%20in%202023.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2024-12-16'
+  publication_status: final
+  applicability_status: applicable
+  notes: College-cooperation report.
+- eba_id: EBA/REP/2024/NCAS-AMLCFT-SUPERVISION
+  title: Report on NCAs approaches to the supervision of banks with respect to AML/CFT
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/2024-12/978992b4-1b46-4b52-bb07-0d38a018c005/Report%20on%20NCAs%20approaches%20to%20the%20supervision%20of%20banks%20with%20respect%20to%20AMLCFT.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2024-12-13'
+  publication_status: final
+  applicability_status: applicable
+  notes: Supervision-practice report.
+- eba_id: EBA/REP/2023/IMPLEMENTATION-REVIEW
+  title: AML implementation review report
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2023/1057524/AML%20implementation%20review%20report.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2023-07-11'
+  publication_status: final
+  applicability_status: applicable
+  notes: Implementation review report with structured annexes.
+- eba_id: EBA/REP/2023/PAYMENT-INSTITUTIONS-MLTF
+  title: Report on ML/TF risks associated with payment institutions
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2023/1056453/Report%20on%20ML%20TF%20risks%20associated%20with%20payment%20institutions.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2023-06-16'
+  publication_status: final
+  applicability_status: applicable
+  notes: Sector-specific report; likely table-heavy.
+- eba_id: EBA/REP/2022/AMLCFT-COLLEGES-2021
+  title: Report on the functioning of anti-money laundering and counter-terrorist
+    financing colleges in 2021
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2022/1038179/Report%20on%20functionion%20of%20AML%20CFT%20Colleges.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2022-09-01'
+  publication_status: final
+  applicability_status: applicable
+  notes: Legacy typo in filename (functionion) useful path-handling case.
+- eba_id: EBA/REP/2022/CA-APPROACHES-AMLCFT
+  title: Report on competent authorities approaches to AML/CFT supervision of banks
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2022/1028593/Report%20on%20CAs%20approaches%20to%20AML%20CFT%20supervision.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2022-03-22'
+  publication_status: final
+  applicability_status: applicable
+  notes: Review report.
+- eba_id: EBA/REP/2022/LUANDA-LEAKS
+  title: Report on competent authorities responses to the 2020 Luanda Leaks
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2022/1027361/Report%20Risk%20assessment%20on%20Luanda%20Leaks%20under%20art%209a.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2022-02-22'
+  publication_status: final
+  applicability_status: applicable
+  notes: Article 9a risk-assessment report.
+- eba_id: EBA/REP/2021/ARTICLE-9A-RISK-ASSESSMENT
+  title: Risk assessment under Article 9a of the EBA Regulation
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2020/973502/Risk%20assessment%20under%20Article%209a%20of%20the%20EBA%20Regulation.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2021-04-19'
+  publication_status: final
+  applicability_status: applicable
+  notes: Official file path retains 2020 directory despite 2021 publication date.
+- eba_id: EBA/REP/2020/AML-COLLEGES
+  title: Report on the functioning of AML Colleges
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2020/961425/Report%20on%20the%20functioning%20of%20AML%20Colleges%20.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2020-12-15'
+  publication_status: final
+  applicability_status: applicable
+  notes: Trailing-space filename segment stress case.
+- eba_id: EBA/REP/2020/FUTURE-AML-CFT-FRAMEWORK
+  title: Report on the future of AML/CFT framework in the EU
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/Publications/Reports/2020/931093/EBA%20Report%20on%20the%20future%20of%20AML%20CFT%20framework%20in%20the%20EU.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2020-09-10'
+  publication_status: final
+  applicability_status: applicable
+  notes: Companion report to future-framework opinion.
+- eba_id: EBA/REP/2020/CUM-EX
+  title: Report on inquiry into Cum-Ex
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/News%20and%20Press/Press%20Room/Press%20Releases/2020/EBA%20publishes%20its%20inquiry%20into%20dividend%20arbitrage%20trading%20schemes%20%28%E2%80%9CCum-Ex/Cum-Cum%E2%80%9D%29/883661/EBA%20Report%20on%20inquiry%20into%20Cum-Ex.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2020-05-14'
+  publication_status: final
+  applicability_status: applicable
+  notes: Path includes unicode quotes and slash-like encoded segments.
+- eba_id: EBA/REP/2020/CA-APPROACHES-AMLCFT
+  title: Report on competent authorities approaches to AML/CFT supervision of banks
+  document_type: report
+  topic: AML/CFT
+  file_url: https://www.eba.europa.eu/sites/default/files/document_library/News%20and%20Press/Press%20Room/Press%20Releases/2020/EBA%20acts%20to%20improve%20AML/CFT%20supervision%20in%20Europe/Report%20on%20CA%20approaches%20to%20AML%20CFT.pdf
+  publication_url: https://www.eba.europa.eu/regulation-and-policy/anti-money-laundering-and-countering-financing-terrorism
+  language: en
+  published_at: '2020-02-05'
+  publication_status: final
+  applicability_status: applicable
+  notes: Legacy press-room path containing raw slash in AML/CFT segment.
