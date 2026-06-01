@@ -1,0 +1,86 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+coverage/
+htmlcov/
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+
+# Node / JS caches
+.turbo/
+.parcel-cache/
+.eslintcache
+
+# Data / corpus artifacts
+data/raw/
+data/current-pdfs
+data/curated-pdfs
+data/processed/
+data/processed-expanded/
+data/curated-parsed/
+data/quality_reports/
+data/curated-quality/
+data/current-parsed
+data/current-quality
+data/processed-large
+data/quality_reports_large
+data/quality_reports_expanded
+data/raw-expanded
+data/raw-large
+data/eba.db
+data/*.db
+data/*.db-*
+data/corpora/*.db
+data/corpora/*.manifest.json
+!data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+!data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
+
+# SQLite sidecars
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+
+# Local env / logs
+.env*
+!.env.example
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Root data metadata / reports
+data/*.yaml
+data/*.yml
+data/*.json
+data/*.jsonl
+data/*.txt
+data/*.csv
+data/*.tsv
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# Local orchestration state
+.sisyphus/
+.playwright-mcp/
