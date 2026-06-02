@@ -1,141 +1,245 @@
 # Install EBA MCP
 
-This guide is for consumers and LLM agents that need to clone and run the EBA MCP server with the included production corpus. You do not need to build the corpus, run the Python pipeline, download PDFs, or install `uv` for normal use.
-
-## LLM Agent Quick Path
-
-1. Clone the repository:
-
-   ```bash
-   git clone <REPOSITORY_URL> eba-mcp
-   cd eba-mcp
-   ```
-
-2. Install Node dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Build the MCP server:
-
-   ```bash
-   npm run build
-   ```
-
-4. Confirm the production corpus exists:
-
-   ```bash
-   test -f data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-   test -f data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
-   ```
-
-5. Use this server command in an MCP client, replacing `/absolute/path/to/eba-mcp` with the cloned repository path:
-
-   ```bash
-   node /absolute/path/to/eba-mcp/dist/index.js --db /absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-   ```
-
-6. If Ollama is installed and running with `nomic-embed-text`, leave `EBA_SEARCH_MODE=auto` for hybrid retrieval. If Ollama is not available, set `EBA_SEARCH_MODE=fts_only`.
-
-## What This MCP Provides
-
-EBA MCP is a stdio Model Context Protocol server for citation-first search across current, applicable European Banking Authority publications. It exposes tools for search, document lookup, paragraph lookup, corpus information, status/version metadata, citation validation, and version metadata comparison.
-
-The server returns citation-ready excerpts with document IDs, page references, paragraph or section references, and exact text snippets. It is a research and retrieval tool, not legal advice.
+This guide is for consumers and LLM agents that need to clone and run the EBA MCP server. The production corpus database is **not included in the repository** — it must be generated locally using the Python ingestion pipeline. This guide explains both the quick MCP server setup and the full corpus generation workflow.
 
 ## Software Requirements
 
-- Git
-- Node.js >= 18
-- npm
-- An MCP-compatible client, such as Claude Desktop or another client that can launch stdio MCP servers
-- Ollama is optional but recommended for hybrid semantic retrieval
+- **Git**
+- **Node.js** >= 18
+- **npm**
+- **Python** >= 3.11 (for corpus generation)
+- **uv** >= 0.4 — Python package manager ([install](https://docs.astral.sh/uv/getting-started/installation/))
+- **Ollama** — recommended for hybrid semantic retrieval ([install](https://ollama.com/))
+- An MCP-compatible client (Claude Desktop, etc.)
 
-Python and `uv` are only needed for development and corpus-building workflows. They are not required for normal consumer use of the included production corpus.
+---
 
-## Hardware and Storage Requirements
+## Part 1: MCP Server Setup
 
-- Disk space for the repository, `node_modules`, the included corpus database, and optional Ollama model files
-- The production corpus database is about 147 MB
-- At least 4 GB RAM
-- 8 GB RAM preferred when running an LLM client and Ollama on the same machine
-- GPU is not required
-
-## Production Corpus Included
-
-The production corpus is intentionally included in the repository for immediate use:
-
-```text
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
-```
-
-Corpus details:
-
-| Property | Value |
-|----------|-------|
-| Corpus | EBA Current Applicable |
-| Version | 2026-06-01 |
-| Documents | 188 |
-| Chunks | 29,952 |
-| Vectors | 29,952 |
-| Embedding model | `nomic-embed-text` |
-| Embedding dim | 768 |
-| Language | English |
-
-No corpus build is required for installation. The database already contains SQLite FTS5 search data and `sqlite-vec` vectors for hybrid retrieval.
-
-## Install Commands
+### 1. Clone the repository
 
 ```bash
 git clone <REPOSITORY_URL> eba-mcp
 cd eba-mcp
+```
+
+### 2. Install Node dependencies
+
+```bash
 npm install
+```
+
+### 3. Build the MCP server
+
+```bash
 npm run build
 ```
 
-## Optional Ollama Setup
+This compiles TypeScript to `dist/index.js`.
 
-Hybrid retrieval embeds the query at runtime with Ollama and fuses semantic results with FTS5 keyword results. FTS-only retrieval works without Ollama.
+### 4. Generate the corpus database (required — see Part 2)
 
-1. Install Ollama from <https://ollama.com/>.
-2. Start Ollama.
-3. Pull the embedding model:
+The production database is not included in the repository. Before starting the server, generate it locally:
 
-   ```bash
-   ollama pull nomic-embed-text
-   ```
-
-By default, EBA MCP connects to Ollama at:
-
-```text
-OLLAMA_URL=http://localhost:11434
+```bash
+# Quick check: does the DB already exist from a previous run?
+ls data/corpora/*.db 2>/dev/null || echo "No corpus DB found — run Part 2 to generate."
 ```
 
-Override `OLLAMA_URL` only if your Ollama service uses a different host or port.
+### 5. Start the MCP server
 
-## Start Command
-
-From the repository root:
+Once the database exists:
 
 ```bash
 node dist/index.js --db data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
 ```
 
-For MCP client configuration, prefer absolute paths:
+For MCP client configuration, use absolute paths:
 
 ```bash
-node /absolute/path/to/eba-mcp/dist/index.js --db /absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+node /absolute/path/to/eba-mcp/dist/index.js \
+  --db /absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
 ```
 
-The server communicates over stdio JSON-RPC. It does not start an HTTP server.
+### 6. Optional: Ollama for hybrid retrieval
+
+Hybrid retrieval embeds the query at runtime with Ollama and fuses semantic results with FTS5 keyword results. FTS-only retrieval works without Ollama.
+
+```bash
+# Install Ollama from https://ollama.com/, then:
+ollama pull nomic-embed-text
+```
+
+Default Ollama URL: `http://localhost:11434`. Override with `OLLAMA_URL` env var if needed.
+
+---
+
+## Part 2: Corpus Generation
+
+The corpus database (~147 MB) is generated locally by the Python pipeline. It is too large for Git and is therefore excluded from the repository. The manifest JSON (`*.manifest.json`) is tracked as a lightweight reference only.
+
+### 2a. Install Python pipeline
+
+```bash
+cd pipeline
+uv sync
+```
+
+Verify the CLI is available:
+
+```bash
+uv run eba-pipeline --help
+```
+
+### 2b. Discover EBA publications
+
+Generate a seed manifest listing current/applicable EBA publications:
+
+```bash
+cd pipeline  # if not already there
+uv run eba-pipeline discover \
+  --profile current-applicable \
+  --output seed_documents_current.yaml \
+  --limit 350
+```
+
+Expected output: `Discovered NNN official EBA PDFs using profile=current-applicable -> seed_documents_current.yaml`
+
+### 2c. Download EBA PDFs
+
+```bash
+uv run eba-pipeline download \
+  --manifest seed_documents_current.yaml \
+  --output ../data/current-pdfs \
+  --continue-on-error
+```
+
+This downloads the PDFs to `data/current-pdfs/`. The `--continue-on-error` flag skips documents that fail to download.
+
+### 2d. Parse PDFs into structured chunks
+
+```bash
+uv run eba-pipeline parse \
+  --input ../data/current-pdfs \
+  --output ../data/current-parsed \
+  --manifest seed_documents_current.yaml
+```
+
+### 2e. Run quality gates
+
+```bash
+uv run eba-pipeline quality \
+  --input ../data/current-parsed \
+  --reports ../data/current-quality
+```
+
+Expected output: `Quality complete: N/N passed.`
+
+### 2f. Build the SQLite index with embeddings
+
+This step requires Ollama with `nomic-embed-text` to be running. It builds the FTS5 + vector index.
+
+```bash
+# Ensure Ollama is running and model is available:
+ollama pull nomic-embed-text
+
+# Build the index with embeddings:
+uv run eba-pipeline build-index \
+  --output ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
+  --processed ../data/current-parsed \
+  --quality-reports ../data/current-quality \
+  --seed seed_documents_current.yaml \
+  --embed \
+  --model nomic-embed-text \
+  --ollama-url http://localhost:11434 \
+  --batch-size 32
+```
+
+To build without embeddings (FTS-only, no Ollama required):
+
+```bash
+uv run eba-pipeline build-index \
+  --output ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
+  --processed ../data/current-parsed \
+  --quality-reports ../data/current-quality \
+  --seed seed_documents_current.yaml
+```
+
+Expected output ends with: `Build-index complete.`
+
+### 2g. Verify the database
+
+```bash
+# File should exist and be non-empty:
+ls -lh ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+```
+
+Run the citation round-trip check (verifies every stored chunk resolves back to its source citation):
+
+```bash
+uv run eba-pipeline eval \
+  --db ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
+  --mode citation-roundtrip
+```
+
+Expected output: `Citation round-trip: NNN/NNN passed (100.0%)`
+
+Optional: run the retrieval eval suite (requires the built `dist/index.js` at repo root):
+
+```bash
+uv run eba-pipeline eval \
+  --db ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
+  --queries eba_pipeline/eval/queries.yaml \
+  --tags full_curated_semantic
+```
+
+---
+
+## Part 3: Updating the Corpus
+
+To rebuild the corpus for a new date (e.g., `2026-09-01`):
+
+1. Re-run discovery with a new seed output name:
+
+   ```bash
+   cd pipeline
+   uv run eba-pipeline discover \
+     --profile current-applicable \
+     --output seed_documents_2026-09-01.yaml \
+     --limit 350
+   ```
+
+2. Download and parse as in steps 2c–2e above, pointing `--output` / `--input` to new versioned directories.
+
+3. Build the index with a new versioned DB filename:
+
+   ```bash
+   uv run eba-pipeline build-index \
+     --output ../data/corpora/eba-current-applicable-2026-09-01-nomic-embed-text.db \
+     --processed ../data/processed-2026-09-01 \
+     --quality-reports ../data/quality-2026-09-01 \
+     --seed seed_documents_2026-09-01.yaml \
+     --embed \
+     --model nomic-embed-text \
+     --ollama-url http://localhost:11434 \
+     --batch-size 32
+   ```
+
+4. Verify with citation round-trip check (step 2g).
+
+5. Update your MCP client config to point `--db` at the new versioned path.
+
+6. Keep the previous DB locally until you confirm the new version is stable.
+
+> **Note:** Do not mutate an existing production DB in place. Always build a new versioned file to allow rollback.
+
+---
 
 ## MCP Client Configuration
 
 ### Claude Desktop
 
-Add this to `claude_desktop_config.json`, replacing `/absolute/path/to/eba-mcp` with your clone path:
+Add to `claude_desktop_config.json`, replacing the path with your clone location:
 
 ```json
 {
@@ -156,7 +260,7 @@ Add this to `claude_desktop_config.json`, replacing `/absolute/path/to/eba-mcp` 
 }
 ```
 
-If Ollama is not available, use:
+Without Ollama:
 
 ```json
 "env": {
@@ -166,85 +270,35 @@ If Ollama is not available, use:
 
 ### Other MCP Clients
 
-Configure the client to launch:
-
 ```text
 command: node
-args: /absolute/path/to/eba-mcp/dist/index.js --db /absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+args:    /absolute/path/to/eba-mcp/dist/index.js
+         --db /absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
 ```
 
 Use stdio transport. This server does not expose HTTP, SSE, or Streamable HTTP.
 
+---
+
 ## Search Modes
 
-Set `EBA_SEARCH_MODE` to control retrieval:
+| Mode | Description |
+|------|-------------|
+| `auto` | Default. Uses hybrid when vectors + Ollama are available; falls back to FTS5. |
+| `fts_only` | SQLite FTS5 keyword search only. No Ollama required. |
+| `hybrid` | Requires vector-enabled DB and reachable Ollama. Fails if either is unavailable. |
 
-- `auto`: default. Uses hybrid retrieval when the vector table exists and Ollama is reachable; otherwise falls back to FTS5 keyword search.
-- `fts_only`: uses SQLite FTS5 keyword search only. Use this when Ollama is not installed, unavailable, too slow, or not desired.
-- `hybrid`: requires the vector-enabled DB and reachable Ollama. Use this when you want semantic retrieval and want failures surfaced if hybrid cannot run.
-
-Recommended consumer default:
-
-```text
-EBA_SEARCH_MODE=auto
-```
-
-Recommended no-Ollama setting:
-
-```text
-EBA_SEARCH_MODE=fts_only
-```
-
-## Verification
-
-Build verification:
-
-```bash
-npm run build
-```
-
-Smoke test against the included production corpus:
-
-```bash
-bash tests/integration/canonical-preference.sh data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-```
-
-The canonical-preference smoke test uses hybrid mode. Start Ollama and pull `nomic-embed-text` first, or expect it to fail because explicit `hybrid` requires runtime embeddings.
-
-## Agent Query Guidance
-
-- Use English queries. The corpus is English, and the default embedding model is optimized for English text.
-- Run multiple focused searches instead of one broad legal question.
-- Use EBA regulatory terms such as `customer due diligence`, `high-risk third countries`, `source of funds`, `beneficial ownership`, `PEP`, `ongoing monitoring`, and `risk factors`.
-- Cite only excerpts returned by the MCP tools.
-- Do not present MCP output as legal advice or a definitive legal interpretation.
-- Use `eba_get_paragraph` after discovery when you need surrounding context for a known `eba_id` and `paragraph_ref`.
-
-Example focused searches:
-
-```text
-customer due diligence risk factors business relationship transaction purpose
-high-risk third countries enhanced due diligence monitoring
-source of funds source of wealth verification risk factors
-ongoing monitoring customer risk profile transaction monitoring
-risk scoring methodology automated model override
-```
+---
 
 ## Troubleshooting
 
 ### `dist/index.js` is missing
 
-Run:
-
 ```bash
 npm run build
 ```
 
-The TypeScript server is compiled into `dist/` during the build step.
-
 ### `sqlite-vec` or native module install fails
-
-Check that you are using Node.js >= 18 on a supported OS and architecture. Remove `node_modules` and reinstall if the native package was installed under a different Node version:
 
 ```bash
 rm -rf node_modules package-lock.json
@@ -252,37 +306,39 @@ npm install
 npm run build
 ```
 
+Requires Node.js >= 18 on a supported OS and architecture.
+
 ### Ollama is unavailable
 
-If you do not need semantic retrieval, set:
-
-```text
-EBA_SEARCH_MODE=fts_only
-```
-
-If you want hybrid retrieval, start Ollama and pull the model:
+Set `EBA_SEARCH_MODE=fts_only` to use keyword-only search, or start Ollama and pull the model:
 
 ```bash
 ollama pull nomic-embed-text
 ```
 
-Confirm `OLLAMA_URL` points to the running service. The default is `http://localhost:11434`.
-
 ### Database is missing
 
-Confirm both files exist:
+The DB is not tracked in Git — it must be generated locally. Run Part 2 of this guide.
+
+To confirm which DB is expected:
 
 ```bash
-ls data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-ls data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
+cat data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
 ```
 
-If they are missing, the repository checkout is incomplete. Re-clone the repository or fetch large files according to the repository host's instructions.
+The manifest JSON (tracked in Git) describes the target corpus version, document count, chunk count, and sha256 of the expected DB file.
 
 ### Permissions or path problems
 
-Use absolute paths in MCP client configuration. Make sure the user running the MCP client can read the cloned repository, `dist/index.js`, and the production database.
+Use absolute paths in MCP client configuration. Ensure the user running the MCP client can read `dist/index.js` and the corpus database.
 
-### MCP client starts but tools return no hybrid results
+---
 
-Check `EBA_SEARCH_MODE`. In `auto`, the server can fall back to FTS5 when Ollama is unavailable. In `hybrid`, Ollama must be reachable and the `nomic-embed-text` model must be installed.
+## Agent Query Guidance
+
+- Use English queries. The corpus is English, and `nomic-embed-text` is optimized for English.
+- Run multiple focused searches rather than one broad legal question.
+- Use EBA regulatory terms: `customer due diligence`, `high-risk third countries`, `source of funds`, `beneficial ownership`, `PEP`, `ongoing monitoring`, `risk factors`.
+- Cite only excerpts returned by the MCP tools.
+- Do not present MCP output as legal advice or a definitive legal interpretation.
+- Use `eba_get_paragraph` after discovery when you need surrounding context for a known `eba_id` and `paragraph_ref`.

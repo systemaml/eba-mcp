@@ -45,9 +45,6 @@ data/eba.db
 data/*.db
 data/*.db-*
 data/corpora/*.db
-data/corpora/*.manifest.json
-!data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-!data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
 
 # SQLite sidecars
 *.db-wal

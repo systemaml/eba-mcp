@@ -1,0 +1,25 @@
+{
+  "corpus_name": "eba-current-applicable",
+  "corpus_version": "2026-06-01",
+  "source_profile": "current-applicable",
+  "db_path": "data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db",
+  "db_sha256": "8b59e802bc08281dd43fd3302a80ba5e6d2acf22c2d06298f93969a48eefd68b",
+  "db_size_bytes": 147427328,
+  "document_count": 188,
+  "chunk_count": 29952,
+  "vector_count": 29952,
+  "embedding_model": "nomic-embed-text",
+  "embedding_dim": 768,
+  "language": "en",
+  "eval_summary": {
+    "tag": "full_curated_semantic",
+    "fixtures": 30,
+    "hybrid_mrr": 0.741,
+    "hybrid_recall_at_10": 1.0,
+    "fts_mrr": 0.571,
+    "fts_recall_at_10": 0.867,
+    "result": "PASS 30/30"
+  },
+  "created_at": "2026-06-01T11:40:55.056410+00:00",
+  "versioned_at": "2026-06-01T00:00:00Z"
+}

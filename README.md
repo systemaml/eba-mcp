@@ -4,16 +4,16 @@ A Model Context Protocol (MCP) server that provides structured access to current
 
 ## Consumer Install
 
-For clone-and-run setup, see [INSTALL.md](INSTALL.md). Normal consumers only need Git, Node.js >= 18, npm, an MCP-compatible client, and optionally Ollama for hybrid semantic retrieval.
+For full setup, see [INSTALL.md](INSTALL.md). You need Git, Node.js >= 18, npm, Python >= 3.11, uv, an MCP-compatible client, and optionally Ollama for hybrid semantic retrieval.
 
-The versioned production corpus is intentionally included in this repository for immediate use:
+The production corpus database (~147 MB) is **not included in the repository** — it must be generated locally using the Python pipeline. The manifest JSON is tracked as a lightweight reference:
 
 ```text
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
+data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json  # tracked
+data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db             # generated locally
 ```
 
-No corpus-building pipeline is required to run the MCP server with the production corpus.
+See [INSTALL.md](INSTALL.md) for step-by-step corpus generation commands (`uv run eba-pipeline discover`, `download`, `parse`, `quality`, `build-index`).
 
 ## What It Is
 
@@ -192,9 +192,9 @@ eba-mcp/
 │   ├── eba_pipeline/  # Pipeline package
 │   └── pyproject.toml
 ├── data/
-│   ├── corpora/       # Versioned production corpus artifacts
-│   │   ├── eba-current-applicable-2026-06-01-nomic-embed-text.db
-│   │   └── eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
+│   ├── corpora/       # Versioned corpus artifacts (DB generated locally, manifest tracked)
+│   │   ├── eba-current-applicable-2026-06-01-nomic-embed-text.db        # generated locally (not in Git)
+│   │   └── eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json  # tracked
 │   ├── raw/           # Downloaded PDFs (source provenance)
 │   ├── processed/     # Parsed chunks (intermediate)
 │   └── quality_reports/
@@ -239,7 +239,7 @@ The current production corpus is:
 data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
 ```
 
-This versioned production corpus and its manifest are intentionally tracked in Git so consumers and LLM agents can run the MCP server immediately after clone, install, and build.
+The database (~147 MB) is **not tracked in Git** — generate it locally using the pipeline (see [INSTALL.md](INSTALL.md), Part 2). The manifest JSON is tracked as a reference.
 
 | Property | Value |
 |----------|-------|
