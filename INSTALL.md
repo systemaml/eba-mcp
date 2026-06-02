@@ -19,7 +19,7 @@ This guide is for consumers and LLM agents that need to clone and run the EBA MC
 ### 1. Clone the repository
 
 ```bash
-git clone <REPOSITORY_URL> eba-mcp
+git clone git@github.com:systemaml/eba-mcp.git eba-mcp
 cd eba-mcp
 ```
 
