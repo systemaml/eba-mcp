@@ -8,15 +8,19 @@ Transport is stdio only. Runtime command (production corpus):
 node dist/index.js --db data/corpora/eba-corpus.db
 ```
 
-The server exposes exactly nine tools:
+The server exposes eleven tools:
 
 1. `eba_search`
 2. `eba_get_document`
 3. `eba_get_paragraph`
-4. `eba_list_documents`
-5. `eba_corpus_info`
-
-The additional tools `eba_get_status`, `eba_get_versions`, `eba_validate_citation`, and `eba_diff_versions` are implemented below.
+4. `eba_get_section`
+5. `eba_get_toc`
+6. `eba_list_documents`
+7. `eba_corpus_info`
+8. `eba_get_status`
+9. `eba_get_versions`
+10. `eba_validate_citation`
+11. `eba_diff_versions`
 
 ## Common response fields
 
@@ -84,7 +88,7 @@ Search EBA document chunks. Uses SQLite FTS5 keyword search by default (`fts_onl
 }
 ```
 
-All filters are applied in the FTS path. Exact `eba_id` lookup is supported when `query` itself is an EBA ID or when only `filters.eba_id` is provided.
+All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is supported when `query` itself is an EBA ID or when only `filters.eba_id` is provided.
 
 `include_context: true` includes neighboring chunks around each hit in the returned citation list.
 
@@ -139,6 +143,70 @@ Return all chunks matching a paragraph reference in a document. Some source PDFs
 ```
 
 Context bounds are integers from 0 to 3.
+
+If an `eba_search` result has `paragraph_ref: null`, this tool cannot retrieve it by paragraph. Use `eba_get_section` for nearby section navigation or `eba_validate_citation` for the returned `citation_id`.
+
+## `eba_get_section`
+
+Return citation chunks for a numbered section or paragraph-prefix inside one document. For example, `section: "4"` matches `paragraph_ref` values `4`, `4.1`, `4.2`, etc., plus matching `section_path` headings.
+
+### Input
+
+```json
+{
+  "eba_id": "EBA/GL/2021/02",
+  "section": "4",
+  "language": "en",
+  "limit": 200
+}
+```
+
+### Output
+
+```json
+{
+  "answerability": "exact",
+  "section": "4",
+  "total_chunks": 25,
+  "citations": [{ "citation": "EBA/GL/2021/02, para. 4.1, p. 18" }]
+}
+```
+
+This is best-effort and depends on parsed `paragraph_ref` / `section_path` metadata.
+
+## `eba_get_toc`
+
+Return a best-effort outline for one document, grouped by parsed `section_path` and enriched with paragraph, page, and sequence ranges.
+
+### Input
+
+```json
+{ "eba_id": "EBA/GL/2021/02", "language": "en", "limit": 200 }
+```
+
+### Output
+
+```json
+{
+  "answerability": "exact",
+  "toc": [
+    {
+      "section_path": "4. Customer due diligence",
+      "paragraph_refs": ["4", "4.1", "4.2"],
+      "first_paragraph_ref": "4",
+      "last_paragraph_ref": "4.2",
+      "page_start": 18,
+      "page_end": 21,
+      "first_sequence_no": 80,
+      "last_sequence_no": 92,
+      "chunk_count": 13
+    }
+  ],
+  "total": 1
+}
+```
+
+The outline is derived from parser metadata and is not guaranteed to match the printed PDF table of contents exactly.
 
 ## `eba_list_documents`
 
@@ -327,6 +395,6 @@ Compare two versions of a specific EBA document.
 
 - No HTTP/SSE transport (stdio only; Streamable HTTP planned for future milestone).
 - Hybrid semantic search is active when `EBA_SEARCH_MODE=hybrid` or `auto` and a vector-enabled DB + local Ollama are available; FTS5 is always the fallback.
-- `application_date` always returns `null` (column not yet in schema).
+- `application_date` depends on successful pipeline metadata extraction and may be `null` for documents where no date was detected.
 - Version history limited to single `1.0` entry per document (full version tracking planned for future milestone).
 - Incremental index updates are not implemented; corpus updates require a full rebuild and a new GitHub Release artifact named `eba-corpus.db`.

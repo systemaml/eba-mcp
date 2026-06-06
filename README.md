@@ -19,7 +19,7 @@ See [INSTALL.md](INSTALL.md) for step-by-step corpus generation commands (`uv ru
 This project is a two-part system:
 
 1. **Python Pipeline** (`pipeline/`) — ingests EBA PDF publications, parses them into structured chunks, performs quality checks, and builds a SQLite/FTS5 full-text search index.
-2. **TypeScript MCP Server** (`src/`) — serves 9 MCP tools over stdio JSON-RPC, enabling AI assistants (Claude, etc.) to search and cite official EBA documents with precision.
+2. **TypeScript MCP Server** (`src/`) — serves 11 MCP tools over stdio JSON-RPC, enabling AI assistants (Claude, etc.) to search and cite official EBA documents with precision.
 
 The architecture is citation-first: every response includes document ID, page reference, and exact text extracted from the source PDF — making it suitable for compliance research where traceability matters.
 
@@ -136,8 +136,10 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 | Tool | Description |
 |------|-------------|
 | `eba_search` | FTS/hybrid search across indexed EBA documents with citation results |
-| `eba_get_document` | Get all chunks for a specific EBA document by ID |
+| `eba_get_document` | Get metadata and leading citations for a specific EBA document by ID |
 | `eba_get_paragraph` | Get a specific paragraph with optional surrounding context |
+| `eba_get_section` | Get all citation chunks matching a section or paragraph prefix |
+| `eba_get_toc` | Get a best-effort document outline with paragraph and page ranges |
 | `eba_list_documents` | List indexed documents with optional filters |
 | `eba_corpus_info` | Get corpus statistics and manifest info |
 | `eba_get_status` | Get publication and applicability status for a document |
@@ -147,11 +149,15 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 ### Tool Details
 
-**`eba_search`** — Searches indexed EBA chunks and returns citation objects with document ID, page, paragraph reference, and text excerpt. Retrieval is controlled by `EBA_SEARCH_MODE`: `fts_only` uses SQLite FTS5, `hybrid` requires sqlite-vec vectors plus query-time Ollama embeddings, and `auto` uses hybrid when available while preserving citation-first results.
+**`eba_search`** — Searches indexed EBA chunks and returns citation objects with document ID, page, paragraph reference, and text excerpt. Retrieval is controlled by `EBA_SEARCH_MODE`: `fts_only` uses SQLite FTS5, `hybrid` requires sqlite-vec vectors plus query-time Ollama embeddings, and `auto` uses hybrid when available while preserving citation-first results. Supports filters including `eba_id`, `document_type`, `topic`, `publication_status`, and `applicability_status`.
 
-**`eba_get_document`** — Returns all parsed chunks for a given document identifier. Useful for reading a full guideline section by section.
+**`eba_get_document`** — Returns document metadata and leading parsed chunks for a given document identifier. Use `eba_get_toc` and `eba_get_section` for document navigation.
 
 **`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters to include surrounding chunks.
+
+**`eba_get_section`** — Retrieves chunks where `paragraph_ref` or `section_path` matches a section prefix such as `4` or `4.7`. This is a quick way to read a whole EBA guideline section after search discovery.
+
+**`eba_get_toc`** — Returns a best-effort outline derived from parsed `section_path`, paragraph references, page ranges, and sequence ranges. It is not a guaranteed extraction of the PDF's printed table of contents.
 
 **`eba_list_documents`** — Lists all documents in the index with metadata (title, publication date, document type). Supports optional type/keyword filters.
 
@@ -170,7 +176,7 @@ Good AML risk-scoring query patterns include:
 - `ongoing monitoring customer risk profile transaction monitoring`
 - `risk weighting scoring methodology automated model override`
 
-Use `eba_get_paragraph` after discovery when an exact `eba_id` and `paragraph_ref` need surrounding context for a citation.
+Use `eba_get_paragraph` after discovery when an exact `eba_id` and `paragraph_ref` need surrounding context for a citation. If a result has `paragraph_ref: null`, use `eba_get_section`/`eba_get_toc` or validate the `citation_id` instead of trying paragraph navigation.
 
 ---
 

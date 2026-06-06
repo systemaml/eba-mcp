@@ -108,7 +108,7 @@ Docling is reserved as a potential fallback for difficult PDFs in MVP. The POC u
 | Module | Responsibility |
 |--------|----------------|
 | `server.ts` | Instantiates the MCP server over stdio, registers tools, handles lifecycle |
-| `tools.ts` | Implements the 9 MCP tools: eba_search, eba_get_document, eba_get_paragraph, eba_list_documents, eba_corpus_info, eba_get_status, eba_get_versions, eba_validate_citation, eba_diff_versions |
+| `tools.ts` | Implements the MCP tools: eba_search, eba_get_document, eba_get_paragraph, eba_get_section, eba_get_toc, eba_list_documents, eba_corpus_info, eba_get_status, eba_get_versions, eba_validate_citation, eba_diff_versions |
 | `schemas.ts` | Zod schemas for input validation and output structure |
 | `sqlite.ts` | Opens the SQLite corpus DB at the path provided via `--db` CLI argument via better-sqlite3; conditionally loads the sqlite-vec extension when the DB contains a `chunks_vec` table; provides query helpers |
 | `retrieval.ts` | Executes FTS5 queries with escaping, ranking, and filtering; exact eba_id matches bypass FTS |
