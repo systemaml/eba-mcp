@@ -71,6 +71,36 @@ PY
     if [ "$counts_as_tool" = "true" ]; then
       TOOL_FAIL=$((TOOL_FAIL + 1))
     fi
+  fi
+}
+
+assert_mcp_envelope() {
+  local name="$1"
+  local result="$2"
+  local expected="$3"
+  local counts_as_tool="${4:-false}"
+
+  if RESULT_JSON="$result" ASSERT_CODE="$expected" python3 - <<'PY'
+import json
+import os
+
+outer = json.loads(os.environ["RESULT_JSON"])
+assert "result" in outer, "missing result envelope"
+namespace = {"outer": outer, "payload": outer["result"]}
+exec(os.environ["ASSERT_CODE"], namespace)
+PY
+  then
+    echo "[PASS] $name"
+    PASS=$((PASS + 1))
+    if [ "$counts_as_tool" = "true" ]; then
+      TOOL_PASS=$((TOOL_PASS + 1))
+    fi
+  else
+    echo "[FAIL] $name"
+    FAIL=$((FAIL + 1))
+    if [ "$counts_as_tool" = "true" ]; then
+      TOOL_FAIL=$((TOOL_FAIL + 1))
+    fi
     print_response "$result"
   fi
 }
@@ -97,6 +127,29 @@ print(json.dumps({
         "name": tool_name,
         "arguments": args,
     },
+}))
+PY
+}
+
+mcp_call() {
+  local db_path="$1"
+  local method="$2"
+  local params_json="$3"
+  local request_id="$4"
+
+  python3 - "$method" "$params_json" "$request_id" <<'PY' | node dist/index.js --db "$db_path" 2>/dev/null
+import json
+import sys
+
+method = sys.argv[1]
+params = json.loads(sys.argv[2])
+request_id = int(sys.argv[3])
+
+print(json.dumps({
+    "jsonrpc": "2.0",
+    "id": request_id,
+    "method": method,
+    "params": params,
 }))
 PY
 }
@@ -185,6 +238,16 @@ run_real_db_checks() {
   aml_compliance_officers_present="$(sqlite_value "$db_path" "SELECT COUNT(*) FROM documents WHERE eba_id = 'EBA/GL/2022/05'")"
 
   local res
+
+  res="$(mcp_call "$db_path" 'tools/list' '{}' 1)"
+  assert_mcp_envelope "tools/list exposes all 11 MCP tools" "$res" "
+expected = {
+  'eba_search', 'eba_get_document', 'eba_get_paragraph', 'eba_get_section',
+  'eba_get_toc', 'eba_get_versions', 'eba_diff_versions', 'eba_list_documents',
+  'eba_corpus_info', 'eba_get_status', 'eba_validate_citation',
+}
+assert expected.issubset({t['name'] for t in payload['tools']})
+" true
 
   res="$(call_tool "$db_path" "eba_corpus_info" '{}' 1)"
   assert_json "eba_corpus_info returns corpus metadata" "$res" "

@@ -203,6 +203,18 @@ assert_error "prototype key in eba_diff_versions is rejected by .strict()" "$res
 res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"   "}' 19)"
 assert_error "whitespace-only query is rejected after normalization" "$res"
 
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"AML","filters":{"exclude_consultation_responses":"true"}}' 20)"
+assert_error "exclude_consultation_responses string 'true' is rejected, JSON boolean required" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"AML","filters":{"exclude_consultation_responses":true}}' 21)"
+if [ -n "$res" ]; then
+  echo "[PASS] exclude_consultation_responses JSON true is accepted"
+  PASS=$((PASS + 1))
+else
+  echo "[FAIL] exclude_consultation_responses JSON true is accepted"
+  FAIL=$((FAIL + 1))
+fi
+
 echo
 echo "Results: $PASS passed, $FAIL failed"
 if [ "$FAIL" -eq 0 ]; then
