@@ -29,7 +29,7 @@ DOCUMENT_TYPES: dict[str, tuple[str, str]] = {
 }
 
 DISCOVERY_PROFILES: dict[str, list[str]] = {
-    "current-applicable": ["250", "248", "247"],
+    "current-applicable": ["250", "248", "247", "252"],
     "broad": list(DOCUMENT_TYPES),
 }
 
@@ -45,7 +45,7 @@ AMENDING_ONLY_RE = re.compile(r"\b(amending|amended|amends|amendment)\b", re.I)
 CONSOLIDATED_RE = re.compile(r"\bconsolidated\b", re.I)
 
 CURRENT_APPLICABLE_INCLUDE_RE = re.compile(
-    r"\b(guidelines?|recommendations?|regulatory\s+technical\s+standards?|implementing\s+technical\s+standards?|RTS|ITS)\b",
+    r"\b(guidelines?|recommendations?|opinion|regulatory\s+technical\s+standards?|implementing\s+technical\s+standards?|RTS|ITS)\b",
     re.I,
 )
 
@@ -147,12 +147,11 @@ def fetch_page(session: requests.Session, document_type_id: str, page: int) -> s
 def is_current_applicable_candidate(title: str, url: str, document_type: str) -> bool:
     """First-pass production filter for current/applicable regulatory material.
 
-    This deliberately errs on the conservative side: if a PDF looks like a consultation,
-    draft/proposal, track-changes file, annex/instruction, or mapping/support artefact,
-    it is excluded from the default production corpus. Legal lifecycle status still needs
-    relationship/status curation later; this is not a complete supersession engine.
+    Covers guidelines, RTS, ITS, and opinions. Deliberately excludes consultations,
+    drafts, proposals, track-changes files, annexes, and mapping/support artefacts.
+    Legal lifecycle status still needs relationship/status curation later.
     """
-    if document_type not in {"guidelines", "rts", "its"}:
+    if document_type not in {"guidelines", "rts", "its", "opinion"}:
         return False
     text = f"{title} {unescape(url)}".replace("%20", " ").replace("_", " ").replace("-", " ")
     if CURRENT_APPLICABLE_EXCLUDE_RE.search(text):
