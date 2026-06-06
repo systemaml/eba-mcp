@@ -7,11 +7,11 @@ import requests
 
 DEFAULT_BATCH_SIZE = 32
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
-DEFAULT_RETRIES = 3
-DEFAULT_TIMEOUT_SECONDS = 60
+DEFAULT_RETRIES = 5
+DEFAULT_TIMEOUT_SECONDS = 180
 NOMIC_EMBED_TEXT_DIM = 768
 NORM_TOLERANCE = 1e-3
-RETRY_BACKOFF_SECONDS = (0.5, 1.0)
+RETRY_BACKOFF_SECONDS = (1.0, 4.0, 16.0, 60.0)
 
 ChunkRecord = Mapping[str, object]
 EmbeddingVector = list[float]
@@ -87,20 +87,31 @@ def _embed_with_retries(
     expected_dim: int | None,
 ) -> list[EmbeddingVector]:
     last_error: Exception | None = None
+    current_batch = list(batch_texts)
 
     for attempt in range(1, DEFAULT_RETRIES + 1):
         try:
             return _request_embeddings(
-                batch_texts=batch_texts,
+                batch_texts=current_batch,
                 model=model,
                 endpoint=endpoint,
                 expected_dim=expected_dim,
             )
+        except requests.Timeout as error:
+            last_error = error
+            if len(current_batch) > 1:
+                halved = max(1, len(current_batch) // 2)
+                print(f"  [retry {attempt}/{DEFAULT_RETRIES}] Timeout — halving batch {len(current_batch)} → {halved}")
+                current_batch = current_batch[:halved]
+            else:
+                print(f"  [retry {attempt}/{DEFAULT_RETRIES}] Timeout on single-item batch — waiting before retry")
         except (requests.RequestException, ValueError, EmbeddingGenerationError) as error:
             last_error = error
             if attempt == DEFAULT_RETRIES:
                 break
-            time.sleep(RETRY_BACKOFF_SECONDS[attempt - 1])
+            print(f"  [retry {attempt}/{DEFAULT_RETRIES}] {type(error).__name__}: {error}")
+        backoff = RETRY_BACKOFF_SECONDS[min(attempt - 1, len(RETRY_BACKOFF_SECONDS) - 1)]
+        time.sleep(backoff)
 
     raise EmbeddingGenerationError(
         f"Ollama embedding request failed after {DEFAULT_RETRIES} attempts for batch size {len(batch_texts)}: {last_error}"

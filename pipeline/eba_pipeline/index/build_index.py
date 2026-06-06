@@ -33,8 +33,29 @@ def build_index(
     model: str = "nomic-embed-text",
     ollama_url: str = "http://localhost:11434",
     batch_size: int = 32,
+    resume: bool = False,
 ) -> None:
     import yaml
+
+    if resume and output_db.exists():
+        if not embed:
+            raise ValueError("--resume requires --embed (nothing to resume without embedding step)")
+        print(f"  Resume mode: reusing existing DB {output_db}")
+        conn = get_connection(output_db)
+        _populate_vectors(conn, model=model, ollama_url=ollama_url, batch_size=batch_size, resume=True)
+        manifest_hash = hashlib.sha256(
+            "|".join(sorted(
+                str(row[0]) for row in conn.execute("SELECT chunk_id FROM chunks").fetchall()
+            )).encode()
+        ).hexdigest()
+        doc_count = cast(int, conn.execute("SELECT count(*) FROM documents").fetchone()[0])
+        actual_chunks = cast(int, conn.execute("SELECT count(*) FROM chunks").fetchone()[0])
+        from eba_pipeline.index.embeddings import NOMIC_EMBED_TEXT_DIM, _expected_embedding_dim
+        embedding_dim = _expected_embedding_dim(model) or NOMIC_EMBED_TEXT_DIM
+        update_corpus_manifest(conn, manifest_hash, doc_count, actual_chunks, embedding_model=model, embedding_dim=embedding_dim)
+        print(f"  Manifest: {doc_count} docs, {actual_chunks} chunks, embedding_model={model}, embedding_dim={embedding_dim}, hash={manifest_hash[:16]}...")
+        conn.close()
+        return
 
     if output_db.exists():
         output_db.unlink()
@@ -141,7 +162,7 @@ def build_index(
     print(f"  FTS populated: {fts_count} entries")
 
     if embed:
-        _populate_vectors(conn, model=model, ollama_url=ollama_url, batch_size=batch_size)
+        _populate_vectors(conn, model=model, ollama_url=ollama_url, batch_size=batch_size, resume=False)
 
     manifest_hash = hashlib.sha256("|".join(sorted(all_chunk_ids)).encode()).hexdigest()
     doc_count = cast(int, conn.execute("SELECT count(*) FROM documents").fetchone()[0])
@@ -164,13 +185,28 @@ def _populate_vectors(
     model: str,
     ollama_url: str,
     batch_size: int,
+    resume: bool = False,
 ) -> None:
     from eba_pipeline.index.embeddings import NOMIC_EMBED_TEXT_DIM, _expected_embedding_dim, generate_embeddings
 
     embedding_dim = _expected_embedding_dim(model) or NOMIC_EMBED_TEXT_DIM
     init_vec_schema(conn, embedding_dim)
 
-    rows = conn.execute("SELECT rowid, chunk_id, text FROM chunks ORDER BY rowid").fetchall()
+    if resume:
+        rows = conn.execute(
+            "SELECT c.rowid, c.chunk_id, c.text FROM chunks c"
+            " WHERE c.rowid NOT IN (SELECT rowid FROM chunks_vec)"
+            " ORDER BY c.rowid"
+        ).fetchall()
+        already_done = cast(int, conn.execute("SELECT count(*) FROM chunks_vec").fetchone()[0])
+        total_in_db = cast(int, conn.execute("SELECT count(*) FROM chunks").fetchone()[0])
+        if not rows:
+            print(f"  Resume: all {total_in_db} chunks already embedded, nothing to do.")
+            return
+        print(f"  Resume: {already_done}/{total_in_db} already embedded, continuing with {len(rows)} remaining...")
+    else:
+        rows = conn.execute("SELECT rowid, chunk_id, text FROM chunks ORDER BY rowid").fetchall()
+
     chunk_records = [{"chunk_id": row[1], "text": row[2]} for row in rows]
     rowids = [row[0] for row in rows]
 
@@ -183,8 +219,9 @@ def _populate_vectors(
 
         insert_chunk_vectors(conn, list(zip(rowids, vectors)))
     except Exception:
-        conn.execute("DROP TABLE IF EXISTS chunks_vec")
-        conn.commit()
+        if not resume:
+            conn.execute("DROP TABLE IF EXISTS chunks_vec")
+            conn.commit()
         raise
 
     vec_count = cast(int, conn.execute("SELECT count(*) FROM chunks_vec").fetchone()[0])
