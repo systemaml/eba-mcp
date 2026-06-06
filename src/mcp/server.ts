@@ -31,7 +31,7 @@ import {
 } from './tools.js';
 
 const EBA_ID_PATTERN = '^EBA/[A-Za-z][A-Za-z-]*/\\d{4}/\\d+$';
-const CHUNK_ID_PATTERN = '^[A-Za-z0-9][A-Za-z0-9:_-]*$';
+const CHUNK_ID_PATTERN = '^[A-Za-z0-9][A-Za-z0-9:._-]*$';
 const PARAGRAPH_REF_PATTERN = '^[A-Za-z0-9][A-Za-z0-9 ._/-]*$';
 const SECTION_REF_PATTERN = '^[A-Za-z0-9][A-Za-z0-9 ._/-]*$';
 const VERSION_LABEL_PATTERN = '^[A-Za-z0-9][A-Za-z0-9 ._/-]*$';
@@ -44,13 +44,14 @@ const FILTER_PROPERTIES = {
   applicability_status: { type: 'string', maxLength: 80, pattern: FILTER_STRING_PATTERN },
   language: { type: 'string', enum: ['en'] },
   eba_id: { type: 'string', maxLength: 40, pattern: EBA_ID_PATTERN },
+  exclude_consultation_responses: { type: 'boolean' },
 };
 
 const TOOLS = [
   {
     name: 'eba_search',
     description:
-      'Discover citation-ready excerpts from the English EBA corpus. Start here for unknown paragraphs or concepts, then use eba_get_paragraph, eba_get_section, or eba_get_toc for navigation. Use English regulatory terms and focused searches. Supports filters.eba_id, document_type, topic, publication_status, applicability_status, and language=en. Warning: paragraph_ref can be null for headings/tables/unnumbered chunks; use citation_id via eba_validate_citation or section/page context when paragraph navigation is unavailable. Returns excerpts and citations, not legal advice.',
+      'Discover citation-ready excerpts from the English EBA corpus. Start here for unknown paragraphs or concepts, then use eba_get_paragraph, eba_get_section, or eba_get_toc for navigation. Use English regulatory terms and focused searches. Supports filters.eba_id, document_type, topic, publication_status, applicability_status, language=en, and exclude_consultation_responses. Warning: paragraph_ref can be null for headings/tables/unnumbered chunks; use citation_id via eba_validate_citation or section/page context when paragraph navigation is unavailable. Returns excerpts and citations, not legal advice.',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -66,7 +67,7 @@ const TOOLS = [
           type: 'object',
           additionalProperties: false,
           properties: FILTER_PROPERTIES,
-          description: 'Optional exact-match filters. Example: {"eba_id":"EBA/GL/2021/02","document_type":"guidelines","publication_status":"final","topic":"AML/CFT"}.',
+          description: 'Optional filters. Example: {"eba_id":"EBA/GL/2021/02","document_type":"guidelines","publication_status":"final","topic":"AML/CFT","exclude_consultation_responses":true}. topic="AML/CFT" also matches AML-relevant document titles whose corpus topic is a publication facet such as "EBA guidelines".',
         },
         limit: { type: 'number', minimum: 1, maximum: 50, description: 'Max results (default 10)', default: 10 },
         include_context: { type: 'boolean', description: 'Include one neighboring chunk before and after each hit. Use when a citation appears to be a continuation of adjacent paragraphs.', default: false },
@@ -162,7 +163,7 @@ const TOOLS = [
   },
   {
     name: 'eba_list_documents',
-    description: 'List all EBA documents in the corpus with optional filters',
+    description: 'List all EBA documents in the corpus with optional filters. topic="AML/CFT" also matches documents whose title contains AML-relevant keywords, matching the same heuristic expansion as eba_search.',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -206,7 +207,7 @@ const TOOLS = [
       type: 'object',
       additionalProperties: false,
       properties: {
-        chunk_id: { type: 'string', minLength: 1, maxLength: 240, pattern: CHUNK_ID_PATTERN, description: 'Chunk ID to validate (e.g. EBA-GL-2021-02:001921c3:en:p:seq-527)' },
+        chunk_id: { type: 'string', minLength: 1, maxLength: 240, pattern: CHUNK_ID_PATTERN, description: 'Chunk ID to validate (e.g. EBA-GL-2021-02:001921c3:en:p:3.6:p37:s114)' },
       },
       required: ['chunk_id'],
     },

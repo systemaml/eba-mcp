@@ -40,6 +40,7 @@ export interface SearchFilters {
   applicability_status?: string;
   language?: string;
   eba_id?: string;
+  exclude_consultation_responses?: boolean;
 }
 
 export interface TocEntry {

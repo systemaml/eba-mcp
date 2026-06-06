@@ -54,16 +54,16 @@ export const SectionRef = z
   );
 
 /**
- * Chunk ID — e.g. "EBA-GL-2021-02:001921c3:en:p:seq-527".
- * Max 240 chars; allows letters, digits, colons, hyphens, underscores.
+ * Chunk ID — e.g. "EBA-GL-2021-02:001921c3:en:p:3.6:p37:s114".
+ * Max 240 chars; allows letters, digits, colons, dots, hyphens, underscores.
  */
 export const ChunkId = z
   .string()
   .min(1, 'chunk_id must not be empty')
   .max(240, 'chunk_id exceeds 240 characters')
   .regex(
-    /^[A-Za-z0-9][A-Za-z0-9:_-]*$/,
-    'chunk_id contains invalid characters (allowed: letters, digits, : _ -)',
+    /^[A-Za-z0-9][A-Za-z0-9:._-]*$/,
+    'chunk_id contains invalid characters (allowed: letters, digits, : . _ -)',
   );
 
 /**
@@ -102,6 +102,7 @@ const SearchFilters = z
     applicability_status: FilterString.optional(),
     language: Language.optional(),
     eba_id: EbaId.optional(),
+    exclude_consultation_responses: z.boolean().optional(),
   })
   .strict();
 
