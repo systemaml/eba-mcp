@@ -2,6 +2,7 @@ import Database from 'better-sqlite3';
 
 import { EMBEDDING_MODEL, OLLAMA_TIMEOUT_MS, OLLAMA_URL, RRF_K, RRF_WEIGHT_FTS, RRF_WEIGHT_VEC } from '../config.js';
 import { embedQuery } from './embed.js';
+import { addConsultationResponseExclusion, addTopicFilter } from './filter-helpers.js';
 import { FtsResult, ftsSearch } from './fts.js';
 import { Chunk, SearchFilters } from './types.js';
 import { VectorResult, vectorSearch } from './vector.js';
@@ -39,10 +40,7 @@ function filterVectorResults(
     conditions.push('d.document_type = ?');
     params.push(filters.document_type);
   }
-  if (filters.topic) {
-    conditions.push('d.topic = ?');
-    params.push(filters.topic);
-  }
+  addTopicFilter(conditions, params, filters);
   if (filters.publication_status) {
     conditions.push('d.publication_status = ?');
     params.push(filters.publication_status);
@@ -55,6 +53,7 @@ function filterVectorResults(
     conditions.push('c.language = ?');
     params.push(filters.language);
   }
+  addConsultationResponseExclusion(conditions, filters);
 
   if (conditions.length === 0) {
     return results;

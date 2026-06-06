@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 
+import { addConsultationResponseExclusion, addTopicFilter } from './filter-helpers.js';
 import { Chunk, SearchFilters } from './types.js';
 
 const FTS5_RESERVED = new Set(['and', 'or', 'not']);
@@ -58,10 +59,11 @@ export function ftsSearch(
     const params: unknown[] = [ftsQuery];
     addFilter(conditions, params, filters, 'eba_id', 'd.eba_id');
     addFilter(conditions, params, filters, 'document_type', 'd.document_type');
-    addFilter(conditions, params, filters, 'topic', 'd.topic');
+    addTopicFilter(conditions, params, filters);
     addFilter(conditions, params, filters, 'publication_status', 'd.publication_status');
     addFilter(conditions, params, filters, 'applicability_status', 'd.applicability_status');
     addFilter(conditions, params, filters, 'language', 'c.language');
+    addConsultationResponseExclusion(conditions, filters);
     params.push(limit);
 
     return db.prepare(`

@@ -2,6 +2,7 @@ import { SEARCH_MODE } from '../config.js';
 import { hybridSearch } from './hybrid.js';
 import { getDb, isVecLoaded } from './sqlite.js';
 import { ftsSearch } from './fts.js';
+import { addConsultationResponseExclusion, addTopicFilterNoAlias } from './filter-helpers.js';
 import { Chunk, Document, CorpusManifest, SearchFilters, TocEntry } from './types.js';
 import { hasVectorSearch } from './vector.js';
 
@@ -154,16 +155,25 @@ export async function searchChunksWithMode(query: string, filters: SearchFilters
   const exactId = EBA_ID_PATTERN.test(trimmedQuery) ? trimmedQuery : filters.eba_id;
 
   if (exactId && (!trimmedQuery || trimmedQuery === exactId)) {
+    const conditions: string[] = ['d.eba_id = ?'];
+    const params: unknown[] = [exactId];
+
+    if (filters.language) { conditions.push('c.language = ?'); params.push(filters.language); }
+    if (filters.document_type) { conditions.push('d.document_type = ?'); params.push(filters.document_type); }
+    if (filters.publication_status) { conditions.push('d.publication_status = ?'); params.push(filters.publication_status); }
+    if (filters.applicability_status) { conditions.push('d.applicability_status = ?'); params.push(filters.applicability_status); }
+    addConsultationResponseExclusion(conditions, filters);
+
+    params.push(limit);
     const rows = db.prepare(`
       SELECT c.*, d.eba_id, d.title
       FROM chunks c
       JOIN document_versions dv ON c.document_version_id = dv.version_id
       JOIN documents d ON dv.document_id = d.eba_id
-      WHERE d.eba_id = ?
-        AND (? IS NULL OR c.language = ?)
+      WHERE ${conditions.join(' AND ')}
       ORDER BY c.sequence_no
       LIMIT ?
-    `).all(exactId, filters.language ?? null, filters.language ?? null, limit) as Chunk[];
+    `).all(...params) as Chunk[];
     return { chunks: rows };
   }
 
@@ -462,7 +472,7 @@ export function listDocuments(filters: SearchFilters = {}, limit = 20): Document
   const conditions: string[] = [];
   const params: unknown[] = [];
   if (filters.document_type) { conditions.push('document_type = ?'); params.push(filters.document_type); }
-  if (filters.topic) { conditions.push('topic = ?'); params.push(filters.topic); }
+  addTopicFilterNoAlias(conditions, params, filters);
   if (filters.publication_status) { conditions.push('publication_status = ?'); params.push(filters.publication_status); }
   if (filters.applicability_status) { conditions.push('applicability_status = ?'); params.push(filters.applicability_status); }
   if (filters.language) { conditions.push('language = ?'); params.push(filters.language); }

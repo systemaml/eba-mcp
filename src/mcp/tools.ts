@@ -63,11 +63,23 @@ export async function handleEbaGetDocument(input: EbaGetDocumentInputType) {
 
   const chunks = await searchChunks('', { eba_id: input.eba_id }, 50);
   const citations = chunks.slice(0, 5).map(c => buildCitation(c, input.eba_id));
-  const warnings = document.publication_status === 'consultation' ? ['Document is in consultation status'] : [];
+  const warnings = [
+    'eba_get_document returns metadata plus leading citation chunks only; use eba_get_toc and eba_get_section for section-level retrieval.',
+  ];
+
+  if (document.publication_status === 'consultation') {
+    warnings.push('Document is in consultation status');
+  }
 
   return {
     ...buildResponse('exact', citations, { warnings }),
     document,
+    citation_sample: {
+      returned: citations.length,
+      max_returned: 5,
+      full_document_dump: false,
+      navigation_tools: ['eba_get_toc', 'eba_get_section', 'eba_get_paragraph'],
+    },
   };
 }
 
