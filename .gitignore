@@ -60,6 +60,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+AGENTS.md
 
 # Root data metadata / reports
 data/*.yaml
