@@ -5,7 +5,7 @@ This document describes the **implemented POC runtime contract** for the TypeScr
 Transport is stdio only. Runtime command (production corpus):
 
 ```bash
-node dist/index.js --db data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+node dist/index.js --db data/corpora/eba-corpus.db
 ```
 
 The server exposes exactly nine tools:
@@ -192,8 +192,8 @@ Return corpus manifest data.
   "corpus_info": {
     "manifest_hash": "...",
     "built_at": "...",
-    "document_count": 188,
-    "chunk_count": 29952,
+    "document_count": 346,
+    "chunk_count": 42146,
     "embedding_model": "nomic-embed-text",
     "embedding_dim": 768
   },
@@ -329,4 +329,4 @@ Compare two versions of a specific EBA document.
 - Hybrid semantic search is active when `EBA_SEARCH_MODE=hybrid` or `auto` and a vector-enabled DB + local Ollama are available; FTS5 is always the fallback.
 - `application_date` always returns `null` (column not yet in schema).
 - Version history limited to single `1.0` entry per document (full version tracking planned for future milestone).
-- Incremental index updates are not implemented; corpus updates require a full rebuild to a new versioned DB artifact.
+- Incremental index updates are not implemented; corpus updates require a full rebuild and a new GitHub Release artifact named `eba-corpus.db`.

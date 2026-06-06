@@ -30,7 +30,7 @@ Archive/proposed corpora can still be built for research, but must use an explic
 
 ## Current Corpus State
 
-The current production corpus (`eba-current-applicable-2026-06-01`) contains **188 current/applicable EBA documents** with **29,952 chunks** and **29,952 semantic embedding vectors** (`nomic-embed-text`, dim 768). Hybrid retrieval (FTS5 + sqlite-vec) is active when the DB includes vectors and Ollama is running. See [README.md](../README.md#production-corpus) for eval results and versioning policy.
+The current production corpus (`eba-corpus.db`, versioned by GitHub Release tag) contains **346 current/applicable EBA documents** with **42,146 chunks** and **42,146 semantic embedding vectors** (`nomic-embed-text`, dim 768). Hybrid retrieval (FTS5 + sqlite-vec) is active when the DB includes vectors and Ollama is running. See [README.md](../README.md#production-corpus) for eval results and versioning policy.
 
 ---
 
@@ -38,7 +38,7 @@ The current production corpus (`eba-current-applicable-2026-06-01`) contains **1
 
 This is a **Proof of Concept** (POC) implementation that has since grown beyond initial POC scope. The following notes describe the original scope and current state:
 
-- **Original 9 EBA AML/CFT documents** — the small seed corpus was only used for initial development; the current production corpus covers 188 current/applicable EBA documents
+- **Original 9 EBA AML/CFT documents** — the small seed corpus was only used for initial development; the current production corpus covers 346 current/applicable EBA documents
 - **English only** — no multi-language support; EBA publications in other languages are not processed
 - **Hybrid retrieval available** — FTS5 keyword search is always active; sqlite-vec semantic search is available when the DB includes vectors (`nomic-embed-text` 768-dim) and Ollama is running locally; `EBA_SEARCH_MODE=auto` activates hybrid automatically
 - **Stdio transport only** — no HTTP or SSE transport; MCP server communicates via stdin/stdout
@@ -65,7 +65,7 @@ There are status/version fields and MCP tools, but the automated large-corpus di
 
 ### No Incremental Index Updates
 
-Index updates require a full corpus rebuild. There is no incremental update mechanism; adding or updating documents requires re-running the full pipeline and producing a new versioned DB artifact. True incremental support (file-hash diff + chunk-hash/embedding cache) is a future backlog item. See the Corpus Versioning Policy in [README.md](../README.md#corpus-versioning-policy).
+Index updates require a full corpus rebuild. There is no incremental update mechanism; adding or updating documents requires re-running the full pipeline and publishing a new `eba-corpus.db` release artifact. True incremental support (file-hash diff + chunk-hash/embedding cache) is a future backlog item. See the Corpus Versioning Policy in [README.md](../README.md#corpus-versioning-policy).
 
 ### No Multi-Language Support
 

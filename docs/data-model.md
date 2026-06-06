@@ -121,12 +121,12 @@ CREATE VIRTUAL TABLE IF NOT EXISTS chunks_vec USING vec0(
 
 `chunks_vec.rowid` maps 1:1 to `chunks.rowid`. At query time the retrieval engine performs a nearest-neighbour search against the query embedding and joins the rowid results back to `chunks` to hydrate full citation metadata.
 
-Current production corpus: 29,952 vectors, `nomic-embed-text`, dim 768.
+Current production corpus: 42,146 vectors, `nomic-embed-text`, dim 768.
 
 ## Current corpus constraints
 
 - English only.
-- Semantic embedding vectors stored in `chunks_vec` (sqlite-vec); production corpus has 29,952 vectors, `nomic-embed-text`, dim 768.
+- Semantic embedding vectors stored in `chunks_vec` (sqlite-vec); production corpus has 42,146 vectors, `nomic-embed-text`, dim 768.
 - No relationship population (backlog).
 - Full rebuild only; no incremental update model (backlog).
 - Runtime uses SQLite/FTS5 + optional sqlite-vec extension for hybrid retrieval.

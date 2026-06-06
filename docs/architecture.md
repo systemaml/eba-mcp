@@ -32,10 +32,8 @@ EBA MCP is a local, citation-first MCP connector for EBA regulatory publications
 ┌─────────────────────────────────────────────────────────────────────┐
 │                      Local Corpus Artifacts                         │
 │  data/raw/{eba_id_slug}/{lang}/{sha256}.pdf                         │
-│  data/manifest.jsonl                                                │
 │  data/quality_reports/                                              │
-│  data/corpora/eba-current-applicable-YYYY-MM-DD-<model>.db          │
-│  data/manifest.jsonl                                                │
+│  data/corpora/eba-corpus.db                                         │
 └──────────────────────────────┬──────────────────────────────────────┘
                                │
                                ▼
@@ -118,14 +116,14 @@ Docling is reserved as a potential fallback for difficult PDFs in MVP. The POC u
 
 ## Data Flow
 
-1. **Seed/Discover**: A curated YAML manifest or a current-applicable discovery profile defines which EBA publications to ingest. Quick-start uses a small sample seed; production uses a full current-applicable manifest (188+ documents).
+1. **Seed/Discover**: A curated YAML manifest or a current-applicable discovery profile defines which EBA publications to ingest. Production uses a full current-applicable manifest (346 documents).
 2. **Download**: The Python downloader fetches each PDF, computes SHA256, and stores it at `data/raw/{eba_id_slug}/en/{sha256}.pdf`.
 3. **Parse**: PyMuPDF4LLM extracts page-level text, blocks, and tables. Fallback to pdftotext if quality gates fail.
 4. **Paragraphize**: The paragraphizer splits text into chunks, detects paragraph references, assigns section paths, and records page_start/page_end.
 5. **Quality Gates**: Each document is checked against thresholds: page_coverage >= 0.85, paragraph_ref_detection >= 0.70, citation_roundtrip >= 0.95. Failures go to `needs_review`.
 6. **Index Build**: Passing documents are inserted into SQLite. The `chunks` table stores every chunk. The `chunks_fts` virtual table indexes eba_id, title, section_path, paragraph_ref, body, topic, and document_type with per-column weights.
 7. **Manifest**: A `corpus_manifest` row records the build timestamp, document count, chunk count, and a manifest hash.
-8. **MCP Runtime**: The TypeScript server opens the versioned corpus DB on startup. When a client calls `eba_search`, the retrieval engine selects a search mode: in `fts_only` mode it runs an escaped FTS5 query and orders by SQLite FTS5 rank; in `hybrid` mode it also queries `chunks_vec` via sqlite-vec for cosine similarity and fuses both rank lists via Reciprocal Rank Fusion (RRF); `auto` mode picks hybrid when vectors are present, FTS5 otherwise. All modes return formatted citations.
+8. **MCP Runtime**: The TypeScript server opens the corpus DB on startup. When a client calls `eba_search`, the retrieval engine selects a search mode: in `fts_only` mode it runs an escaped FTS5 query and orders by SQLite FTS5 rank; in `hybrid` mode it also queries `chunks_vec` via sqlite-vec for cosine similarity and fuses both rank lists via Reciprocal Rank Fusion (RRF); `auto` mode picks hybrid when vectors are present, FTS5 otherwise. All modes return formatted citations.
 9. **Citation**: Every result includes a citation string like `EBA/GL/2024/01, para. 4.12, p. 42`, plus metadata: eba_id, title, status, applicability, source URL, and file SHA256.
 
 ## Quality Thresholds
