@@ -57,7 +57,7 @@ def run_citation_roundtrip(db_path: str) -> dict:
 
 
 if __name__ == "__main__":
-    db_path = sys.argv[1] if len(sys.argv) > 1 else "data/eba.db"
+    db_path = sys.argv[1] if len(sys.argv) > 1 else "data/corpora/eba-corpus.db"
     result = run_citation_roundtrip(db_path)
     print(f"Citation round-trip: {result['passed']}/{result['total']} passed ({result['pass_rate']*100:.1f}%)")
     if result["failures"]:
