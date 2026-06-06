@@ -102,7 +102,10 @@ const SearchFilters = z
     applicability_status: FilterString.optional(),
     language: Language.optional(),
     eba_id: EbaId.optional(),
-    exclude_consultation_responses: z.boolean().optional(),
+    exclude_consultation_responses: z
+      .boolean()
+      .optional()
+      .describe('JSON boolean (true/false), not a string. When true, omits chunks whose section_path matches consultation-response heuristic patterns.'),
   })
   .strict();
 

@@ -44,7 +44,10 @@ const FILTER_PROPERTIES = {
   applicability_status: { type: 'string', maxLength: 80, pattern: FILTER_STRING_PATTERN },
   language: { type: 'string', enum: ['en'] },
   eba_id: { type: 'string', maxLength: 40, pattern: EBA_ID_PATTERN },
-  exclude_consultation_responses: { type: 'boolean' },
+  exclude_consultation_responses: {
+    type: 'boolean',
+    description: 'JSON boolean (true/false), not a string. When true, omits chunks whose section_path matches consultation-response heuristic patterns.',
+  },
 };
 
 const TOOLS = [
