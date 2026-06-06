@@ -21,5 +21,6 @@ eba-pipeline = "eba_pipeline.cli:cli"
 
 [dependency-groups]
 dev = [
+    "pytest>=8.3.4",
     "ruff>=0.15.15",
 ]

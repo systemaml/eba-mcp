@@ -22,25 +22,6 @@ class CurrentApplicableDiscoveryTests(unittest.TestCase):
             )
         )
 
-    def test_rejects_consultations_drafts_and_amending_only_documents(self) -> None:
-        cases = [
-            ("Consultation Paper on Guidelines on internal governance", "guidelines"),
-            ("Draft RTS on own funds requirements", "rts"),
-            ("Guidelines amending Guidelines on equivalence of confidentiality regimes", "guidelines"),
-            ("Annex 2 Instructions", "its"),
-            ("ESAs Guidelines on templates for explanations and opinions", "guidelines"),
-            ("Final Report on Guidelines", "consultation-paper"),
-        ]
-        for title, document_type in cases:
-            with self.subTest(title=title, document_type=document_type):
-                self.assertFalse(
-                    is_current_applicable_candidate(
-                        title,
-                        "https://www.eba.europa.eu/sites/default/files/example.pdf",
-                        document_type,
-                    )
-                )
-
     def test_accepts_final_draft_rts(self) -> None:
         cases = [
             "Final report on draft RTS on IRB material model changes",
@@ -54,6 +35,36 @@ class CurrentApplicableDiscoveryTests(unittest.TestCase):
                         title,
                         "https://www.eba.europa.eu/sites/default/files/example.pdf",
                         "rts",
+                    )
+                )
+
+    def test_accepts_opinion(self) -> None:
+        self.assertTrue(
+            is_current_applicable_candidate(
+                "Opinion on the use of innovative solutions by credit institutions",
+                "https://www.eba.europa.eu/sites/default/files/2024-01/opinion.pdf",
+                "opinion",
+            )
+        )
+
+    def test_rejects_consultations_drafts_and_amending_only_documents(self) -> None:
+        cases = [
+            ("Consultation Paper on Guidelines on internal governance", "guidelines"),
+            ("Draft RTS on own funds requirements", "rts"),
+            ("Guidelines amending Guidelines on equivalence of confidentiality regimes", "guidelines"),
+            ("Annex 2 Instructions", "its"),
+            ("ESAs Guidelines on templates for explanations and opinions", "guidelines"),
+            ("Final Report on Guidelines", "consultation-paper"),
+            ("Annual Report 2024", "annual-report"),
+            ("Discussion Paper on ML/AI use in AML", "report"),
+        ]
+        for title, document_type in cases:
+            with self.subTest(title=title, document_type=document_type):
+                self.assertFalse(
+                    is_current_applicable_candidate(
+                        title,
+                        "https://www.eba.europa.eu/sites/default/files/example.pdf",
+                        document_type,
                     )
                 )
 
