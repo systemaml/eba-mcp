@@ -2,10 +2,10 @@ import { SEARCH_MODE } from '../config.js';
 import { hybridSearch } from './hybrid.js';
 import { getDb, isVecLoaded } from './sqlite.js';
 import { ftsSearch } from './fts.js';
-import { Chunk, Document, CorpusManifest, SearchFilters } from './types.js';
+import { Chunk, Document, CorpusManifest, SearchFilters, TocEntry } from './types.js';
 import { hasVectorSearch } from './vector.js';
 
-const EBA_ID_PATTERN = /^EBA\/[A-Za-z]+\/\d{4}\/\d+$/;
+const EBA_ID_PATTERN = /^EBA\/[A-Za-z][A-Za-z-]*\/\d{4}\/\d+$/;
 const LARGE_EBA_ID_PATTERN = /^EBA\/LARGE-[A-Za-z]+\/\d{4}\/\d+$/i;
 const MIN_DUPLICATE_TEXT_LENGTH = 80;
 const MIN_SHARED_TOKEN_COUNT = 12;
@@ -302,6 +302,128 @@ export function getParagraph(
   }
 
   return withContext;
+}
+
+function normalizeSectionRef(section: string): string {
+  return section.trim().replace(/\s+/g, ' ').replace(/\.$/, '');
+}
+
+export function getSection(
+  ebaId: string,
+  section: string,
+  language = 'en',
+  limit = 200,
+): Chunk[] {
+  const db = getDb();
+  const normalizedSection = normalizeSectionRef(section);
+  const sectionPrefix = `${normalizedSection}.%`;
+  const headingPrefix = `${normalizedSection}. %`;
+
+  return db.prepare(`
+    SELECT c.*, d.eba_id, d.title
+    FROM chunks c
+    JOIN document_versions dv ON c.document_version_id = dv.version_id
+    JOIN documents d ON dv.document_id = d.eba_id
+    WHERE d.eba_id = ?
+      AND c.language = ?
+      AND (
+        c.paragraph_ref = ?
+        OR c.paragraph_ref LIKE ?
+        OR c.section_path = ?
+        OR c.section_path LIKE ?
+        OR c.section_path LIKE ?
+      )
+    ORDER BY c.sequence_no
+    LIMIT ?
+  `).all(
+    ebaId,
+    language,
+    normalizedSection,
+    sectionPrefix,
+    normalizedSection,
+    sectionPrefix,
+    headingPrefix,
+    limit,
+  ) as Chunk[];
+}
+
+export function getToc(ebaId: string, language = 'en', limit = 200): TocEntry[] | null {
+  const db = getDb();
+  const doc = db.prepare('SELECT eba_id FROM documents WHERE eba_id = ? AND language = ?').get(ebaId, language);
+
+  if (!doc) {
+    return null;
+  }
+
+  const rows = db.prepare(`
+    SELECT
+      COALESCE(NULLIF(c.section_path, ''), '(unsectioned)') AS section_path,
+      c.paragraph_ref,
+      c.sequence_no,
+      c.page_start,
+      c.page_end
+    FROM chunks c
+    JOIN document_versions dv ON c.document_version_id = dv.version_id
+    JOIN documents d ON dv.document_id = d.eba_id
+    WHERE d.eba_id = ? AND c.language = ?
+    ORDER BY c.sequence_no
+  `).all(ebaId, language) as Array<{
+    section_path: string;
+    paragraph_ref: string | null;
+    sequence_no: number;
+    page_start: number | null;
+    page_end: number | null;
+  }>;
+
+  const tocBySection = new Map<string, {
+    paragraphRefs: string[];
+    seenParagraphRefs: Set<string>;
+    firstSequenceNo: number;
+    lastSequenceNo: number;
+    pageStart: number | null;
+    pageEnd: number | null;
+    chunkCount: number;
+  }>();
+
+  for (const row of rows) {
+    const existing = tocBySection.get(row.section_path);
+    const entry = existing ?? {
+      paragraphRefs: [],
+      seenParagraphRefs: new Set<string>(),
+      firstSequenceNo: row.sequence_no,
+      lastSequenceNo: row.sequence_no,
+      pageStart: row.page_start,
+      pageEnd: row.page_end,
+      chunkCount: 0,
+    };
+
+    if (row.paragraph_ref && !entry.seenParagraphRefs.has(row.paragraph_ref)) {
+      entry.paragraphRefs.push(row.paragraph_ref);
+      entry.seenParagraphRefs.add(row.paragraph_ref);
+    }
+
+    entry.lastSequenceNo = row.sequence_no;
+    entry.pageStart = entry.pageStart === null ? row.page_start : Math.min(entry.pageStart, row.page_start ?? entry.pageStart);
+    entry.pageEnd = entry.pageEnd === null ? row.page_end : Math.max(entry.pageEnd, row.page_end ?? entry.pageEnd);
+    entry.chunkCount += 1;
+    tocBySection.set(row.section_path, entry);
+  }
+
+  return [...tocBySection.entries()].slice(0, limit).map(([sectionPath, entry]) => {
+    const paragraphRefs = entry.paragraphRefs;
+
+    return {
+      section_path: sectionPath,
+      paragraph_refs: paragraphRefs,
+      first_paragraph_ref: paragraphRefs[0] ?? null,
+      last_paragraph_ref: paragraphRefs[paragraphRefs.length - 1] ?? null,
+      page_start: entry.pageStart,
+      page_end: entry.pageEnd,
+      first_sequence_no: entry.firstSequenceNo,
+      last_sequence_no: entry.lastSequenceNo,
+      chunk_count: entry.chunkCount,
+    };
+  });
 }
 
 export function getContextForChunks(chunks: Chunk[], contextBefore = 1, contextAfter = 1): Chunk[] {

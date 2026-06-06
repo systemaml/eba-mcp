@@ -41,3 +41,15 @@ export interface SearchFilters {
   language?: string;
   eba_id?: string;
 }
+
+export interface TocEntry {
+  section_path: string;
+  paragraph_refs: string[];
+  first_paragraph_ref: string | null;
+  last_paragraph_ref: string | null;
+  page_start: number | null;
+  page_end: number | null;
+  first_sequence_no: number;
+  last_sequence_no: number;
+  chunk_count: number;
+}
