@@ -40,6 +40,19 @@ export const ParagraphRef = z
     'paragraph_ref contains invalid characters (allowed: letters, digits, space, . _ / -)',
   );
 
+export const SectionRef = z
+  .string()
+  .transform(normalizeWhitespace)
+  .pipe(
+    z.string()
+      .min(1, 'section must not be empty')
+      .max(80, 'section exceeds 80 characters')
+      .regex(
+        /^[A-Za-z0-9][A-Za-z0-9 ._/-]*$/,
+        'section contains invalid characters (allowed: letters, digits, space, . _ / -)',
+      ),
+  );
+
 /**
  * Chunk ID — e.g. "EBA-GL-2021-02:001921c3:en:p:seq-527".
  * Max 240 chars; allows letters, digits, colons, hyphens, underscores.
@@ -120,6 +133,23 @@ export const EbaGetParagraphInput = z
   })
   .strict();
 
+export const EbaGetSectionInput = z
+  .object({
+    eba_id: EbaId,
+    section: SectionRef,
+    language: Language.default('en'),
+    limit: z.number().int().min(1).max(300).default(200),
+  })
+  .strict();
+
+export const EbaGetTocInput = z
+  .object({
+    eba_id: EbaId,
+    language: Language.default('en'),
+    limit: z.number().int().min(1).max(300).default(200),
+  })
+  .strict();
+
 export const EbaListDocumentsInput = z
   .object({
     filters: z
@@ -169,6 +199,8 @@ export const EbaDiffVersionsInput = z
 export type EbaSearchInputType = z.infer<typeof EbaSearchInput>;
 export type EbaGetDocumentInputType = z.infer<typeof EbaGetDocumentInput>;
 export type EbaGetParagraphInputType = z.infer<typeof EbaGetParagraphInput>;
+export type EbaGetSectionInputType = z.infer<typeof EbaGetSectionInput>;
+export type EbaGetTocInputType = z.infer<typeof EbaGetTocInput>;
 export type EbaListDocumentsInputType = z.infer<typeof EbaListDocumentsInput>;
 export type EbaCorpusInfoInputType = z.infer<NonNullable<typeof EbaCorpusInfoInput>>;
 export type EbaGetStatusInputType = z.infer<typeof EbaGetStatusInput>;

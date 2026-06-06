@@ -1,4 +1,4 @@
-import { diffVersions, getContextForChunks, getCorpusInfo, getDocument, getDocumentStatus, getParagraph, getVersions, listDocuments, searchChunks, searchChunksWithMode, validateCitation } from '../db/retrieval.js';
+import { diffVersions, getContextForChunks, getCorpusInfo, getDocument, getDocumentStatus, getParagraph, getSection, getToc, getVersions, listDocuments, searchChunks, searchChunksWithMode, validateCitation } from '../db/retrieval.js';
 import { buildCitation, buildCitations } from '../citations/formatter.js';
 import { buildResponse } from './formatters.js';
 import type {
@@ -6,14 +6,28 @@ import type {
   EbaDiffVersionsInputType,
   EbaGetDocumentInputType,
   EbaGetParagraphInputType,
+  EbaGetSectionInputType,
   EbaGetStatusInputType,
+  EbaGetTocInputType,
   EbaGetVersionsInputType,
   EbaListDocumentsInputType,
   EbaSearchInputType,
   EbaValidateCitationInputType,
 } from './schemas.js';
 
-const EBA_ID_PATTERN = /^EBA\/[A-Za-z]+\/\d{4}\/\d+$/;
+const EBA_ID_PATTERN = /^EBA\/[A-Za-z][A-Za-z-]*\/\d{4}\/\d+$/;
+
+function getSearchAnswerability(citationCount: number, isExactDocumentLookup: boolean): 'exact' | 'partial' | 'no_match' {
+  if (citationCount === 0) {
+    return 'no_match';
+  }
+
+  if (isExactDocumentLookup) {
+    return 'exact';
+  }
+
+  return citationCount === 1 ? 'exact' : 'partial';
+}
 
 export async function handleEbaSearch(input: EbaSearchInputType) {
   try {
@@ -25,7 +39,7 @@ export async function handleEbaSearch(input: EbaSearchInputType) {
     const isExactDocumentLookup = EBA_ID_PATTERN.test(input.query.trim()) || Boolean(input.filters?.eba_id);
 
     return buildResponse(
-      isExactDocumentLookup && citations.length > 0 ? 'exact' : (citations.length > 0 ? 'partial' : 'no_match'),
+      getSearchAnswerability(baseChunks.length, isExactDocumentLookup),
       citations,
       {
         documents_considered: [...new Set(chunks.map((chunk) => chunk.eba_id).filter(Boolean))] as string[],
@@ -101,6 +115,34 @@ export function handleEbaGetParagraph(input: EbaGetParagraphInputType) {
 
   const citations = chunks.map(c => buildCitation(c, input.eba_id));
   return buildResponse('exact', citations);
+}
+
+export function handleEbaGetSection(input: EbaGetSectionInputType) {
+  const chunks = getSection(input.eba_id, input.section, input.language || 'en', input.limit || 200);
+
+  if (chunks.length === 0) {
+    return buildResponse('no_match', []);
+  }
+
+  return {
+    ...buildResponse('exact', chunks.map((chunk) => buildCitation(chunk, input.eba_id))),
+    section: input.section,
+    total_chunks: chunks.length,
+  };
+}
+
+export function handleEbaGetToc(input: EbaGetTocInputType) {
+  const toc = getToc(input.eba_id, input.language || 'en', input.limit || 200);
+
+  if (!toc) {
+    return buildResponse('no_match', []);
+  }
+
+  return {
+    ...buildResponse(toc.length > 0 ? 'exact' : 'no_match', []),
+    toc,
+    total: toc.length,
+  };
 }
 
 export function handleEbaListDocuments(input: EbaListDocumentsInputType) {
