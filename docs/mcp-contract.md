@@ -81,7 +81,8 @@ Search EBA document chunks. Uses SQLite FTS5 keyword search by default (`fts_onl
     "topic": "AML/CFT",
     "publication_status": "final",
     "applicability_status": "applicable",
-    "language": "en"
+    "language": "en",
+    "exclude_consultation_responses": true
   },
   "limit": 10,
   "include_context": false
@@ -89,6 +90,8 @@ Search EBA document chunks. Uses SQLite FTS5 keyword search by default (`fts_onl
 ```
 
 All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is supported when `query` itself is an EBA ID or when only `filters.eba_id` is provided.
+
+`topic: "AML/CFT"` matches both documents explicitly tagged `AML/CFT` and AML-relevant document titles whose stored corpus topic is a publication facet such as `EBA guidelines` or `EBA opinion`. `exclude_consultation_responses: true` removes chunks in parsed feedback/consultation-response sections while leaving final guideline text searchable.
 
 `include_context: true` includes neighboring chunks around each hit in the returned citation list.
 
@@ -108,7 +111,7 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
 
 ## `eba_get_document`
 
-Return document metadata and the first citation chunks for a specific EBA ID.
+Return document metadata and a small sample of leading citation chunks for a specific EBA ID. This is not a full-document dump; use `eba_get_toc` and `eba_get_section` to navigate and retrieve substantive sections.
 
 ### Input
 
@@ -122,7 +125,13 @@ Return document metadata and the first citation chunks for a specific EBA ID.
 {
   "answerability": "exact",
   "document": { "eba_id": "EBA/GL/2021/02", "title": "..." },
-  "citations": []
+  "citations": [],
+  "citation_sample": {
+    "returned": 5,
+    "max_returned": 5,
+    "full_document_dump": false,
+    "navigation_tools": ["eba_get_toc", "eba_get_section", "eba_get_paragraph"]
+  }
 }
 ```
 
@@ -210,7 +219,7 @@ The outline is derived from parser metadata and is not guaranteed to match the p
 
 ## `eba_list_documents`
 
-List indexed documents with optional filters.
+List indexed documents with optional filters. `topic="AML/CFT"` uses the same heuristic title expansion as `eba_search`: it matches documents explicitly tagged `AML/CFT` plus documents whose title contains AML-relevant keywords.
 
 ### Input
 
@@ -337,7 +346,7 @@ Validate a citation chunk ID and return the related document status metadata.
 ### Input
 
 ```json
-{ "chunk_id": "EBA-GL-2021-02:001921c3:en:p:seq-527" }
+{ "chunk_id": "EBA-GL-2021-02:1633158a:en:p:3.6:p37:s114" }
 ```
 
 ### Output

@@ -149,9 +149,9 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 ### Tool Details
 
-**`eba_search`** — Searches indexed EBA chunks and returns citation objects with document ID, page, paragraph reference, and text excerpt. Retrieval is controlled by `EBA_SEARCH_MODE`: `fts_only` uses SQLite FTS5, `hybrid` requires sqlite-vec vectors plus query-time Ollama embeddings, and `auto` uses hybrid when available while preserving citation-first results. Supports filters including `eba_id`, `document_type`, `topic`, `publication_status`, and `applicability_status`.
+**`eba_search`** — Searches indexed EBA chunks and returns citation objects with document ID, page, paragraph reference, and text excerpt. Retrieval is controlled by `EBA_SEARCH_MODE`: `fts_only` uses SQLite FTS5, `hybrid` requires sqlite-vec vectors plus query-time Ollama embeddings, and `auto` uses hybrid when available while preserving citation-first results. Supports filters including `eba_id`, `document_type`, `topic`, `publication_status`, `applicability_status`, and `exclude_consultation_responses`. `topic="AML/CFT"` also matches AML-relevant titles whose stored corpus topic is a publication facet such as `EBA guidelines`.
 
-**`eba_get_document`** — Returns document metadata and leading parsed chunks for a given document identifier. Use `eba_get_toc` and `eba_get_section` for document navigation.
+**`eba_get_document`** — Returns document metadata and a small sample of leading parsed chunks for a given document identifier. It is not a full-document dump; use `eba_get_toc` and `eba_get_section` for document navigation.
 
 **`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters to include surrounding chunks.
 
