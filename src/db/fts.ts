@@ -2,15 +2,14 @@ import Database from 'better-sqlite3';
 
 import { Chunk, SearchFilters } from './types.js';
 
-// Escape FTS5 special characters
+const FTS5_RESERVED = new Set(['and', 'or', 'not']);
+
 export function escapeFts(query: string): string {
-  // FTS5 special chars: " ^ * ( )
-  // Use simple query mode by wrapping terms
   return query
-    .replace(/[^\w\s]/g, ' ')  // remove non-word non-space chars
+    .replace(/[^\w\s]/g, ' ')
     .trim()
     .split(/\s+/)
-    .filter(t => t.length > 0)
+    .filter(t => t.length > 0 && !FTS5_RESERVED.has(t.toLowerCase()))
     .join(' AND ');
 }
 
