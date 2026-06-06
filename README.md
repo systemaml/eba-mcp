@@ -180,6 +180,11 @@ Use `eba_get_paragraph` after discovery when an exact `eba_id` and `paragraph_re
 
 ---
 
+## Troubleshooting
+
+- **Missing tools (`eba_get_toc`, `eba_get_section`) in MCP client**: rebuild the server (`npm run build`) and restart the MCP client so the tool list is re-fetched. Some clients cache `tools/list` results.
+- **`Expected boolean, received string` on `exclude_consultation_responses`**: pass a JSON boolean (`true`/`false`), not the string `"true"`. Example: `"filters": {"exclude_consultation_responses": true}`.
+
 ## Development Setup
 
 ### Requirements

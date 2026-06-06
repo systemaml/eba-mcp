@@ -91,7 +91,7 @@ Search EBA document chunks. Uses SQLite FTS5 keyword search by default (`fts_onl
 
 All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is supported when `query` itself is an EBA ID or when only `filters.eba_id` is provided.
 
-`topic: "AML/CFT"` matches both documents explicitly tagged `AML/CFT` and AML-relevant document titles whose stored corpus topic is a publication facet such as `EBA guidelines` or `EBA opinion`. `exclude_consultation_responses: true` removes chunks in parsed feedback/consultation-response sections while leaving final guideline text searchable.
+`topic: "AML/CFT"` matches both documents explicitly tagged `AML/CFT` and AML-relevant document titles whose stored corpus topic is a publication facet such as `EBA guidelines` or `EBA opinion`. `exclude_consultation_responses` must be a JSON boolean (`true` or `false`), not the string `"true"`. Pass `true` to remove chunks in parsed feedback/consultation-response sections while leaving final guideline text searchable.
 
 `include_context: true` includes neighboring chunks around each hit in the returned citation list.
 
