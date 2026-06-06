@@ -181,6 +181,8 @@ run_real_db_checks() {
   has_amends_relationships="$(sqlite_value "$db_path" 'SELECT COUNT(*) FROM document_relationships WHERE relationship_type = '\''amends'\''')"
   local relationship_count
   relationship_count="$(sqlite_value "$db_path" 'SELECT COUNT(*) FROM document_relationships')"
+  local aml_compliance_officers_present
+  aml_compliance_officers_present="$(sqlite_value "$db_path" "SELECT COUNT(*) FROM documents WHERE eba_id = 'EBA/GL/2022/05'")"
 
   local res
 
@@ -233,12 +235,24 @@ assert payload['filters_applied']['document_type'] == '$filter_document_type'
 assert all(doc['document_type'] == '$filter_document_type' for doc in payload['documents'])
 "
 
+  if [ "$aml_compliance_officers_present" -gt 0 ]; then
+    res="$(call_tool "$db_path" "eba_list_documents" '{"filters":{"topic":"AML/CFT"},"limit":100}' 41)"
+    assert_json "eba_list_documents expands AML/CFT topic coverage" "$res" "
+assert payload['filters_applied']['topic'] == 'AML/CFT'
+ids = [doc['eba_id'] for doc in payload['documents']]
+assert 'EBA/GL/2022/05' in ids, ids
+" true
+  fi
+
   res="$(call_tool "$db_path" "eba_get_document" "{\"eba_id\":\"$first_eba_id\"}" 5)"
   assert_json "eba_get_document returns document record" "$res" "
 assert payload['answerability'] == 'exact'
 assert payload['document']['eba_id'] == '$first_eba_id'
 assert isinstance(payload['citations'], list)
 assert 'warnings' in payload
+sample = payload.get('citation_sample', {})
+assert sample.get('full_document_dump') == False
+assert isinstance(sample.get('navigation_tools'), list) and len(sample['navigation_tools']) > 0
 " true
 
   res="$(call_tool "$db_path" "eba_get_paragraph" "{\"eba_id\":\"$paragraph_eba_id\",\"paragraph_ref\":\"$paragraph_ref\",\"context_before\":1,\"context_after\":1}" 6)"
@@ -272,6 +286,17 @@ for key in ('section_path', 'paragraph_refs', 'first_sequence_no', 'last_sequenc
 assert payload['answerability'] in ('partial', 'no_match')
 assert isinstance(payload['citations'], list)
 " 
+
+  res="$(call_tool "$db_path" "eba_search" '{"query":"consultation responses","filters":{"exclude_consultation_responses":true},"limit":10}' 71)"
+  assert_json "eba_search can exclude consultation response sections" "$res" "
+assert payload['filters_applied']['exclude_consultation_responses'] == True
+for citation in payload['citations']:
+    section = citation.get('section_path', '').lower()
+    assert 'feedback on' not in section or 'consultation' not in section, section
+    assert 'summary of responses' not in section or 'consultation' not in section, section
+    assert 'public consultation' not in section, section
+    assert 'analysis of responses' not in section, section
+" true
 
   # --- M4 new tools ---
 
@@ -309,7 +334,13 @@ assert payload['answerability'] == 'no_match'
 " true
 
   local real_chunk_id
-  real_chunk_id="$(sqlite_value "$db_path" 'SELECT chunk_id FROM chunks LIMIT 1')"
+  real_chunk_id="$(sqlite_value "$db_path" "
+    SELECT chunk_id
+    FROM chunks
+    WHERE chunk_id LIKE '%.%'
+    ORDER BY chunk_id
+    LIMIT 1
+  ")"
 
   res="$(call_tool "$db_path" "eba_validate_citation" "{\"chunk_id\":\"$real_chunk_id\"}" 13)"
   assert_json "eba_validate_citation with real chunk_id returns valid=true" "$res" "
@@ -402,8 +433,8 @@ fi
 
 echo
 echo "Results: $PASS passed, $FAIL failed"
-if [ "$TOOL_FAIL" -eq 0 ] && [ "$TOOL_PASS" -eq 14 ] && [ "$FAIL" -eq 0 ]; then
-  echo "14/14 tool tests passed"
+if [ "$TOOL_FAIL" -eq 0 ] && [ "$TOOL_PASS" -ge 15 ] && [ "$FAIL" -eq 0 ]; then
+  echo "${TOOL_PASS}/${TOOL_PASS} tool tests passed"
   exit 0
 fi
 
