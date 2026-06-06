@@ -6,11 +6,10 @@ A Model Context Protocol (MCP) server that provides structured access to current
 
 For full setup, see [INSTALL.md](INSTALL.md). You need Git, Node.js >= 18, npm, Python >= 3.11, uv, an MCP-compatible client, and optionally Ollama for hybrid semantic retrieval.
 
-The production corpus database (~147 MB) is **not included in the repository** — it must be generated locally using the Python pipeline. The manifest JSON is tracked as a lightweight reference:
+The production corpus database (~147 MB) is **not included in the repository** — download it from GitHub Releases or generate it locally using the Python pipeline:
 
 ```text
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json  # tracked
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db             # generated locally
+data/corpora/eba-corpus.db  # release artifact or generated locally
 ```
 
 See [INSTALL.md](INSTALL.md) for step-by-step corpus generation commands (`uv run eba-pipeline discover`, `download`, `parse`, `quality`, `build-index`).
@@ -47,7 +46,7 @@ Historical/proposed material may still be useful for research, but it should be 
 
 ### Key Characteristics
 
-- Quick-start sample seed indexes 9 EBA AML/CFT publications; production direction is the current/applicable EBA regulatory corpus
+- Default seed targets the current/applicable EBA regulatory corpus
 - SQLite + FTS5 citation search, with optional hybrid retrieval via sqlite-vec and Ollama embeddings when the database includes vectors
 - Citation round-trip checks verify stored chunks can be resolved back to exact source citations
 - Stdio transport (JSON-RPC 2.0 over stdin/stdout)
@@ -84,8 +83,8 @@ Compiles TypeScript to `dist/index.js`.
 ### 3. Start the MCP Server
 
 ```bash
-# Production corpus (current/applicable, 188 docs, hybrid retrieval):
-node dist/index.js --db data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+# Production corpus (current/applicable, hybrid retrieval):
+node dist/index.js --db data/corpora/eba-corpus.db
 ```
 
 The server communicates over stdio using JSON-RPC 2.0, as per the MCP specification.
@@ -103,7 +102,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "eba": {
       "command": "node",
-      "args": ["/path/to/eba-mcp/dist/index.js", "--db", "/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db"]
+      "args": ["/path/to/eba-mcp/dist/index.js", "--db", "/path/to/eba-mcp/data/corpora/eba-corpus.db"]
     }
   }
 }
@@ -127,7 +126,7 @@ Optional hybrid-retrieval settings:
 Example invocation:
 
 ```bash
-node dist/index.js --db /absolute/path/to/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 ```
 
 ---
@@ -192,9 +191,8 @@ eba-mcp/
 │   ├── eba_pipeline/  # Pipeline package
 │   └── pyproject.toml
 ├── data/
-│   ├── corpora/       # Versioned corpus artifacts (DB generated locally, manifest tracked)
-│   │   ├── eba-current-applicable-2026-06-01-nomic-embed-text.db        # generated locally (not in Git)
-│   │   └── eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json  # tracked
+│   ├── corpora/       # Corpus artifact directory (DB generated locally or downloaded from releases)
+│   │   └── eba-corpus.db        # generated/downloaded locally (not in Git)
 │   ├── raw/           # Downloaded PDFs (source provenance)
 │   ├── processed/     # Parsed chunks (intermediate)
 │   └── quality_reports/
@@ -236,40 +234,34 @@ Use `--profile broad` only for stress testing or archive/research corpora.
 The current production corpus is:
 
 ```
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+data/corpora/eba-corpus.db
 ```
 
-The database (~147 MB) is **not tracked in Git** — generate it locally using the pipeline (see [INSTALL.md](INSTALL.md), Part 2). The manifest JSON is tracked as a reference.
+The database (~147 MB) is **not tracked in Git** — download it from GitHub Releases or generate it locally using the pipeline (see [INSTALL.md](INSTALL.md)). Release tags identify corpus versions; the local filename remains stable.
 
 | Property | Value |
 |----------|-------|
 | Corpus | EBA Current Applicable |
-| Version | 2026-06-01 |
-| Documents | 188 |
-| Chunks | 29,952 |
-| Vectors | 29,952 |
+| Version | Release tag |
+| Documents | 346 |
+| Chunks | 42,146 |
+| Vectors | 42,146 |
 | Embedding model | `nomic-embed-text` |
 | Embedding dim | 768 |
 | Language | English |
-| Eval (hybrid, 30 fixtures) | MRR 0.741, Recall@10 1.000 |
-
-A machine-readable manifest is at:
-```
-data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
-```
+| Eval fixtures | 99/99 passing |
 
 ### Corpus Versioning Policy
 
-Corpus artifact filenames encode the date and embedding model: `eba-current-applicable-YYYY-MM-DD-<model>.db`.
+Corpus artifact filenames are stable: `eba-corpus.db`. Versioning is handled by GitHub Release tags.
 
-**The current safe update process is a full rebuild to a new versioned DB:**
+**The current safe update process is a validated rebuild before publishing a release artifact:**
 
 1. Run the full pipeline against new/updated EBA discovery manifest → new temp DB.
 2. Validate vector integrity and schema.
-3. Run eval suite (`--tags full_curated_semantic`) against the new DB.
-4. If eval passes, rename/promote to a new versioned path (e.g., `eba-current-applicable-2026-09-01-nomic-embed-text.db`).
-5. Update MCP client configs to point at the new versioned DB.
-6. Keep the previous version for rollback until storage policy allows removal.
+3. Run the eval suite against the new DB.
+4. If eval passes, publish `eba-corpus.db` as a GitHub Release artifact.
+5. Roll back by downloading the previous release artifact if needed.
 
 **No in-place mutation of a production DB.** Modifying a live DB risks invalidating the sha256 manifest and makes rollback impossible.
 
@@ -284,18 +276,18 @@ True incremental update support (discovery diff + file-hash compare + chunk-hash
 ### Run the Eval Suite
 
 ```bash
-cd pipeline && uv run eba-pipeline eval --db ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db --queries eba_pipeline/eval/queries.yaml --tags full_curated_semantic
+cd pipeline && uv run eba-pipeline eval --db ../data/corpora/eba-corpus.db --queries eba_pipeline/eval/queries.yaml
 ```
 
-Runs 30 predefined queries (`full_curated_semantic` tag) against the current production corpus and measures retrieval quality (MRR, Recall@10). Current results: **hybrid MRR 0.741, Recall@10 1.000**.
+Runs the curated query fixtures against the current production corpus. Current result: **99/99 passing**.
 
 ### Citation Round-Trip Verification
 
 ```bash
-cd pipeline && uv run eba-pipeline eval --db ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db --mode citation-roundtrip
+cd pipeline && uv run eba-pipeline eval --db ../data/corpora/eba-corpus.db --mode citation-roundtrip
 ```
 
-Verifies that every stored chunk can be resolved back to its exact `chunk_id` through paragraph or section/page lookup. The current production corpus achieves **100% round-trip accuracy** on 29,952 chunks.
+Verifies that every stored chunk can be resolved back to its exact `chunk_id` through paragraph or section/page lookup. The current production corpus achieves **100% round-trip accuracy** on 42,146 chunks.
 
 ---
 

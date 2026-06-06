@@ -1,25 +1,26 @@
 # Install EBA MCP
 
-This guide is for consumers and LLM agents that need to clone and run the EBA MCP server. The production corpus database is **not included in the repository** — it must be generated locally using the Python ingestion pipeline. This guide explains both the quick MCP server setup and the full corpus generation workflow.
+This guide is for consumers and LLM agents that need to clone and run the EBA MCP server. The production corpus database is **not included in the repository**. Download `eba-corpus.db` from GitHub Releases and place it at `data/corpora/eba-corpus.db`.
+
+This is a consumer install guide. It does not cover rebuilding the corpus or publishing releases.
 
 ## Software Requirements
 
 - **Git**
 - **Node.js** >= 18
 - **npm**
-- **Python** >= 3.11 (for corpus generation)
-- **uv** >= 0.4 — Python package manager ([install](https://docs.astral.sh/uv/getting-started/installation/))
+- **GitHub CLI (`gh`)** — recommended for downloading the corpus release artifact
 - **Ollama** — recommended for hybrid semantic retrieval ([install](https://ollama.com/))
 - An MCP-compatible client (Claude Desktop, etc.)
 
 ---
 
-## Part 1: MCP Server Setup
+## MCP Server Setup from Release Artifact
 
 ### 1. Clone the repository
 
 ```bash
-git clone git@github.com:systemaml/eba-mcp.git eba-mcp
+git clone https://github.com/systemaml/eba-mcp.git eba-mcp
 cd eba-mcp
 ```
 
@@ -37,28 +38,66 @@ npm run build
 
 This compiles TypeScript to `dist/index.js`.
 
-### 4. Generate the corpus database (required — see Part 2)
+### 4. Download the corpus database from GitHub Releases
 
-The production database is not included in the repository. Before starting the server, generate it locally:
+Create the local corpus directory:
 
 ```bash
-# Quick check: does the DB already exist from a previous run?
-ls data/corpora/*.db 2>/dev/null || echo "No corpus DB found — run Part 2 to generate."
+mkdir -p data/corpora
 ```
+
+Preferred agent-friendly command, from inside the cloned repository:
+
+```bash
+gh repo view --json nameWithOwner,url,defaultBranchRef
+gh release list --repo systemaml/eba-mcp --limit 10
+```
+
+If `gh release list` returns no releases, the corpus artifact has not been published yet. Ask the repository maintainer to publish `eba-corpus.db` before continuing.
+
+```bash
+gh release download \
+  --repo systemaml/eba-mcp \
+  --pattern 'eba-corpus.db' \
+  --dir data/corpora \
+  --clobber
+```
+
+This downloads the asset from the latest release visible to `gh`. If you need a specific release tag, add it before the flags:
+
+```bash
+gh release download <release-tag> \
+  --repo systemaml/eba-mcp \
+  --pattern 'eba-corpus.db' \
+  --dir data/corpora \
+  --clobber
+```
+
+Manual fallback: open the repository releases page and download the asset named `eba-corpus.db`:
+
+```text
+https://github.com/systemaml/eba-mcp/releases
+```
+
+Place the downloaded file at:
+
+```
+data/corpora/eba-corpus.db
+```
+
+If no release exists yet, ask the repository maintainer to publish `eba-corpus.db` before continuing.
 
 ### 5. Start the MCP server
 
-Once the database exists:
-
 ```bash
-node dist/index.js --db data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+node dist/index.js --db data/corpora/eba-corpus.db
 ```
 
 For MCP client configuration, use absolute paths:
 
 ```bash
 node /absolute/path/to/eba-mcp/dist/index.js \
-  --db /absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+  --db /absolute/path/to/eba-mcp/data/corpora/eba-corpus.db
 ```
 
 ### 6. Optional: Ollama for hybrid retrieval
@@ -71,167 +110,6 @@ ollama pull nomic-embed-text
 ```
 
 Default Ollama URL: `http://localhost:11434`. Override with `OLLAMA_URL` env var if needed.
-
----
-
-## Part 2: Corpus Generation
-
-The corpus database (~147 MB) is generated locally by the Python pipeline. It is too large for Git and is therefore excluded from the repository. The manifest JSON (`*.manifest.json`) is tracked as a lightweight reference only.
-
-### 2a. Install Python pipeline
-
-```bash
-cd pipeline
-uv sync
-```
-
-Verify the CLI is available:
-
-```bash
-uv run eba-pipeline --help
-```
-
-### 2b. Discover EBA publications
-
-Generate a seed manifest listing current/applicable EBA publications:
-
-```bash
-cd pipeline  # if not already there
-uv run eba-pipeline discover \
-  --profile current-applicable \
-  --output seed_documents_current.yaml \
-  --limit 350
-```
-
-Expected output: `Discovered NNN official EBA PDFs using profile=current-applicable -> seed_documents_current.yaml`
-
-### 2c. Download EBA PDFs
-
-```bash
-uv run eba-pipeline download \
-  --manifest seed_documents_current.yaml \
-  --output ../data/current-pdfs \
-  --continue-on-error
-```
-
-This downloads the PDFs to `data/current-pdfs/`. The `--continue-on-error` flag skips documents that fail to download.
-
-### 2d. Parse PDFs into structured chunks
-
-```bash
-uv run eba-pipeline parse \
-  --input ../data/current-pdfs \
-  --output ../data/current-parsed \
-  --manifest seed_documents_current.yaml
-```
-
-### 2e. Run quality gates
-
-```bash
-uv run eba-pipeline quality \
-  --input ../data/current-parsed \
-  --reports ../data/current-quality
-```
-
-Expected output: `Quality complete: N/N passed.`
-
-### 2f. Build the SQLite index with embeddings
-
-This step requires Ollama with `nomic-embed-text` to be running. It builds the FTS5 + vector index.
-
-```bash
-# Ensure Ollama is running and model is available:
-ollama pull nomic-embed-text
-
-# Build the index with embeddings:
-uv run eba-pipeline build-index \
-  --output ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
-  --processed ../data/current-parsed \
-  --quality-reports ../data/current-quality \
-  --seed seed_documents_current.yaml \
-  --embed \
-  --model nomic-embed-text \
-  --ollama-url http://localhost:11434 \
-  --batch-size 32
-```
-
-To build without embeddings (FTS-only, no Ollama required):
-
-```bash
-uv run eba-pipeline build-index \
-  --output ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
-  --processed ../data/current-parsed \
-  --quality-reports ../data/current-quality \
-  --seed seed_documents_current.yaml
-```
-
-Expected output ends with: `Build-index complete.`
-
-### 2g. Verify the database
-
-```bash
-# File should exist and be non-empty:
-ls -lh ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
-```
-
-Run the citation round-trip check (verifies every stored chunk resolves back to its source citation):
-
-```bash
-uv run eba-pipeline eval \
-  --db ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
-  --mode citation-roundtrip
-```
-
-Expected output: `Citation round-trip: NNN/NNN passed (100.0%)`
-
-Optional: run the retrieval eval suite (requires the built `dist/index.js` at repo root):
-
-```bash
-uv run eba-pipeline eval \
-  --db ../data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db \
-  --queries eba_pipeline/eval/queries.yaml \
-  --tags full_curated_semantic
-```
-
----
-
-## Part 3: Updating the Corpus
-
-To rebuild the corpus for a new date (e.g., `2026-09-01`):
-
-1. Re-run discovery with a new seed output name:
-
-   ```bash
-   cd pipeline
-   uv run eba-pipeline discover \
-     --profile current-applicable \
-     --output seed_documents_2026-09-01.yaml \
-     --limit 350
-   ```
-
-2. Download and parse as in steps 2c–2e above, pointing `--output` / `--input` to new versioned directories.
-
-3. Build the index with a new versioned DB filename:
-
-   ```bash
-   uv run eba-pipeline build-index \
-     --output ../data/corpora/eba-current-applicable-2026-09-01-nomic-embed-text.db \
-     --processed ../data/processed-2026-09-01 \
-     --quality-reports ../data/quality-2026-09-01 \
-     --seed seed_documents_2026-09-01.yaml \
-     --embed \
-     --model nomic-embed-text \
-     --ollama-url http://localhost:11434 \
-     --batch-size 32
-   ```
-
-4. Verify with citation round-trip check (step 2g).
-
-5. Update your MCP client config to point `--db` at the new versioned path.
-
-6. Keep the previous DB locally until you confirm the new version is stable.
-
-> **Note:** Do not mutate an existing production DB in place. Always build a new versioned file to allow rollback.
 
 ---
 
@@ -249,7 +127,7 @@ Add to `claude_desktop_config.json`, replacing the path with your clone location
       "args": [
         "/absolute/path/to/eba-mcp/dist/index.js",
         "--db",
-        "/absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db"
+        "/absolute/path/to/eba-mcp/data/corpora/eba-corpus.db"
       ],
       "env": {
         "EBA_SEARCH_MODE": "auto",
@@ -273,7 +151,7 @@ Without Ollama:
 ```text
 command: node
 args:    /absolute/path/to/eba-mcp/dist/index.js
-         --db /absolute/path/to/eba-mcp/data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.db
+         --db /absolute/path/to/eba-mcp/data/corpora/eba-corpus.db
 ```
 
 Use stdio transport. This server does not expose HTTP, SSE, or Streamable HTTP.
@@ -318,15 +196,7 @@ ollama pull nomic-embed-text
 
 ### Database is missing
 
-The DB is not tracked in Git — it must be generated locally. Run Part 2 of this guide.
-
-To confirm which DB is expected:
-
-```bash
-cat data/corpora/eba-current-applicable-2026-06-01-nomic-embed-text.manifest.json
-```
-
-The manifest JSON (tracked in Git) describes the target corpus version, document count, chunk count, and sha256 of the expected DB file.
+Run the release download command from the setup section, then verify the file exists at `data/corpora/eba-corpus.db`. If no release asset exists yet, ask the repository maintainer to publish it.
 
 ### Permissions or path problems
 
