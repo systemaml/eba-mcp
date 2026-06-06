@@ -5,7 +5,8 @@ DATA_DIR = ROOT_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 QUALITY_REPORTS_DIR = DATA_DIR / "quality_reports"
-DB_PATH = DATA_DIR / "eba.db"
+CORPORA_DIR = DATA_DIR / "corpora"
+DB_PATH = CORPORA_DIR / "eba-corpus.db"
 
 # Quality thresholds (PRD 11.1)
 QUALITY_SCORE_THRESHOLD = 0.85

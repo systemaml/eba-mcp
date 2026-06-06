@@ -159,25 +159,28 @@ def quality(input_dir: str, reports: str | None) -> None:
 
 
 @cli.command("build-index")
-@click.option("--output", required=True)
+@click.option("--output", default=None, help="Output DB path (default: data/corpora/eba-corpus.db)")
 @click.option("--seed", default=None, help="Path to seed_documents.yaml (auto-detected if omitted)")
 @click.option("--override", default=None, help="Path to relationships_override.yaml")
 @click.option("--processed", default=None, help="Processed directory (defaults to data/processed)")
 @click.option("--quality-reports", default=None, help="Quality reports directory")
 @click.option("--embed", is_flag=True, default=False, help="Generate and store embeddings in chunks_vec")
+@click.option("--resume", is_flag=True, default=False, help="Resume interrupted embedding run: reuse existing DB, embed only missing vectors")
 @click.option("--model", default="nomic-embed-text", show_default=True, help="Ollama embedding model")
 @click.option("--ollama-url", default="http://localhost:11434", show_default=True, help="Ollama server URL")
 @click.option("--batch-size", default=32, show_default=True, type=int, help="Embedding batch size")
-def build_index(output: str, seed: str | None, override: str | None, processed: str | None, quality_reports: str | None, embed: bool, model: str, ollama_url: str, batch_size: int) -> None:
+def build_index(output: str | None, seed: str | None, override: str | None, processed: str | None, quality_reports: str | None, embed: bool, resume: bool, model: str, ollama_url: str, batch_size: int) -> None:
     """Build SQLite/FTS5 index from processed data."""
     import sqlite3
 
-    from eba_pipeline.config import PROCESSED_DIR, QUALITY_REPORTS_DIR
+    from eba_pipeline.config import CORPORA_DIR, PROCESSED_DIR, QUALITY_REPORTS_DIR
     from eba_pipeline.index.build_index import build_index as _build_index
     from eba_pipeline.relationships.extractor import extract_relationships
 
+    output_path = Path(output) if output else CORPORA_DIR / "eba-corpus.db"
+
     _build_index(
-        Path(output),
+        output_path,
         Path(processed) if processed else PROCESSED_DIR,
         Path(quality_reports) if quality_reports else QUALITY_REPORTS_DIR,
         Path(seed) if seed else None,
@@ -185,6 +188,7 @@ def build_index(output: str, seed: str | None, override: str | None, processed: 
         model=model,
         ollama_url=ollama_url,
         batch_size=batch_size,
+        resume=resume,
     )
 
     seed_path = seed or str(Path(__file__).parent.parent / "seed_documents.yaml")
@@ -204,7 +208,7 @@ def build_index(output: str, seed: str | None, override: str | None, processed: 
                 "relationship_type": rel["relationship_type"],
             })
 
-    conn = sqlite3.connect(output)
+    conn = sqlite3.connect(str(output_path))
     _ = conn.execute("DELETE FROM document_relationships")
     _ = conn.executemany(
         "INSERT INTO document_relationships (source_eba_id, target_eba_id, relationship_type) VALUES (?, ?, ?)",
