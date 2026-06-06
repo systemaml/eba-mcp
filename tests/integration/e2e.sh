@@ -165,8 +165,11 @@ run_real_db_checks() {
   ")"
   local paragraph_eba_id="${paragraph_target%%|*}"
   local paragraph_ref="${paragraph_target#*|}"
+  local section_ref="${paragraph_ref%%.*}"
   local filter_document_type
   filter_document_type="$(sqlite_value "$db_path" 'SELECT document_type FROM documents GROUP BY document_type ORDER BY COUNT(*) DESC, document_type LIMIT 1')"
+  local hyphen_eba_id
+  hyphen_eba_id="$(sqlite_value "$db_path" "SELECT eba_id FROM documents WHERE eba_id LIKE 'EBA/%-%/%/%' ORDER BY eba_id LIMIT 1")"
   local status_eba_id
   status_eba_id="$(sqlite_value "$db_path" "
     SELECT COALESCE(
@@ -203,6 +206,16 @@ for key in ('citation_id', 'eba_id', 'text', 'citation', 'chunk_type', 'page_sta
 assert first['eba_id'] == '$search_eba_id'
 " true
 
+  if [ -n "$hyphen_eba_id" ]; then
+    res="$(call_tool "$db_path" "eba_search" "{\"query\":\"$hyphen_eba_id\",\"limit\":3}" 21)"
+    assert_json "eba_search exact lookup supports hyphenated EBA IDs" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['documents_considered'] == ['$hyphen_eba_id']
+assert len(payload['citations']) > 0
+assert all(citation['eba_id'] == '$hyphen_eba_id' for citation in payload['citations'])
+"
+  fi
+
   res="$(call_tool "$db_path" "eba_list_documents" '{"limit":5}' 3)"
   assert_json "eba_list_documents returns documents" "$res" "
 assert payload['answerability'] in ('partial', 'exact')
@@ -233,6 +246,25 @@ assert 'warnings' in payload
 assert payload['answerability'] == 'exact'
 assert len(payload['citations']) >= 1
 assert any(citation['paragraph_ref'] == '$paragraph_ref' for citation in payload['citations'])
+" true
+
+  res="$(call_tool "$db_path" "eba_get_section" "{\"eba_id\":\"$paragraph_eba_id\",\"section\":\"$section_ref\",\"limit\":20}" 61)"
+  assert_json "eba_get_section returns section citations" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['section'] == '$section_ref'
+assert payload['total_chunks'] == len(payload['citations'])
+assert len(payload['citations']) >= 1
+assert any((citation.get('paragraph_ref') or '').startswith('$section_ref') for citation in payload['citations'])
+" true
+
+  res="$(call_tool "$db_path" "eba_get_toc" "{\"eba_id\":\"$paragraph_eba_id\",\"limit\":20}" 62)"
+  assert_json "eba_get_toc returns outline entries" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['total'] == len(payload['toc'])
+assert len(payload['toc']) >= 1
+first = payload['toc'][0]
+for key in ('section_path', 'paragraph_refs', 'first_sequence_no', 'last_sequence_no', 'chunk_count'):
+    assert key in first
 " true
 
   res="$(call_tool "$db_path" "eba_search" '{"query":"xyznonexistent999","limit":3}' 7)"
@@ -342,6 +374,18 @@ assert payload['citations'] == []
 assert payload['documents_considered'] == []
 " 
 
+  res="$(call_tool "$temp_db" "eba_get_toc" '{"eba_id":"EBA/GL/9999/99"}' 103)"
+  assert_json "empty DB eba_get_toc returns no_match" "$res" "
+assert payload['answerability'] == 'no_match'
+assert payload['citations'] == []
+"
+
+  res="$(call_tool "$temp_db" "eba_get_section" '{"eba_id":"EBA/GL/9999/99","section":"4"}' 104)"
+  assert_json "empty DB eba_get_section returns no_match" "$res" "
+assert payload['answerability'] == 'no_match'
+assert payload['citations'] == []
+"
+
   rm -f "$temp_db"
   trap - EXIT
 }
@@ -358,8 +402,8 @@ fi
 
 echo
 echo "Results: $PASS passed, $FAIL failed"
-if [ "$TOOL_FAIL" -eq 0 ] && [ "$TOOL_PASS" -eq 12 ] && [ "$FAIL" -eq 0 ]; then
-  echo "12/12 tool tests passed"
+if [ "$TOOL_FAIL" -eq 0 ] && [ "$TOOL_PASS" -eq 14 ] && [ "$FAIL" -eq 0 ]; then
+  echo "14/14 tool tests passed"
   exit 0
 fi
 
