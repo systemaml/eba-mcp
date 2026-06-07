@@ -197,6 +197,17 @@ ESCAPED_PARA="$(python3 -c "import json,sys; print(json.dumps(sys.argv[1]))" "$H
 res="$(call_tool "$TEMP_DB" "eba_get_paragraph" "{\"eba_id\":\"EBA/GL/2021/02\",\"paragraph_ref\":$ESCAPED_PARA}" 17)"
 assert_error "paragraph_ref exceeding 50 chars is rejected" "$res"
 
+TWENTY_ONE_REFS="$(python3 - <<'PY'
+import json
+print(json.dumps([f'4.{i}' for i in range(21)]))
+PY
+)"
+res="$(call_tool "$TEMP_DB" "eba_get_paragraph" "{\"eba_id\":\"EBA/GL/2021/02\",\"paragraph_refs\":$TWENTY_ONE_REFS}" 22)"
+assert_error "paragraph_refs exceeding max (20) is rejected" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_get_paragraph" '{"eba_id":"EBA/GL/2021/02"}' 23)"
+assert_error "eba_get_paragraph without paragraph_ref or paragraph_refs is rejected" "$res"
+
 res="$(call_tool "$TEMP_DB" "eba_diff_versions" '{"eba_id":"EBA/GL/2021/02","version_a":"1.0","version_b":"2.0","prototype":{"polluted":true}}' 18)"
 assert_error "prototype key in eba_diff_versions is rejected by .strict()" "$res"
 

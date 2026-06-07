@@ -256,6 +256,10 @@ assert payload['answerability'] == 'exact'
 assert info['document_count'] == int('$expected_doc_count')
 assert info['chunk_count'] == int('$expected_chunk_count')
 assert isinstance(info['manifest_hash'], str) and info['manifest_hash']
+caps = info.get('server_capabilities', {})
+assert isinstance(caps.get('registered_tools'), list), f'registered_tools missing: {payload}'
+assert caps.get('tool_count') == 11, f'expected 11 tools, got {caps}'
+assert 'eba_search' in caps['registered_tools']
 assert isinstance(payload['query_trace_id'], str) and payload['query_trace_id']
 " true
 
@@ -289,6 +293,7 @@ assert payload['total'] == len(payload['documents'])
 first = payload['documents'][0]
 for key in ('eba_id', 'title', 'document_type', 'topic', 'language', 'publication_status'):
     assert key in first
+assert 'application_date' in first, f'application_date missing: {first.keys()}'
 " true
 
   res="$(call_tool "$db_path" "eba_list_documents" "{\"filters\":{\"document_type\":\"$filter_document_type\"},\"limit\":10}" 4)"
@@ -323,6 +328,17 @@ assert isinstance(sample.get('navigation_tools'), list) and len(sample['navigati
 assert payload['answerability'] == 'exact'
 assert len(payload['citations']) >= 1
 assert any(citation['paragraph_ref'] == '$paragraph_ref' for citation in payload['citations'])
+first = payload['citations'][0]
+assert 'is_anchor' in first, f'is_anchor missing: {first.keys()}'
+assert 'is_complete' in first, f'is_complete missing: {first.keys()}'
+assert isinstance(first.get('truncated'), bool), f'truncated missing/wrong type: {first}'
+" true
+
+  res="$(call_tool "$db_path" "eba_get_paragraph" "{\"eba_id\":\"$paragraph_eba_id\",\"paragraph_refs\":[\"$paragraph_ref\"],\"context_after\":0}" 63)"
+  assert_json "eba_get_paragraph batch mode returns citations with is_anchor" "$res" "
+assert payload['answerability'] == 'exact'
+assert len(payload['citations']) >= 1
+assert any(c.get('is_anchor') == True for c in payload['citations']), 'no is_anchor=True found'
 " true
 
   res="$(call_tool "$db_path" "eba_get_section" "{\"eba_id\":\"$paragraph_eba_id\",\"section\":\"$section_ref\",\"limit\":20}" 61)"
@@ -359,6 +375,8 @@ for citation in payload['citations']:
     assert 'summary of responses' not in section or 'consultation' not in section, section
     assert 'public consultation' not in section, section
     assert 'analysis of responses' not in section, section
+    assert section != 'guidelines', f'bare "guidelines" leaked: {citation}'
+    assert section != 'definitions', f'bare "definitions" leaked: {citation}'
 " true
 
   # --- M4 new tools ---
