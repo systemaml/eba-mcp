@@ -54,9 +54,18 @@ Citation objects are produced by `src/citations/formatter.ts`:
   "page_end": 1,
   "text": "First 500 characters of chunk text...",
   "citation": "EBA/GL/2021/02, para. 1, p. 1",
-  "chunk_type": "paragraph"
+  "chunk_type": "paragraph",
+  "truncated": false,
+  "truncation_offset": null
 }
 ```
+
+Field notes:
+
+- `truncated` — always present; `true` when `text` was clipped to 500 chars, `false` when text is the full chunk text.
+- `truncation_offset` — always present; `"500 / N"` (chars shown / total chars) when `truncated` is `true`, otherwise `null`.
+- `is_anchor?` — present **only** in `eba_get_paragraph` responses; `true` for the specifically requested paragraph, `false` for surrounding context chunks.
+- `is_complete?` — present **only** in `eba_get_paragraph` responses; `false` when `chunk_id` ends in `:sub1` or `:sub2` (split paragraph fragment), `true` otherwise.
 
 For chunks without a numbered paragraph, the citation string uses the section fallback:
 
@@ -64,7 +73,7 @@ For chunks without a numbered paragraph, the citation string uses the section fa
 EBA/Op/2022/01, section "Executive Summary", p. 4
 ```
 
-The POC does not expose `source_url`, `file_sha256`, `application_date`, or document status fields inside each citation object. Document-level metadata is available through `eba_list_documents` or `eba_get_document`.
+The POC does not expose `source_url`, `file_sha256`, or chunk-level document status fields inside each citation object. Document-level metadata including `application_date` is available through `eba_list_documents` or `eba_get_document`.
 
 ## `eba_search`
 
@@ -124,7 +133,7 @@ Return document metadata and a small sample of leading citation chunks for a spe
 ```json
 {
   "answerability": "exact",
-  "document": { "eba_id": "EBA/GL/2021/02", "title": "..." },
+  "document": { "eba_id": "EBA/GL/2021/02", "title": "...", "application_date": "2022-01-01" },
   "citations": [],
   "citation_sample": {
     "returned": 5,
@@ -139,7 +148,9 @@ Return document metadata and a small sample of leading citation chunks for a spe
 
 Return all chunks matching a paragraph reference in a document. Some source PDFs reuse paragraph-like numbers in tables/annexes; if multiple chunks match, all are returned in sequence order.
 
-### Input
+Accepts either `paragraph_ref` (single reference) or `paragraph_refs` (batch of up to 20 references). Exactly one of the two must be provided.
+
+### Input (single)
 
 ```json
 {
@@ -151,7 +162,51 @@ Return all chunks matching a paragraph reference in a document. Some source PDFs
 }
 ```
 
-Context bounds are integers from 0 to 3.
+### Input (batch)
+
+```json
+{
+  "eba_id": "EBA/GL/2021/02",
+  "paragraph_refs": ["1", "5", "10"],
+  "language": "en",
+  "context_before": 0,
+  "context_after": 0
+}
+```
+
+`paragraph_refs` accepts up to 20 paragraph references. Context bounds are integers from 0 to 3.
+
+### Output
+
+All returned citations include `is_anchor` and `is_complete` flags:
+
+```json
+{
+  "answerability": "exact",
+  "citations": [
+    {
+      "citation_id": "...",
+      "paragraph_ref": "1",
+      "text": "...",
+      "citation": "EBA/GL/2021/02, para. 1, p. 12",
+      "truncated": false,
+      "truncation_offset": null,
+      "is_anchor": true,
+      "is_complete": true
+    },
+    {
+      "citation_id": "...",
+      "paragraph_ref": "2",
+      "text": "...",
+      "citation": "EBA/GL/2021/02, para. 2, p. 12",
+      "truncated": false,
+      "truncation_offset": null,
+      "is_anchor": false,
+      "is_complete": true
+    }
+  ]
+}
+```
 
 If an `eba_search` result has `paragraph_ref: null`, this tool cannot retrieve it by paragraph. Use `eba_get_section` for nearby section navigation or `eba_validate_citation` for the returned `citation_id`.
 
@@ -241,8 +296,19 @@ List indexed documents with optional filters. `topic="AML/CFT"` uses the same he
 ```json
 {
   "answerability": "partial",
-  "documents": [],
-  "total": 0,
+  "documents": [
+    {
+      "eba_id": "EBA/GL/2021/02",
+      "title": "...",
+      "document_type": "guidelines",
+      "published_at": "2021-07-01",
+      "application_date": "2022-01-01",
+      "publication_status": "final",
+      "applicability_status": "applicable",
+      "is_canonical": true
+    }
+  ],
+  "total": 1,
   "filters_applied": {},
   "citations": [],
   "warnings": [],
@@ -272,7 +338,23 @@ Return corpus manifest data.
     "document_count": 346,
     "chunk_count": 42146,
     "embedding_model": "nomic-embed-text",
-    "embedding_dim": 768
+    "embedding_dim": 768,
+    "server_capabilities": {
+      "registered_tools": [
+        "eba_search",
+        "eba_get_document",
+        "eba_get_paragraph",
+        "eba_get_section",
+        "eba_get_toc",
+        "eba_list_documents",
+        "eba_corpus_info",
+        "eba_get_status",
+        "eba_get_versions",
+        "eba_validate_citation",
+        "eba_diff_versions"
+      ],
+      "tool_count": 11
+    }
   },
   "citations": [],
   "warnings": [],

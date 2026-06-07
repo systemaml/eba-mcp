@@ -137,7 +137,7 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 |------|-------------|
 | `eba_search` | FTS/hybrid search across indexed EBA documents with citation results |
 | `eba_get_document` | Get metadata and leading citations for a specific EBA document by ID |
-| `eba_get_paragraph` | Get a specific paragraph with optional surrounding context |
+| `eba_get_paragraph` | Get a specific paragraph with optional surrounding context; or batch-fetch up to 20 paragraphs via `paragraph_refs` |
 | `eba_get_section` | Get all citation chunks matching a section or paragraph prefix |
 | `eba_get_toc` | Get a best-effort document outline with paragraph and page ranges |
 | `eba_list_documents` | List indexed documents with optional filters |
@@ -153,7 +153,7 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 **`eba_get_document`** — Returns document metadata and a small sample of leading parsed chunks for a given document identifier. It is not a full-document dump; use `eba_get_toc` and `eba_get_section` for document navigation.
 
-**`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters to include surrounding chunks.
+**`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters to include surrounding chunks. Accepts `paragraph_refs: string[]` (up to 20) for batch retrieval of multiple paragraphs in a single call; each citation includes `is_anchor` (marks the requested paragraph vs. surrounding context) and `is_complete` (`false` for split paragraph fragments ending in `:sub1`/`:sub2`, `true` otherwise) flags.
 
 **`eba_get_section`** — Retrieves chunks where `paragraph_ref` or `section_path` matches a section prefix such as `4` or `4.7`. This is a quick way to read a whole EBA guideline section after search discovery.
 

@@ -17,10 +17,10 @@ One row per EBA publication.
 | `language` | TEXT | Static `en` in the POC |
 | `publication_url` | TEXT | EBA publication page URL |
 | `published_at` | TEXT | ISO-like publication date from seed YAML |
-| `application_date` | TEXT NULL | Optional application/effective date; nullable when not provided |
+| `application_date` | TEXT NULL | Application date from EBA publication cover page; may be empty string if unknown; nullable |
 | `applicability_status` | TEXT | Seed metadata, default `applicable` |
 | `publication_status` | TEXT | Seed metadata, default `final` |
-| `is_canonical` | INTEGER | Canonical-document flag stored as 0/1; mapped to TypeScript `boolean` |
+| `is_canonical` | INTEGER | Whether this document version is the canonical indexed version; stored as 0/1 in SQLite, mapped to TypeScript `boolean` |
 
 For production corpora, `publication_status` and `applicability_status` are central filtering fields. The default production corpus should contain current/applicable regulatory documents only; archive/proposed/draft records should be omitted or indexed in a separate non-default corpus.
 
@@ -108,8 +108,8 @@ Single-row table with build metadata:
 | `built_at` | TEXT | UTC timestamp |
 | `document_count` | INTEGER | Count from `documents` |
 | `chunk_count` | INTEGER | Count from `chunks` |
-| `embedding_model` | TEXT | Embedding model name used for vector generation |
-| `embedding_dim` | INTEGER | Embedding vector dimension |
+| `embedding_model` | TEXT | Embedding model name used for vector generation, e.g. `nomic-embed-text` |
+| `embedding_dim` | INTEGER | Embedding vector dimension, e.g. `768` |
 
 ## Vector index
 
