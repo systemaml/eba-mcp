@@ -119,19 +119,27 @@ export function handleEbaDiffVersions(input: EbaDiffVersionsInputType) {
 }
 
 export function handleEbaGetParagraph(input: EbaGetParagraphInputType) {
-  const chunks = getParagraph(
-    input.eba_id,
-    input.paragraph_ref,
-    input.language || 'en',
-    input.context_before || 0,
-    input.context_after || 0,
-  );
+  const paragraphRefs: string[] = input.paragraph_refs?.length
+    ? input.paragraph_refs
+    : (input.paragraph_ref !== undefined ? [input.paragraph_ref] : []);
 
-  if (chunks.length === 0) {
+  const citations = paragraphRefs.flatMap((paragraphRef) => (
+    getParagraph(
+      input.eba_id,
+      paragraphRef,
+      input.language || 'en',
+      input.context_before || 0,
+      input.context_after || 0,
+    ).map((chunk) => ({
+      ...buildCitation(chunk, input.eba_id),
+      is_anchor: chunk.paragraph_ref === paragraphRef,
+    }))
+  ));
+
+  if (citations.length === 0) {
     return buildResponse('no_match', []);
   }
 
-  const citations = chunks.map(c => buildCitation(c, input.eba_id));
   return buildResponse('exact', citations);
 }
 

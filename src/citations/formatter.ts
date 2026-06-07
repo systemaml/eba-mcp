@@ -13,6 +13,7 @@ export interface CitationObject {
   truncation_offset: string | null;
   citation: string;
   chunk_type: string;
+  is_anchor?: boolean;
 }
 
 export function buildCitation(chunk: Chunk, ebaId: string): CitationObject {

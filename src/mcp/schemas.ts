@@ -130,12 +130,17 @@ export const EbaGetDocumentInput = z
 export const EbaGetParagraphInput = z
   .object({
     eba_id: EbaId,
-    paragraph_ref: ParagraphRef,
+    paragraph_ref: ParagraphRef.optional(),
+    paragraph_refs: z.array(ParagraphRef).max(20, 'paragraph_refs exceeds 20 items').optional(),
     language: Language.default('en'),
     context_before: z.number().int().min(0).max(3).default(0),
     context_after: z.number().int().min(0).max(3).default(0),
   })
-  .strict();
+  .strict()
+  .refine((input) => Boolean(input.paragraph_ref || input.paragraph_refs?.length), {
+    message: 'Either paragraph_ref or paragraph_refs must be provided',
+    path: ['paragraph_ref'],
+  });
 
 export const EbaGetSectionInput = z
   .object({
