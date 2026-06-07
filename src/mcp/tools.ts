@@ -17,6 +17,12 @@ import type {
 
 const EBA_ID_PATTERN = /^EBA\/[A-Za-z][A-Za-z-]*\/\d{4}\/\d+$/;
 
+const REGISTERED_TOOLS = [
+  'eba_search', 'eba_get_document', 'eba_get_paragraph', 'eba_get_section',
+  'eba_get_toc', 'eba_list_documents', 'eba_corpus_info', 'eba_get_status',
+  'eba_get_versions', 'eba_validate_citation', 'eba_diff_versions',
+] as const;
+
 function getSearchAnswerability(citationCount: number, isExactDocumentLookup: boolean): 'exact' | 'partial' | 'no_match' {
   if (citationCount === 0) {
     return 'no_match';
@@ -175,6 +181,10 @@ export function handleEbaCorpusInfo(_input: EbaCorpusInfoInputType | undefined) 
   return {
     ...buildResponse(info ? 'exact' as const : 'no_match' as const, []),
     corpus_info: info,
+    server_capabilities: {
+      registered_tools: [...REGISTERED_TOOLS],
+      tool_count: REGISTERED_TOOLS.length,
+    },
   };
 }
 export function handleEbaGetStatus(input: EbaGetStatusInputType) {
