@@ -247,7 +247,7 @@ def paragraphize_document(pages: list[PageData], eba_id: str, language: str = "e
             flush_chunk()
             current_para_ref = paragraph_ref
             heading_ref = detect_heading_ref(stripped)
-            if heading_ref and len(stripped) <= 100 and len(stripped.split()) <= 10:
+            if heading_ref and len(stripped) <= 100 and len(stripped.split()) <= 15:
                 current_section_path = stripped[:100]
                 current_ref_context = heading_ref
             current_chunk_lines.append((page_no, stripped))

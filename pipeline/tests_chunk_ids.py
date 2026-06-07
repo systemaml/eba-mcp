@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import cast
 
 from eba_pipeline.index.build_index import build_index
-from eba_pipeline.parser.paragraphize import PageData, paragraphize_document
+from eba_pipeline.parser.paragraphize import ChunkData, PageData, paragraphize_document
 from eba_pipeline.parser.quality import summarize_duplicate_chunk_ids, validate_unique_chunk_ids
 
 
@@ -35,6 +35,37 @@ class ChunkIdTests(unittest.TestCase):
         self.assertEqual(chunks[1]["paragraph_ref"], "4")
         self.assertTrue(chunks[0]["chunk_id"].endswith(":p1:s0"))
         self.assertTrue(chunks[1]["chunk_id"].endswith(":p2:s1"))
+
+    def test_paragraph_heading_with_twelve_words_updates_section_path(self) -> None:
+        pages = [
+            {
+                "page_no": 1,
+                "text": "1.30. Firms should always consider the following sources of information:\nSome text under 1.30.",
+                "extraction_method": "pdfplumber",
+                "char_count": 90,
+            },
+            {
+                "page_no": 2,
+                "text": "4.40. SDD measures firms may apply include but are not limited to:\nA list item here.",
+                "extraction_method": "pdfplumber",
+                "char_count": 80,
+            },
+        ]
+
+        chunks = paragraphize_document(cast(list[PageData], pages), "EBA/GL/2021/02")
+
+        chunk_440 = next((chunk for chunk in chunks if chunk["paragraph_ref"] == "4.40"), None)
+
+        self.assertIsNotNone(chunk_440)
+        chunk_440 = cast(ChunkData, chunk_440)
+        section_path = chunk_440["section_path"]
+
+        self.assertEqual(
+            section_path,
+            "4.40. SDD measures firms may apply include but are not limited to:",
+        )
+        self.assertIn("4.40", section_path)
+        self.assertNotIn("1.30", section_path)
 
     def test_validate_unique_chunk_ids_reports_actionable_samples(self) -> None:
         chunks = [
