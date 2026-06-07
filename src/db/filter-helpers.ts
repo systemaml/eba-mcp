@@ -82,5 +82,9 @@ export function addConsultationResponseExclusion(
     OR lower(c.section_path) LIKE '%summary of responses%consultation%'
     OR lower(c.section_path) LIKE '%public consultation%'
     OR lower(c.section_path) LIKE '%analysis of responses%'
+    OR lower(c.section_path) LIKE 'guidelines'
+    OR lower(c.section_path) LIKE 'definitions'
+    OR lower(c.section_path) LIKE '%consultation%'
+    OR lower(c.section_path) LIKE '%feedback%'
   )`);
 }

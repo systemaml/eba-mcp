@@ -9,11 +9,16 @@ export interface CitationObject {
   page_start: number | null;
   page_end: number | null;
   text: string;
+  truncated: boolean;
+  truncation_offset: string | null;
   citation: string;
   chunk_type: string;
 }
 
 export function buildCitation(chunk: Chunk, ebaId: string): CitationObject {
+  const truncated = chunk.text.length > 500;
+  const text = chunk.text.replace(/\n/g, ' ').slice(0, 500);
+
   return {
     citation_id: chunk.chunk_id,
     eba_id: ebaId,
@@ -21,7 +26,9 @@ export function buildCitation(chunk: Chunk, ebaId: string): CitationObject {
     section_path: chunk.section_path || '',
     page_start: chunk.page_start || null,
     page_end: chunk.page_end || null,
-    text: chunk.text.slice(0, 500),
+    text,
+    truncated,
+    truncation_offset: truncated ? `500 / ${chunk.text.length}` : null,
     citation: formatCitationString(chunk, ebaId),
     chunk_type: chunk.chunk_type,
   };
