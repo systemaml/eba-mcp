@@ -6,8 +6,10 @@ export interface Document {
   language: string;
   publication_url: string;
   published_at: string | null;
+  application_date: string | null;
   applicability_status: string;
   publication_status: string;
+  is_canonical: boolean;
 }
 
 export interface Chunk {
@@ -31,6 +33,8 @@ export interface CorpusManifest {
   built_at: string;
   document_count: number;
   chunk_count: number;
+  embedding_model: string;
+  embedding_dim: number;
 }
 
 export interface SearchFilters {
