@@ -14,6 +14,7 @@ export interface CitationObject {
   citation: string;
   chunk_type: string;
   is_anchor?: boolean;
+  is_complete?: boolean;
 }
 
 export function buildCitation(chunk: Chunk, ebaId: string): CitationObject {

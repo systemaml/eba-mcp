@@ -133,6 +133,7 @@ export function handleEbaGetParagraph(input: EbaGetParagraphInputType) {
     ).map((chunk) => ({
       ...buildCitation(chunk, input.eba_id),
       is_anchor: chunk.paragraph_ref === paragraphRef,
+      is_complete: !chunk.chunk_id.includes(':sub'),
     }))
   ));
 
