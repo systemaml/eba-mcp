@@ -149,7 +149,7 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 ### Tool Details
 
-**`eba_search`** — Searches indexed EBA chunks and returns bounded citation objects with document ID, page, paragraph reference, and excerpt text. Retrieval is automatic: the server uses hybrid FTS + semantic search when vectors and Ollama are available, and falls back to FTS5 when they are not. Supports filters including `eba_id`, `document_type`, `topic`, `publication_status`, `applicability_status`, and `exclude_consultation_responses`. `topic="AML/CFT"` also matches AML-relevant titles whose stored corpus topic is a publication facet such as `EBA guidelines`. `response_mode` controls excerpt detail (`compact`, `standard`, `full`), `max_citations` caps the final returned citations after optional context expansion, and `max_chars` overrides the default per-citation excerpt length. Use `eba_get_paragraph` or `eba_get_section` for deeper follow-up context.
+**`eba_search`** — Searches indexed EBA chunks and returns bounded citation objects with document ID, page, paragraph reference, and excerpt text. Retrieval defaults to hybrid FTS + semantic search when vectors and Ollama are available, and falls back to FTS5 when they are not. Optional `search_mode` can request `hybrid`, `fts`, or `vector` retrieval for a specific call. Responses include `embeddings_available` and, when semantic retrieval actually ran, the runtime `embedding_model`. Supports filters including `eba_id`, `document_type`, `topic`, `publication_status`, `applicability_status`, and `exclude_consultation_responses`. `topic="AML/CFT"` also matches AML-relevant titles whose stored corpus topic is a publication facet such as `EBA guidelines`. `response_mode` controls excerpt detail (`compact`, `standard`, `full`), `max_citations` caps the final returned citations after optional context expansion, and `max_chars` overrides the default per-citation excerpt length. Use `eba_get_paragraph` or `eba_get_section` for deeper follow-up context.
 
 **`eba_get_document`** — Returns document metadata and a small sample of leading parsed chunks for a given document identifier. It is not a full-document dump; use `eba_get_toc` and `eba_get_section` for document navigation.
 
@@ -157,7 +157,7 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 **`eba_get_section`** — Retrieves chunks where `paragraph_ref` or `section_path` matches a section prefix such as `4` or `4.7`. This is a quick way to read a whole EBA guideline section after search discovery.
 
-**`eba_get_toc`** — Returns a best-effort outline derived from parsed `section_path`, paragraph references, page ranges, and sequence ranges. It is not a guaranteed extraction of the PDF's printed table of contents.
+**`eba_get_toc`** — Returns a best-effort outline derived from parsed `section_path`, paragraph references, page ranges, and sequence ranges. Runtime cleanup filters common front-matter/consultation boilerplate and adds numeric `section_ref`, hierarchy `level`, parent reference, and confidence metadata. It is not a guaranteed extraction of the PDF's printed table of contents.
 
 **`eba_list_documents`** — Lists all documents in the index with metadata (title, publication date, document type). Supports optional type/keyword filters.
 
