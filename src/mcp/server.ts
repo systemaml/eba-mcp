@@ -54,7 +54,7 @@ const TOOLS = [
   {
     name: 'eba_search',
     description:
-      'Discover citation-ready text from the English EBA corpus. If the user asks in Polish or another language, translate the search intent to focused English regulatory terms before calling this tool. Retrieval is automatic: hybrid semantic search is used when available, with FTS fallback. Start here for unknown paragraphs or concepts, then use eba_get_paragraph for exact paragraph_refs, eba_get_toc to inspect structure, or eba_get_section for broad section navigation. Supports filters.eba_id, document_type, topic, publication_status, applicability_status, language=en, and filters.exclude_consultation_responses; do not pass exclude_consultation_responses at top level. Warning: paragraph_ref can be null for headings/tables/unnumbered chunks; pass the returned citation_id to eba_validate_citation as citation_id or chunk_id when paragraph navigation is unavailable. Omit max_chars for full citation text, or set max_chars for bounded excerpts. Returns citations, not legal advice.',
+      'Discover bounded, citation-ready excerpts from the English EBA corpus. If the user asks in Polish or another language, translate the search intent to focused English regulatory terms before calling this tool. Retrieval is automatic: hybrid semantic search is used when available, with FTS fallback. Start here for unknown paragraphs or concepts, then use eba_get_paragraph for exact paragraph_refs, eba_get_toc to inspect structure, or eba_get_section for broad section navigation. Supports filters.eba_id, document_type, topic, publication_status, applicability_status, language=en, and filters.exclude_consultation_responses; do not pass exclude_consultation_responses at top level. Warning: paragraph_ref can be null for headings/tables/unnumbered chunks; pass the returned citation_id to eba_validate_citation as citation_id or chunk_id when paragraph navigation is unavailable. Search is intentionally size-bounded: response_mode controls excerpt detail, max_citations caps final returned citations after context expansion, and max_chars overrides the per-citation excerpt length. Returns citations, not legal advice.',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -72,9 +72,11 @@ const TOOLS = [
           properties: FILTER_PROPERTIES,
           description: 'Optional filters object. Put exclude_consultation_responses here, not at top level. Example: {"filters":{"eba_id":"EBA/GL/2021/02","document_type":"guidelines","publication_status":"final","topic":"AML/CFT","exclude_consultation_responses":true}}. topic="AML/CFT" also matches AML-relevant document titles whose corpus topic is a publication facet such as "EBA guidelines".',
         },
-        limit: { type: 'number', minimum: 1, maximum: 50, description: 'Max results (default 10)', default: 10 },
-        include_context: { type: 'boolean', description: 'Include one neighboring chunk before and after each hit. Use when a citation appears to be a continuation of adjacent paragraphs.', default: false },
-        max_chars: { type: 'number', minimum: 1, maximum: 100000, description: 'Optional maximum characters per citation text. Omit to return full chunk text.' },
+        limit: { type: 'number', minimum: 1, maximum: 50, description: 'Max anchor search hits before optional context expansion (default 10). This is not the final citation count when include_context=true.', default: 10 },
+        include_context: { type: 'boolean', description: 'Include one neighboring chunk before and after each hit, subject to max_citations and the response size budget. Use when a citation appears to be a continuation of adjacent paragraphs.', default: false },
+        max_citations: { type: 'number', minimum: 1, maximum: 50, description: 'Final maximum number of citation objects returned after optional context expansion. Defaults: compact=15, standard=10, full=5.' },
+        response_mode: { type: 'string', enum: ['compact', 'standard', 'full'], description: 'Controls response size. compact returns shorter discovery excerpts with minimal citation fields; standard is the bounded default; full returns longer excerpts but remains under the response budget.', default: 'standard' },
+        max_chars: { type: 'number', minimum: 1, maximum: 100000, description: 'Optional maximum characters per citation text. If omitted, eba_search uses bounded defaults by response_mode: compact=600, standard=1200, full=5000.' },
       },
       required: ['query'],
     },

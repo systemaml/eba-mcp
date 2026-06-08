@@ -10,6 +10,16 @@ export interface McpResponse {
   documents_considered?: string[];
   filters_applied?: Record<string, unknown>;
   search_mode?: 'hybrid' | 'fts_fallback' | 'fts_only';
+  response_mode?: 'compact' | 'standard' | 'full';
+  response_limited?: boolean;
+  limit_reason?: 'citation_cap' | 'response_size_chars';
+  available_citations?: number;
+  returned_citations?: number;
+  omitted_citations?: number;
+  omitted_context?: number;
+  response_size_chars?: number;
+  response_size_budget_chars?: number;
+  suggested_next_tools?: string[];
   warnings: string[];
   query_trace_id: string;
   corpus_version: string | null;
@@ -22,6 +32,16 @@ export function buildResponse(
     documents_considered?: string[];
     filters_applied?: Record<string, unknown>;
     search_mode?: 'hybrid' | 'fts_fallback' | 'fts_only';
+    response_mode?: 'compact' | 'standard' | 'full';
+    response_limited?: boolean;
+    limit_reason?: 'citation_cap' | 'response_size_chars';
+    available_citations?: number;
+    returned_citations?: number;
+    omitted_citations?: number;
+    omitted_context?: number;
+    response_size_chars?: number;
+    response_size_budget_chars?: number;
+    suggested_next_tools?: string[];
     warnings?: string[];
     corpus_version?: string | null;
   } = {}
@@ -41,6 +61,16 @@ export function buildResponse(
     documents_considered: options.documents_considered,
     filters_applied: options.filters_applied,
     search_mode: options.search_mode,
+    response_mode: options.response_mode,
+    response_limited: options.response_limited,
+    limit_reason: options.limit_reason,
+    available_citations: options.available_citations,
+    returned_citations: options.returned_citations,
+    omitted_citations: options.omitted_citations,
+    omitted_context: options.omitted_context,
+    response_size_chars: options.response_size_chars,
+    response_size_budget_chars: options.response_size_budget_chars,
+    suggested_next_tools: options.suggested_next_tools,
     warnings: options.warnings || [],
     query_trace_id: randomUUID(),
     corpus_version: corpusVersion,

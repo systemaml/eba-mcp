@@ -1,6 +1,9 @@
 import { diffVersions, getContextForChunks, getCorpusInfo, getDocument, getDocumentStatus, getParagraph, getSection, getToc, getVersions, listDocuments, searchChunks, searchChunksWithMode, validateCitation } from '../db/retrieval.js';
 import { buildCitation, buildCitations } from '../citations/formatter.js';
 import { buildResponse } from './formatters.js';
+import type { Chunk } from '../db/types.js';
+import type { CitationObject } from '../citations/formatter.js';
+import type { McpResponse } from './formatters.js';
 import type {
   EbaCorpusInfoInputType,
   EbaDiffVersionsInputType,
@@ -23,6 +26,189 @@ const REGISTERED_TOOLS = [
   'eba_get_versions', 'eba_validate_citation', 'eba_diff_versions',
 ] as const;
 
+type SearchResponseMode = EbaSearchInputType['response_mode'];
+
+type SearchCitation = CitationObject | {
+  citation_id: string;
+  eba_id: string;
+  paragraph_ref: string | null;
+  page_start: number | null;
+  page_end: number | null;
+  text: string;
+  truncated: boolean;
+  truncation_offset: string | null;
+  citation: string;
+};
+
+type BudgetableCitation = SearchCitation & {
+  text: string;
+  truncated: boolean;
+  truncation_offset: string | null;
+};
+
+const SEARCH_RESPONSE_SIZE_BUDGET_CHARS = 50_000;
+const SEARCH_SUGGESTED_NEXT_TOOLS = ['eba_get_paragraph', 'eba_get_section', 'eba_get_toc'] as const;
+
+function getDefaultSearchMaxChars(responseMode: SearchResponseMode): number {
+  switch (responseMode) {
+    case 'compact':
+      return 600;
+    case 'full':
+      return 5_000;
+    case 'standard':
+      return 1_200;
+  }
+}
+
+function getDefaultSearchMaxCitations(responseMode: SearchResponseMode): number {
+  switch (responseMode) {
+    case 'compact':
+      return 15;
+    case 'full':
+      return 5;
+    case 'standard':
+      return 10;
+  }
+}
+
+function prioritizeAnchorChunks(anchorChunks: Chunk[], expandedChunks: Chunk[]): Chunk[] {
+  const anchorIds = new Set(anchorChunks.map((chunk) => chunk.chunk_id));
+  const ordered: Chunk[] = [];
+  const seen = new Set<string>();
+
+  for (const chunk of anchorChunks) {
+    if (!seen.has(chunk.chunk_id)) {
+      ordered.push(chunk);
+      seen.add(chunk.chunk_id);
+    }
+  }
+
+  for (const chunk of expandedChunks) {
+    if (!anchorIds.has(chunk.chunk_id) && !seen.has(chunk.chunk_id)) {
+      ordered.push(chunk);
+      seen.add(chunk.chunk_id);
+    }
+  }
+
+  return ordered;
+}
+
+function compactCitation(citation: CitationObject): SearchCitation {
+  return {
+    citation_id: citation.citation_id,
+    eba_id: citation.eba_id,
+    paragraph_ref: citation.paragraph_ref,
+    page_start: citation.page_start,
+    page_end: citation.page_end,
+    text: citation.text,
+    truncated: citation.truncated,
+    truncation_offset: citation.truncation_offset,
+    citation: citation.citation,
+  };
+}
+
+function countContextChunks(chunks: Chunk[], anchorIds: Set<string>): number {
+  return chunks.filter((chunk) => !anchorIds.has(chunk.chunk_id)).length;
+}
+
+function measureMcpToolJson(response: McpResponse): number {
+  return JSON.stringify(response, null, 2).length;
+}
+
+function withReportedResponseSize(response: McpResponse): McpResponse {
+  let reportedSize = response.response_size_chars ?? 0;
+
+  for (;;) {
+    const nextResponse = {
+      ...response,
+      response_size_chars: reportedSize,
+      response_size_budget_chars: SEARCH_RESPONSE_SIZE_BUDGET_CHARS,
+    };
+    const measuredSize = measureMcpToolJson(nextResponse);
+
+    if (measuredSize === reportedSize) {
+      return nextResponse;
+    }
+
+    reportedSize = measuredSize;
+  }
+}
+
+function getCitationTextTotalLength(citation: BudgetableCitation): number {
+  if (!citation.truncation_offset) {
+    return citation.text.length;
+  }
+
+  const [, totalLengthText] = citation.truncation_offset.split('/').map((part) => part.trim());
+  const totalLength = Number.parseInt(totalLengthText ?? '', 10);
+  return Number.isFinite(totalLength) ? totalLength : citation.text.length;
+}
+
+function shrinkSingleCitation(response: McpResponse): McpResponse {
+  const [citation] = response.citations as BudgetableCitation[];
+  if (!citation) {
+    return response;
+  }
+
+  const maxFallbackTextChars = 200;
+  const totalLength = getCitationTextTotalLength(citation);
+  const nextCitation: BudgetableCitation = {
+    ...citation,
+    text: citation.text.slice(0, maxFallbackTextChars),
+    truncated: citation.text.length > maxFallbackTextChars || citation.truncated,
+    truncation_offset: `${Math.min(maxFallbackTextChars, citation.text.length)} / ${totalLength}`,
+  };
+
+  return {
+    ...response,
+    citations: [nextCitation],
+  };
+}
+
+function withSearchResponseBudget(response: McpResponse, availableCitations: number): McpResponse {
+  let limitedResponse = withReportedResponseSize(response);
+  let responseSize = measureMcpToolJson(limitedResponse);
+
+  while (responseSize > SEARCH_RESPONSE_SIZE_BUDGET_CHARS && limitedResponse.citations.length > 1) {
+    const returnedCitations = limitedResponse.citations.length - 1;
+    const omittedCitations = Math.max(availableCitations - returnedCitations, 0);
+    const budgetWarning = `eba_search response exceeded ${SEARCH_RESPONSE_SIZE_BUDGET_CHARS} characters; returned ${returnedCitations} of ${availableCitations} citations. Narrow the query or use eba_get_paragraph/eba_get_section for exact context.`;
+
+    limitedResponse = withReportedResponseSize({
+      ...limitedResponse,
+      citations: limitedResponse.citations.slice(0, returnedCitations),
+      response_limited: true,
+      limit_reason: 'response_size_chars',
+      returned_citations: returnedCitations,
+      omitted_citations: omittedCitations,
+      response_size_budget_chars: SEARCH_RESPONSE_SIZE_BUDGET_CHARS,
+      suggested_next_tools: [...SEARCH_SUGGESTED_NEXT_TOOLS],
+      warnings: limitedResponse.warnings.includes(budgetWarning)
+        ? limitedResponse.warnings
+        : [...limitedResponse.warnings, budgetWarning],
+    });
+    responseSize = measureMcpToolJson(limitedResponse);
+  }
+
+  if (responseSize > SEARCH_RESPONSE_SIZE_BUDGET_CHARS && limitedResponse.citations.length === 1) {
+    const budgetWarning = `eba_search response exceeded ${SEARCH_RESPONSE_SIZE_BUDGET_CHARS} characters; preserved one minimal citation shell and truncated its text. Use eba_get_paragraph/eba_get_section for exact context.`;
+    limitedResponse = withReportedResponseSize({
+      ...shrinkSingleCitation(limitedResponse),
+      response_limited: true,
+      limit_reason: 'response_size_chars',
+      returned_citations: 1,
+      omitted_citations: Math.max(availableCitations - 1, 0),
+      response_size_budget_chars: SEARCH_RESPONSE_SIZE_BUDGET_CHARS,
+      suggested_next_tools: [...SEARCH_SUGGESTED_NEXT_TOOLS],
+      warnings: limitedResponse.warnings.includes(budgetWarning)
+        ? limitedResponse.warnings
+        : [...limitedResponse.warnings, budgetWarning],
+    });
+  }
+
+  return withReportedResponseSize(limitedResponse);
+}
+
 function getSearchAnswerability(citationCount: number, isExactDocumentLookup: boolean): 'exact' | 'partial' | 'no_match' {
   if (citationCount === 0) {
     return 'no_match';
@@ -37,22 +223,53 @@ function getSearchAnswerability(citationCount: number, isExactDocumentLookup: bo
 
 export async function handleEbaSearch(input: EbaSearchInputType) {
   try {
+    const responseMode = input.response_mode;
+    const maxCitations = input.max_citations ?? getDefaultSearchMaxCitations(responseMode);
+    const maxChars = input.max_chars ?? getDefaultSearchMaxChars(responseMode);
     const searchResult = await searchChunksWithMode(input.query, input.filters || {}, input.limit || 10);
     const baseChunks = searchResult.chunks;
-    const chunks = input.include_context ? getContextForChunks(baseChunks, 1, 1) : baseChunks;
-    const citations = buildCitations(chunks, '', { maxChars: input.max_chars });
+    const expandedChunks = input.include_context ? getContextForChunks(baseChunks, 1, 1) : baseChunks;
+    const orderedChunks = input.include_context ? prioritizeAnchorChunks(baseChunks, expandedChunks) : expandedChunks;
+    const chunks = orderedChunks.slice(0, maxCitations);
+    const fullCitations = buildCitations(chunks, '', { maxChars });
+    const citations: SearchCitation[] = responseMode === 'compact'
+      ? fullCitations.map(compactCitation)
+      : fullCitations;
+
+    const anchorIds = new Set(baseChunks.map((chunk) => chunk.chunk_id));
+    const availableCitations = orderedChunks.length;
+    const omittedCitations = Math.max(availableCitations - citations.length, 0);
+    const omittedContext = input.include_context
+      ? Math.max(countContextChunks(orderedChunks, anchorIds) - countContextChunks(chunks, anchorIds), 0)
+      : 0;
+    const citationCapLimited = omittedCitations > 0;
+    const warnings = citationCapLimited
+      ? [`eba_search returned ${citations.length} of ${availableCitations} available citations after context expansion. Narrow the query, increase max_citations, or use eba_get_paragraph/eba_get_section for exact context.`]
+      : [];
 
     const isExactDocumentLookup = EBA_ID_PATTERN.test(input.query.trim()) || Boolean(input.filters?.eba_id);
 
-    return buildResponse(
+    const response = buildResponse(
       getSearchAnswerability(baseChunks.length, isExactDocumentLookup),
       citations,
       {
         documents_considered: [...new Set(chunks.map((chunk) => chunk.eba_id).filter(Boolean))] as string[],
         filters_applied: input.filters || {},
         search_mode: searchResult.search_mode,
+        response_mode: responseMode,
+        response_limited: citationCapLimited,
+        limit_reason: citationCapLimited ? 'citation_cap' : undefined,
+        available_citations: availableCitations,
+        returned_citations: citations.length,
+        omitted_citations: omittedCitations,
+        omitted_context: omittedContext,
+        response_size_budget_chars: SEARCH_RESPONSE_SIZE_BUDGET_CHARS,
+        suggested_next_tools: citationCapLimited ? [...SEARCH_SUGGESTED_NEXT_TOOLS] : undefined,
+        warnings,
       }
     );
+
+    return withSearchResponseBudget(response, availableCitations);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown search error';
 

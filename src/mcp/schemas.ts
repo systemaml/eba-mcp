@@ -100,6 +100,11 @@ const MaxChars = z
   .optional()
   .describe('Optional maximum characters per citation text. Omit to return full chunk/paragraph text.');
 
+const SearchResponseMode = z
+  .enum(['compact', 'standard', 'full'])
+  .default('standard')
+  .describe('Controls eba_search response size: compact returns short discovery excerpts, standard is bounded citation-ready output, full returns longer excerpts within the response budget.');
+
 // ── Shared filter objects ──────────────────────────────────────────────────
 
 const SearchFilters = z
@@ -125,6 +130,14 @@ export const EbaSearchInput = z
     filters: SearchFilters.optional(),
     limit: z.number().int().min(1).max(50).default(10),
     include_context: z.boolean().default(false),
+    max_citations: z
+      .number()
+      .int()
+      .min(1)
+      .max(50)
+      .optional()
+      .describe('Final maximum number of citation objects returned after optional context expansion. If omitted, defaults depend on response_mode.'),
+    response_mode: SearchResponseMode,
     max_chars: MaxChars,
   })
   .strict();
