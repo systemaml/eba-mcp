@@ -92,6 +92,14 @@ export const FilterString = z
 
 const Language = z.literal('en');
 
+const MaxChars = z
+  .number()
+  .int()
+  .min(1)
+  .max(100000)
+  .optional()
+  .describe('Optional maximum characters per citation text. Omit to return full chunk/paragraph text.');
+
 // ── Shared filter objects ──────────────────────────────────────────────────
 
 const SearchFilters = z
@@ -117,6 +125,7 @@ export const EbaSearchInput = z
     filters: SearchFilters.optional(),
     limit: z.number().int().min(1).max(50).default(10),
     include_context: z.boolean().default(false),
+    max_chars: MaxChars,
   })
   .strict();
 
@@ -124,6 +133,7 @@ export const EbaGetDocumentInput = z
   .object({
     eba_id: EbaId,
     language: Language.default('en'),
+    max_chars: MaxChars,
   })
   .strict();
 
@@ -135,6 +145,7 @@ export const EbaGetParagraphInput = z
     language: Language.default('en'),
     context_before: z.number().int().min(0).max(3).default(0),
     context_after: z.number().int().min(0).max(3).default(0),
+    max_chars: MaxChars,
   })
   .strict()
   .refine((input) => Boolean(input.paragraph_ref || input.paragraph_refs?.length), {
@@ -148,6 +159,7 @@ export const EbaGetSectionInput = z
     section: SectionRef,
     language: Language.default('en'),
     limit: z.number().int().min(1).max(300).default(200),
+    max_chars: MaxChars,
   })
   .strict();
 
@@ -191,9 +203,14 @@ export const EbaGetVersionsInput = z
 
 export const EbaValidateCitationInput = z
   .object({
-    chunk_id: ChunkId,
+    chunk_id: ChunkId.optional(),
+    citation_id: ChunkId.optional(),
   })
-  .strict();
+  .strict()
+  .refine((input) => Boolean(input.chunk_id || input.citation_id), {
+    message: 'Either chunk_id or citation_id must be provided',
+    path: ['chunk_id'],
+  });
 
 export const EbaDiffVersionsInput = z
   .object({

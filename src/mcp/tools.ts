@@ -40,7 +40,7 @@ export async function handleEbaSearch(input: EbaSearchInputType) {
     const searchResult = await searchChunksWithMode(input.query, input.filters || {}, input.limit || 10);
     const baseChunks = searchResult.chunks;
     const chunks = input.include_context ? getContextForChunks(baseChunks, 1, 1) : baseChunks;
-    const citations = buildCitations(chunks, '');
+    const citations = buildCitations(chunks, '', { maxChars: input.max_chars });
 
     const isExactDocumentLookup = EBA_ID_PATTERN.test(input.query.trim()) || Boolean(input.filters?.eba_id);
 
@@ -68,7 +68,7 @@ export async function handleEbaGetDocument(input: EbaGetDocumentInputType) {
   }
 
   const chunks = await searchChunks('', { eba_id: input.eba_id }, 50);
-  const citations = chunks.slice(0, 5).map(c => buildCitation(c, input.eba_id));
+  const citations = chunks.slice(0, 5).map(c => buildCitation(c, input.eba_id, { maxChars: input.max_chars }));
   const warnings = [
     'eba_get_document returns metadata plus leading citation chunks only; use eba_get_toc and eba_get_section for section-level retrieval.',
   ];
@@ -131,7 +131,7 @@ export function handleEbaGetParagraph(input: EbaGetParagraphInputType) {
       input.context_before || 0,
       input.context_after || 0,
     ).map((chunk) => ({
-      ...buildCitation(chunk, input.eba_id),
+      ...buildCitation(chunk, input.eba_id, { maxChars: input.max_chars }),
       is_anchor: chunk.paragraph_ref === paragraphRef,
       is_complete: !chunk.chunk_id.includes(':sub'),
     }))
@@ -152,7 +152,7 @@ export function handleEbaGetSection(input: EbaGetSectionInputType) {
   }
 
   return {
-    ...buildResponse('exact', chunks.map((chunk) => buildCitation(chunk, input.eba_id))),
+    ...buildResponse('exact', chunks.map((chunk) => buildCitation(chunk, input.eba_id, { maxChars: input.max_chars }))),
     section: input.section,
     total_chunks: chunks.length,
   };
@@ -210,7 +210,7 @@ export function handleEbaGetStatus(input: EbaGetStatusInputType) {
 }
 
 export function handleEbaValidateCitation(input: EbaValidateCitationInputType) {
-  const result = validateCitation(input.chunk_id);
+  const result = validateCitation(input.chunk_id ?? input.citation_id ?? '');
   return {
     ...buildResponse(result.valid ? 'exact' : 'no_match', [], {}),
     validation: result,

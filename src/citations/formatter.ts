@@ -17,9 +17,15 @@ export interface CitationObject {
   is_complete?: boolean;
 }
 
-export function buildCitation(chunk: Chunk, ebaId: string): CitationObject {
-  const truncated = chunk.text.length > 500;
-  const text = chunk.text.replace(/\n/g, ' ').slice(0, 500);
+export interface CitationFormatOptions {
+  maxChars?: number;
+}
+
+export function buildCitation(chunk: Chunk, ebaId: string, options: CitationFormatOptions = {}): CitationObject {
+  const fullText = chunk.text.replace(/\n/g, ' ');
+  const maxChars = options.maxChars;
+  const truncated = maxChars !== undefined && fullText.length > maxChars;
+  const text = truncated ? fullText.slice(0, maxChars) : fullText;
 
   return {
     citation_id: chunk.chunk_id,
@@ -30,12 +36,12 @@ export function buildCitation(chunk: Chunk, ebaId: string): CitationObject {
     page_end: chunk.page_end || null,
     text,
     truncated,
-    truncation_offset: truncated ? `500 / ${chunk.text.length}` : null,
+    truncation_offset: truncated ? `${maxChars} / ${fullText.length}` : null,
     citation: formatCitationString(chunk, ebaId),
     chunk_type: chunk.chunk_type,
   };
 }
 
-export function buildCitations(chunks: Chunk[], ebaId: string): CitationObject[] {
-  return chunks.map(c => buildCitation(c, ebaId || c.eba_id || ''));
+export function buildCitations(chunks: Chunk[], ebaId: string, options: CitationFormatOptions = {}): CitationObject[] {
+  return chunks.map(c => buildCitation(c, ebaId || c.eba_id || '', options));
 }

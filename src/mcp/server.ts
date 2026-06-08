@@ -46,7 +46,7 @@ const FILTER_PROPERTIES = {
   eba_id: { type: 'string', maxLength: 40, pattern: EBA_ID_PATTERN },
   exclude_consultation_responses: {
     type: 'boolean',
-    description: 'JSON boolean (true/false), not a string. When true, omits chunks whose section_path matches consultation-response heuristic patterns.',
+    description: 'JSON boolean (true/false), not a string. Must be nested under filters, e.g. {"filters":{"exclude_consultation_responses":true}}. When true, omits chunks whose section_path matches consultation-response heuristic patterns.',
   },
 };
 
@@ -54,7 +54,7 @@ const TOOLS = [
   {
     name: 'eba_search',
     description:
-      'Discover citation-ready excerpts from the English EBA corpus. Start here for unknown paragraphs or concepts, then use eba_get_paragraph, eba_get_section, or eba_get_toc for navigation. Use English regulatory terms and focused searches. Supports filters.eba_id, document_type, topic, publication_status, applicability_status, language=en, and exclude_consultation_responses. Warning: paragraph_ref can be null for headings/tables/unnumbered chunks; use citation_id via eba_validate_citation or section/page context when paragraph navigation is unavailable. Returns excerpts and citations, not legal advice.',
+      'Discover citation-ready text from the English EBA corpus. If the user asks in Polish or another language, translate the search intent to focused English regulatory terms before calling this tool. Retrieval is automatic: hybrid semantic search is used when available, with FTS fallback. Start here for unknown paragraphs or concepts, then use eba_get_paragraph for exact paragraph_refs, eba_get_toc to inspect structure, or eba_get_section for broad section navigation. Supports filters.eba_id, document_type, topic, publication_status, applicability_status, language=en, and filters.exclude_consultation_responses; do not pass exclude_consultation_responses at top level. Warning: paragraph_ref can be null for headings/tables/unnumbered chunks; pass the returned citation_id to eba_validate_citation as citation_id or chunk_id when paragraph navigation is unavailable. Omit max_chars for full citation text, or set max_chars for bounded excerpts. Returns citations, not legal advice.',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -64,16 +64,17 @@ const TOOLS = [
           minLength: 1,
           maxLength: 500,
             description:
-            'English search query. Examples: "ongoing monitoring customer risk profile", "PEP enhanced due diligence", "EBA/GL/2021/02". The corpus is English and the default local embedding model is optimized for English; use focused regulatory terms rather than broad questions.',
+            'English search query. If the user asks in Polish or another language, translate the intent to English first. Examples: "ongoing monitoring customer risk profile", "PEP enhanced due diligence", "EBA/GL/2021/02". The corpus is English and the default local embedding model is optimized for English; use focused regulatory terms rather than broad questions.',
         },
         filters: {
           type: 'object',
           additionalProperties: false,
           properties: FILTER_PROPERTIES,
-          description: 'Optional filters. Example: {"eba_id":"EBA/GL/2021/02","document_type":"guidelines","publication_status":"final","topic":"AML/CFT","exclude_consultation_responses":true}. topic="AML/CFT" also matches AML-relevant document titles whose corpus topic is a publication facet such as "EBA guidelines".',
+          description: 'Optional filters object. Put exclude_consultation_responses here, not at top level. Example: {"filters":{"eba_id":"EBA/GL/2021/02","document_type":"guidelines","publication_status":"final","topic":"AML/CFT","exclude_consultation_responses":true}}. topic="AML/CFT" also matches AML-relevant document titles whose corpus topic is a publication facet such as "EBA guidelines".',
         },
         limit: { type: 'number', minimum: 1, maximum: 50, description: 'Max results (default 10)', default: 10 },
         include_context: { type: 'boolean', description: 'Include one neighboring chunk before and after each hit. Use when a citation appears to be a continuation of adjacent paragraphs.', default: false },
+        max_chars: { type: 'number', minimum: 1, maximum: 100000, description: 'Optional maximum characters per citation text. Omit to return full chunk text.' },
       },
       required: ['query'],
     },
@@ -87,38 +88,47 @@ const TOOLS = [
       properties: {
         eba_id: { type: 'string', maxLength: 40, pattern: EBA_ID_PATTERN, description: 'Official EBA document ID (e.g. EBA/GL/2021/02 or EBA/LARGE-GL/2022/1)' },
         language: { type: 'string', enum: ['en'], description: 'Language code', default: 'en' },
+        max_chars: { type: 'number', minimum: 1, maximum: 100000, description: 'Optional maximum characters per citation text. Omit to return full chunk text.' },
       },
       required: ['eba_id'],
     },
   },
   {
     name: 'eba_get_paragraph',
-    description: 'Get chunks for an exact paragraph_ref in one EBA document, with optional surrounding context. Use after eba_search when a result has paragraph_ref. If search returned paragraph_ref:null, this tool cannot navigate to that unnumbered chunk; use eba_get_section or eba_validate_citation instead.',
+    description: 'Get chunks for exact paragraph reference(s) in one EBA document, with optional surrounding context. Requires either paragraph_ref or paragraph_refs. Use after eba_search when a result has paragraph_ref. If search returned paragraph_ref:null, this tool cannot navigate to that unnumbered chunk; use eba_get_section or eba_validate_citation instead.',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
       properties: {
         eba_id: { type: 'string', maxLength: 40, pattern: EBA_ID_PATTERN },
-        paragraph_ref: { type: 'string', minLength: 1, maxLength: 50, pattern: PARAGRAPH_REF_PATTERN },
+        paragraph_ref: { type: 'string', minLength: 1, maxLength: 50, pattern: PARAGRAPH_REF_PATTERN, description: 'Single paragraph reference. Required unless paragraph_refs is supplied.' },
+        paragraph_refs: {
+          type: 'array',
+          maxItems: 20,
+          items: { type: 'string', minLength: 1, maxLength: 50, pattern: PARAGRAPH_REF_PATTERN },
+          description: 'Optional batch of paragraph references, up to 20. Required unless paragraph_ref is supplied.',
+        },
         language: { type: 'string', enum: ['en'], default: 'en' },
         context_before: { type: 'number', minimum: 0, maximum: 3, default: 0 },
         context_after: { type: 'number', minimum: 0, maximum: 3, default: 0 },
+        max_chars: { type: 'number', minimum: 1, maximum: 100000, description: 'Optional maximum characters per citation text. Omit to return full paragraph/chunk text.' },
       },
-      required: ['eba_id', 'paragraph_ref'],
+      required: ['eba_id'],
     },
   },
   {
     name: 'eba_get_section',
     description:
-      'Return citation chunks for a numbered section or paragraph-prefix in one EBA document, e.g. section "4" returns chunks with paragraph_ref 4, 4.1, 4.2 etc. Quick navigation tool for reading a whole regulatory section after eba_get_toc or eba_search. Best-effort: depends on parsed paragraph_ref/section_path metadata and may miss malformed PDF headings.',
+      'Return citation chunks for a numbered section or paragraph-prefix in one EBA document, e.g. section "4" returns chunks with paragraph_ref 4, 4.1, 4.2 etc. This is broad navigation, not precision search: broad prefixes like "4" may include front matter, footnotes, consultation-response chunks, or many subsections. Prefer eba_search and eba_get_paragraph for precise answers; use eba_get_toc first and choose the narrowest useful section such as "4.74" when possible. Best-effort: depends on parsed paragraph_ref/section_path metadata and may miss malformed PDF headings.',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
       properties: {
         eba_id: { type: 'string', maxLength: 40, pattern: EBA_ID_PATTERN, description: 'Official EBA document ID (e.g. EBA/GL/2021/02)' },
-        section: { type: 'string', minLength: 1, maxLength: 80, pattern: SECTION_REF_PATTERN, description: 'Section or paragraph prefix to retrieve, e.g. "4", "4.7", "Title I", "Definitions".' },
+        section: { type: 'string', minLength: 1, maxLength: 80, pattern: SECTION_REF_PATTERN, description: 'Section or paragraph prefix to retrieve, e.g. "4", "4.7", "Title I", "Definitions". Use the narrowest available prefix; broad values like "4" can return noisy long sections.' },
         language: { type: 'string', enum: ['en'], default: 'en' },
-        limit: { type: 'number', minimum: 1, maximum: 300, default: 200, description: 'Maximum chunks to return. Increase for long sections; citations are truncated to 500 characters each.' },
+        limit: { type: 'number', minimum: 1, maximum: 300, default: 200, description: 'Maximum chunks to return. Increase for long sections.' },
+        max_chars: { type: 'number', minimum: 1, maximum: 100000, description: 'Optional maximum characters per citation text. Omit to return full chunk text.' },
       },
       required: ['eba_id', 'section'],
     },
@@ -205,14 +215,14 @@ const TOOLS = [
   },
   {
     name: 'eba_validate_citation',
-    description: 'Validate a citation chunk ID — check if it exists and return document status metadata',
+    description: 'Validate a returned citation identifier and return document status metadata. You may pass the citation_id field returned by eba_search/eba_get_paragraph directly as citation_id, or pass the same value as chunk_id for backward compatibility.',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
       properties: {
-        chunk_id: { type: 'string', minLength: 1, maxLength: 240, pattern: CHUNK_ID_PATTERN, description: 'Chunk ID to validate (e.g. EBA-GL-2021-02:001921c3:en:p:3.6:p37:s114)' },
+        citation_id: { type: 'string', minLength: 1, maxLength: 240, pattern: CHUNK_ID_PATTERN, description: 'Preferred: citation_id copied directly from a citation result returned by eba_search, eba_get_paragraph, eba_get_section, or eba_get_document.' },
+        chunk_id: { type: 'string', minLength: 1, maxLength: 240, pattern: CHUNK_ID_PATTERN, description: 'Backward-compatible alias for citation_id (e.g. EBA-GL-2021-02:001921c3:en:p:3.6:p37:s114).' },
       },
-      required: ['chunk_id'],
     },
   },
 ] as const;
