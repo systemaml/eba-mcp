@@ -134,6 +134,15 @@ assert_no_crash "FTS injection-style query is handled gracefully" "$res"
 res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","limit":999}' 4)"
 assert_error "limit exceeding max (50) is rejected" "$res"
 
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","max_chars":0}' 24)"
+assert_error "max_chars below minimum is rejected" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","max_chars":1.5}' 25)"
+assert_error "decimal max_chars is rejected" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","max_chars":100001}' 26)"
+assert_error "max_chars exceeding max is rejected" "$res"
+
 res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","unknown_field":"value"}' 5)"
 assert_error "unknown field in eba_search is rejected by .strict()" "$res"
 
@@ -165,6 +174,9 @@ assert_error "chunk_id exceeding 240 chars is rejected" "$res"
 
 res="$(call_tool "$TEMP_DB" "eba_validate_citation" '{"chunk_id":"valid-id","extra":"field"}' 14)"
 assert_error "extra field in eba_validate_citation is rejected by .strict()" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_validate_citation" '{}' 24)"
+assert_error "eba_validate_citation without chunk_id or citation_id is rejected" "$res"
 
 CTRL_JSON_FILE="$(mktemp /tmp/ctrl-json-XXXXXX.json)"
 python3 -c "

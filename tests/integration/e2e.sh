@@ -219,6 +219,22 @@ run_real_db_checks() {
   local paragraph_eba_id="${paragraph_target%%|*}"
   local paragraph_ref="${paragraph_target#*|}"
   local section_ref="${paragraph_ref%%.*}"
+  local long_paragraph_target
+  long_paragraph_target="$(sqlite_value "$db_path" "
+    SELECT COALESCE((
+      SELECT d.eba_id || '|' || c.paragraph_ref || '|' || LENGTH(c.text)
+      FROM chunks c
+      JOIN document_versions dv ON dv.version_id = c.document_version_id
+      JOIN documents d ON d.eba_id = dv.document_id
+      WHERE c.paragraph_ref IS NOT NULL
+        AND LENGTH(c.text) > 700
+      ORDER BY LENGTH(c.text) DESC
+      LIMIT 1
+    ), '')
+  ")"
+  local long_paragraph_eba_id="${long_paragraph_target%%|*}"
+  local long_paragraph_rest="${long_paragraph_target#*|}"
+  local long_paragraph_ref="${long_paragraph_rest%%|*}"
   local filter_document_type
   filter_document_type="$(sqlite_value "$db_path" 'SELECT document_type FROM documents GROUP BY document_type ORDER BY COUNT(*) DESC, document_type LIMIT 1')"
   local hyphen_eba_id
@@ -247,6 +263,34 @@ expected = {
   'eba_corpus_info', 'eba_get_status', 'eba_validate_citation',
 }
 assert expected.issubset({t['name'] for t in payload['tools']})
+tools = {tool['name']: tool for tool in payload['tools']}
+for tool_name in ('eba_search', 'eba_get_document', 'eba_get_paragraph', 'eba_get_section'):
+    props = tools[tool_name]['inputSchema']['properties']
+    assert 'max_chars' in props, f'max_chars missing from {tool_name}'
+search_tool = tools['eba_search']
+search_schema = search_tool['inputSchema']
+search_props = search_schema['properties']
+assert 'translate the search intent to focused English regulatory terms' in search_tool['description'], search_tool['description']
+assert 'do not pass exclude_consultation_responses at top level' in search_tool['description'], search_tool['description']
+assert 'translate the intent to English first' in search_props['query']['description'], search_props['query']
+assert 'Put exclude_consultation_responses here, not at top level' in search_props['filters']['description'], search_props['filters']
+assert 'Must be nested under filters' in search_props['filters']['properties']['exclude_consultation_responses']['description'], search_props['filters']['properties']['exclude_consultation_responses']
+paragraph_schema = tools['eba_get_paragraph']['inputSchema']
+assert paragraph_schema.get('required') == ['eba_id'], paragraph_schema
+paragraph_description = tools['eba_get_paragraph']['description']
+assert 'Requires either paragraph_ref or paragraph_refs' in paragraph_description, paragraph_description
+props = paragraph_schema['properties']
+assert 'Required unless paragraph_refs is supplied' in props['paragraph_ref']['description'], props['paragraph_ref']
+assert 'Required unless paragraph_ref is supplied' in props['paragraph_refs']['description'], props['paragraph_refs']
+section_tool = tools['eba_get_section']
+assert 'broad navigation, not precision search' in section_tool['description'], section_tool['description']
+assert 'Use the narrowest available prefix' in section_tool['inputSchema']['properties']['section']['description'], section_tool['inputSchema']['properties']['section']
+validate_tool = tools['eba_validate_citation']
+validate_schema = validate_tool['inputSchema']
+assert 'citation_id' in validate_schema['properties'], validate_schema
+assert 'chunk_id' in validate_schema['properties'], validate_schema
+assert 'citation_id field returned by eba_search' in validate_tool['description'], validate_tool['description']
+assert validate_schema.get('required') in (None, []), validate_schema
 " true
 
   res="$(call_tool "$db_path" "eba_corpus_info" '{}' 1)"
@@ -341,6 +385,25 @@ assert len(payload['citations']) >= 1
 assert any(c.get('is_anchor') == True for c in payload['citations']), 'no is_anchor=True found'
 " true
 
+  if [ -n "$long_paragraph_target" ]; then
+    res="$(call_tool "$db_path" "eba_get_paragraph" "{\"eba_id\":\"$long_paragraph_eba_id\",\"paragraph_ref\":\"$long_paragraph_ref\"}" 64)"
+    assert_json "eba_get_paragraph returns full text when max_chars omitted" "$res" "
+assert payload['answerability'] == 'exact'
+anchors = [c for c in payload['citations'] if c.get('is_anchor') == True]
+assert anchors, payload['citations']
+assert any(len(c['text']) > 500 and c['truncated'] == False and c['truncation_offset'] is None for c in anchors), anchors
+" true
+
+    res="$(call_tool "$db_path" "eba_get_paragraph" "{\"eba_id\":\"$long_paragraph_eba_id\",\"paragraph_ref\":\"$long_paragraph_ref\",\"max_chars\":120}" 65)"
+    assert_json "eba_get_paragraph respects max_chars truncation" "$res" "
+assert payload['answerability'] == 'exact'
+anchors = [c for c in payload['citations'] if c.get('is_anchor') == True]
+assert anchors, payload['citations']
+assert all(len(c['text']) <= 120 for c in anchors), anchors
+assert any(c['truncated'] == True and c['truncation_offset'].startswith('120 / ') for c in anchors), anchors
+" true
+  fi
+
   res="$(call_tool "$db_path" "eba_get_section" "{\"eba_id\":\"$paragraph_eba_id\",\"section\":\"$section_ref\",\"limit\":20}" 61)"
   assert_json "eba_get_section returns section citations" "$res" "
 assert payload['answerability'] == 'exact'
@@ -348,6 +411,14 @@ assert payload['section'] == '$section_ref'
 assert payload['total_chunks'] == len(payload['citations'])
 assert len(payload['citations']) >= 1
 assert any((citation.get('paragraph_ref') or '').startswith('$section_ref') for citation in payload['citations'])
+" true
+
+  res="$(call_tool "$db_path" "eba_get_section" "{\"eba_id\":\"$paragraph_eba_id\",\"section\":\"$section_ref\",\"limit\":20,\"max_chars\":80}" 66)"
+  assert_json "eba_get_section respects max_chars truncation" "$res" "
+assert payload['answerability'] == 'exact'
+assert len(payload['citations']) >= 1
+assert all(len(citation['text']) <= 80 for citation in payload['citations']), payload['citations']
+assert any(citation['truncated'] == True for citation in payload['citations']), payload['citations']
 " true
 
   res="$(call_tool "$db_path" "eba_get_toc" "{\"eba_id\":\"$paragraph_eba_id\",\"limit\":20}" 62)"
@@ -429,6 +500,12 @@ validation = payload.get('validation', {})
 assert validation.get('valid') == True, f'expected valid=True, got {validation}'
 " true
 
+  res="$(call_tool "$db_path" "eba_validate_citation" "{\"citation_id\":\"$real_chunk_id\"}" 33)"
+  assert_json "eba_validate_citation accepts citation_id alias" "$res" "
+validation = payload.get('validation', {})
+assert validation.get('valid') == True, f'expected valid=True, got {validation}'
+" true
+
   res="$(call_tool "$db_path" "eba_validate_citation" '{"chunk_id":"nonexistent-chunk-id-xyz"}' 14)"
   assert_json "eba_validate_citation with fake chunk_id returns valid=false" "$res" "
 validation = payload.get('validation', {})
@@ -484,6 +561,14 @@ assert payload['corpus_info']['chunk_count'] == 0
 assert payload['answerability'] == 'no_match'
 assert payload['citations'] == []
 assert payload['documents_considered'] == []
+" 
+
+  res="$(EBA_SEARCH_MODE=hybrid call_tool "$temp_db" "eba_search" '{"query":"money laundering","limit":3}' 105)"
+  assert_json "hybrid mode falls back to FTS when vectors are unavailable" "$res" "
+assert payload['answerability'] == 'no_match'
+assert payload['citations'] == []
+assert payload['documents_considered'] == []
+assert payload.get('search_mode') == 'fts_fallback', payload
 " 
 
   res="$(call_tool "$temp_db" "eba_get_toc" '{"eba_id":"EBA/GL/9999/99"}' 103)"
