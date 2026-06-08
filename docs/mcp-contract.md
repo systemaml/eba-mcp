@@ -33,6 +33,14 @@ Most tools return these fields:
   "documents_considered": [],
   "filters_applied": {},
   "warnings": [],
+  "response_mode": "standard",
+  "response_limited": false,
+  "available_citations": 10,
+  "returned_citations": 10,
+  "omitted_citations": 0,
+  "omitted_context": 0,
+  "response_size_chars": 12000,
+  "response_size_budget_chars": 50000,
   "query_trace_id": "uuid-v4",
   "corpus_version": "manifest-hash-prefix"
 }
@@ -52,7 +60,7 @@ Citation objects are produced by `src/citations/formatter.ts`:
   "section_path": "Guidelines",
   "page_start": 1,
   "page_end": 1,
-  "text": "Full chunk text unless max_chars was supplied...",
+  "text": "Full chunk text or a bounded excerpt depending on the tool and max_chars...",
   "citation": "EBA/GL/2021/02, para. 1, p. 1",
   "chunk_type": "paragraph",
   "truncated": false,
@@ -62,7 +70,7 @@ Citation objects are produced by `src/citations/formatter.ts`:
 
 Field notes:
 
-- `truncated` — always present; `true` when `text` was clipped by an explicit `max_chars` input, `false` when text is the full chunk text.
+- `truncated` — always present; `true` when `text` was clipped by a tool-level `max_chars` value. For `eba_search`, this can come from either an explicit `max_chars` input or the implicit bounded default for the selected `response_mode`; for paragraph/document/section tools, omission of `max_chars` still returns full chunk text.
 - `truncation_offset` — always present; `"M / N"` (chars shown / total chars) when `truncated` is `true`, otherwise `null`.
 - `is_anchor?` — present **only** in `eba_get_paragraph` responses; `true` for the specifically requested paragraph, `false` for surrounding context chunks.
 - `is_complete?` — present **only** in `eba_get_paragraph` responses; `false` when `chunk_id` ends in `:sub1` or `:sub2` (split paragraph fragment), `true` otherwise.
@@ -95,6 +103,8 @@ Search EBA document chunks. The server selects retrieval automatically: it uses 
   },
   "limit": 10,
   "include_context": false,
+  "max_citations": 10,
+  "response_mode": "standard",
   "max_chars": 2000
 }
 ```
@@ -103,7 +113,15 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
 
 `topic: "AML/CFT"` matches both documents explicitly tagged `AML/CFT` and AML-relevant document titles whose stored corpus topic is a publication facet such as `EBA guidelines` or `EBA opinion`. `exclude_consultation_responses` must be nested under `filters` and must be a JSON boolean (`true` or `false`), not the string `"true"`. Pass `true` to remove chunks in parsed feedback/consultation-response sections while leaving final guideline text searchable.
 
-`include_context: true` includes neighboring chunks around each hit in the returned citation list. Omit `max_chars` to return full citation text; set it only when the client needs a bounded excerpt.
+`eba_search` is intentionally bounded because it is a discovery tool, not a document dump. `limit` controls anchor search hits before context expansion. `max_citations` controls the final number of returned citation objects after optional context expansion. If omitted, `max_citations` defaults by `response_mode`: `compact=15`, `standard=10`, `full=5`.
+
+`response_mode` controls detail level:
+
+- `compact` — shorter discovery excerpts (default 600 chars when `max_chars` is omitted) and minimal citation fields.
+- `standard` — default bounded citation-ready output (default 1200 chars when `max_chars` is omitted).
+- `full` — longer excerpts for focused calls (default 5000 chars when `max_chars` is omitted), still subject to the response size budget.
+
+`include_context: true` includes neighboring chunks around each hit only within `max_citations` and the response budget. Use `eba_get_paragraph` or `eba_get_section` for full follow-up context.
 
 ### Output
 
@@ -114,11 +132,21 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
   "documents_considered": ["EBA/GL/2021/02"],
   "filters_applied": { "document_type": "guidelines" },
   "search_mode": "hybrid",
+  "response_mode": "standard",
+  "response_limited": false,
+  "available_citations": 10,
+  "returned_citations": 10,
+  "omitted_citations": 0,
+  "omitted_context": 0,
+  "response_size_chars": 12000,
+  "response_size_budget_chars": 50000,
   "warnings": [],
   "query_trace_id": "...",
   "corpus_version": "cc75a91c1e091546"
 }
 ```
+
+When the final citation cap or response-size budget is hit, `response_limited` is `true`, `limit_reason` is set to `citation_cap` or `response_size_chars`, and `warnings` explains how many citations/context chunks were omitted. `suggested_next_tools` points to focused retrieval tools for the omitted context.
 
 ## `eba_get_document`
 
