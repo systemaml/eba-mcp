@@ -85,7 +85,7 @@ The POC does not expose `source_url`, `file_sha256`, or chunk-level document sta
 
 ## `eba_search`
 
-Search EBA document chunks. The server selects retrieval automatically: it uses hybrid FTS5 + sqlite-vec semantic search when a vector-enabled DB and local Ollama are available, and falls back to SQLite FTS5 when they are not. MCP clients do not need to choose a search mode. Queries should be in English; if the end user asks in Polish or another language, consumer agents should translate the search intent into focused English EBA regulatory terms before calling this tool.
+Search EBA document chunks. Retrieval defaults to hybrid FTS5 + sqlite-vec semantic search when a vector-enabled DB and local Ollama are available, and falls back to SQLite FTS5 when they are not. MCP clients may optionally set `search_mode` to force keyword-only, hybrid, or semantic-only retrieval. Queries should be in English; if the end user asks in Polish or another language, consumer agents should translate the search intent into focused English EBA regulatory terms before calling this tool.
 
 ### Input
 
@@ -105,6 +105,7 @@ Search EBA document chunks. The server selects retrieval automatically: it uses 
   "include_context": false,
   "max_citations": 10,
   "response_mode": "standard",
+  "search_mode": "hybrid",
   "max_chars": 2000
 }
 ```
@@ -121,6 +122,12 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
 - `standard` — default bounded citation-ready output (default 1200 chars when `max_chars` is omitted).
 - `full` — longer excerpts for focused calls (default 5000 chars when `max_chars` is omitted), still subject to the response size budget.
 
+`search_mode` is optional and defaults to `hybrid` preference:
+
+- `hybrid` — use FTS5 + semantic vector fusion when vectors and Ollama are available; otherwise return FTS5 results with `search_mode: "fts_fallback"`.
+- `fts` — force keyword-only FTS5 retrieval; responses report `search_mode: "fts_only"`.
+- `vector` — force semantic-only vector retrieval when vectors and Ollama are available; otherwise return FTS5 results with `search_mode: "fts_fallback"`.
+
 `include_context: true` includes neighboring chunks around each hit only within `max_citations` and the response budget. Use `eba_get_paragraph` or `eba_get_section` for full follow-up context.
 
 ### Output
@@ -132,6 +139,8 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
   "documents_considered": ["EBA/GL/2021/02"],
   "filters_applied": { "document_type": "guidelines" },
   "search_mode": "hybrid",
+  "embedding_model": "nomic-embed-text",
+  "embeddings_available": true,
   "response_mode": "standard",
   "response_limited": false,
   "available_citations": 10,
@@ -147,6 +156,8 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
 ```
 
 When the final citation cap or response-size budget is hit, `response_limited` is `true`, `limit_reason` is set to `citation_cap` or `response_size_chars`, and `warnings` explains how many citations/context chunks were omitted. `suggested_next_tools` points to focused retrieval tools for the omitted context.
+
+For `eba_search`, `embeddings_available` reports whether semantic embedding retrieval actually ran for the query. When `search_mode` is `hybrid` or `vector`, `embedding_model` names the runtime model used for query-time embedding. If vector search is unavailable or the call requests `search_mode: "fts"`, `embeddings_available` is `false` and `embedding_model` is omitted.
 
 ## `eba_get_document`
 
@@ -273,7 +284,7 @@ This is best-effort and depends on parsed `paragraph_ref` / `section_path` metad
 
 ## `eba_get_toc`
 
-Return a best-effort outline for one document, grouped by parsed `section_path` and enriched with paragraph, page, and sequence ranges.
+Return a best-effort outline for one document. The runtime normalizes noisy parser metadata, filters common front-matter/consultation boilerplate, and groups entries by numeric `section_ref` where possible. Entries are enriched with hierarchy level, parent reference, confidence, paragraph, page, and sequence ranges.
 
 ### Input
 
@@ -289,6 +300,10 @@ Return a best-effort outline for one document, grouped by parsed `section_path` 
   "toc": [
     {
       "section_path": "4. Customer due diligence",
+      "section_ref": "4",
+      "level": 1,
+      "parent_section_ref": null,
+      "confidence": "high",
       "paragraph_refs": ["4", "4.1", "4.2"],
       "first_paragraph_ref": "4",
       "last_paragraph_ref": "4.2",
@@ -524,7 +539,7 @@ Compare two versions of a specific EBA document.
 ## Known limitations
 
 - No HTTP/SSE transport (stdio only; Streamable HTTP planned for future milestone).
-- Hybrid semantic search is selected automatically when a vector-enabled DB + local Ollama are available; FTS5 is always the fallback. `EBA_SEARCH_MODE` is an internal maintainer override, not a client-facing MCP parameter.
+- Hybrid semantic search is the default preference when a vector-enabled DB + local Ollama are available; FTS5 is the fallback when vector search is unavailable. `eba_search.search_mode` can request `hybrid`, `fts`, or `vector`; `EBA_SEARCH_MODE` remains an internal maintainer override for process defaults.
 - `application_date` depends on successful pipeline metadata extraction and may be `null` for documents where no date was detected.
 - Version history limited to single `1.0` entry per document (full version tracking planned for future milestone).
 - Incremental index updates are not implemented; corpus updates require a full rebuild and a new GitHub Release artifact named `eba-corpus.db`.
