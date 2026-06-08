@@ -153,7 +153,7 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 **`eba_get_document`** — Returns document metadata and a small sample of leading parsed chunks for a given document identifier. It is not a full-document dump; use `eba_get_toc` and `eba_get_section` for document navigation.
 
-**`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters to include surrounding chunks. Accepts `paragraph_refs: string[]` (up to 20) for batch retrieval of multiple paragraphs in a single call; each citation includes `is_anchor` (marks the requested paragraph vs. surrounding context) and `is_complete` (`false` for split paragraph fragments ending in `:sub1`/`:sub2`, `true` otherwise) flags. Omit `max_chars` for full paragraph text.
+**`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters from 0 to 10 to include surrounding chunks. Accepts `paragraph_refs: string[]` (up to 20) for batch retrieval of multiple paragraphs in a single call; each citation includes `is_anchor` (marks the requested paragraph vs. surrounding context) and `is_complete` (`false` for split paragraph fragments ending in `:sub1`/`:sub2`, `true` otherwise) flags. Omit `max_chars` for full paragraph text.
 
 **`eba_get_section`** — Retrieves chunks where `paragraph_ref` or `section_path` matches a section prefix such as `4` or `4.7`. This is a quick way to read a whole EBA guideline section after search discovery.
 

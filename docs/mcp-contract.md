@@ -206,7 +206,7 @@ Accepts `paragraph_ref` (single reference) or `paragraph_refs` (batch of up to 2
 }
 ```
 
-`paragraph_refs` accepts up to 20 paragraph references. Context bounds are integers from 0 to 3. Omit `max_chars` to return full paragraph/chunk text; set it only when a bounded excerpt is needed.
+`paragraph_refs` accepts up to 20 paragraph references. `context_before` and `context_after` are integers from 0 to 10, allowing broader regulatory context around an exact paragraph. Omit `max_chars` to return full paragraph/chunk text; set it only when a bounded excerpt is needed.
 
 ### Output
 
