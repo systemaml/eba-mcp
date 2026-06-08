@@ -81,7 +81,7 @@ The POC uses stdio transport exclusively. This keeps the surface area small, avo
 
 ### Hybrid Retrieval (FTS5 + sqlite-vec)
 
-The production corpus (`data/corpora/`) includes precomputed `nomic-embed-text` embeddings (768-dim) stored in a `chunks_vec` virtual table via the `sqlite-vec` extension. At query time, the retrieval engine embeds the query using a locally running Ollama instance and fuses FTS5 keyword scores with cosine similarity scores via Reciprocal Rank Fusion (RRF). Retrieval is automatic for MCP clients: hybrid is used when vectors and Ollama are available, and FTS5 is used as the fallback.
+The production corpus (`data/corpora/`) includes precomputed `nomic-embed-text` embeddings (768-dim) stored in a `chunks_vec` virtual table via the `sqlite-vec` extension. At query time, the retrieval engine embeds the query using a locally running Ollama instance and fuses FTS5 keyword scores with cosine similarity scores via Reciprocal Rank Fusion (RRF). Retrieval defaults to hybrid for MCP clients when vectors and Ollama are available, and FTS5 is used as the fallback. `eba_search.search_mode` can request `hybrid`, `fts`, or `vector` for a specific call.
 
 Embeddings and the Ollama dependency are optional at runtime: if Ollama is not running, the server falls back to FTS5 automatically.
 

@@ -153,7 +153,7 @@ Use stdio transport. This server does not expose HTTP, SSE, or Streamable HTTP.
 
 ## Retrieval behavior
 
-Retrieval is automatic for MCP clients. With the production vector-enabled DB and reachable Ollama, the server uses hybrid FTS5 + semantic retrieval. If Ollama or vector search is unavailable, it falls back to SQLite FTS5 and reports `search_mode: "fts_fallback"` or `"fts_only"` in the response payload.
+Retrieval defaults to hybrid for MCP clients. With the production vector-enabled DB and reachable Ollama, the server uses hybrid FTS5 + semantic retrieval. If Ollama or vector search is unavailable, it falls back to SQLite FTS5 and reports `search_mode: "fts_fallback"`; calls that request `search_mode: "fts"` report `"fts_only"`.
 
 ---
 
@@ -177,7 +177,7 @@ Requires Node.js >= 18 on a supported OS and architecture.
 
 ### Ollama is unavailable
 
-Start Ollama and pull the model to enable hybrid retrieval. If Ollama is unavailable, no client-side mode switch is required; the server falls back to FTS5:
+Start Ollama and pull the model to enable hybrid retrieval. If Ollama is unavailable, no client-side mode switch is required; the server falls back to FTS5. Clients may still pass `search_mode: "fts"`, `"hybrid"`, or `"vector"` to control an individual `eba_search` call:
 
 ```bash
 ollama pull nomic-embed-text
