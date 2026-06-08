@@ -26,6 +26,7 @@ def generate_embeddings(
     model: str,
     ollama_url: str,
     batch_size: int,
+    show_progress: bool = True,
 ) -> list[EmbeddingVector]:
     if batch_size <= 0:
         raise ValueError(f"batch_size must be > 0, got {batch_size}")
@@ -49,11 +50,12 @@ def generate_embeddings(
             expected_dim=expected_dim,
         )
         embeddings.extend(batch_embeddings)
-        next_progress_report = _report_embedding_progress(
-            processed_count=len(embeddings),
-            total_count=total_chunks,
-            next_progress_report=next_progress_report,
-        )
+        if show_progress:
+            next_progress_report = _report_embedding_progress(
+                processed_count=len(embeddings),
+                total_count=total_chunks,
+                next_progress_report=next_progress_report,
+            )
 
     if len(embeddings) != len(texts):
         raise EmbeddingGenerationError(

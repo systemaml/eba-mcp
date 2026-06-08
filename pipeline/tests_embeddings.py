@@ -1,9 +1,17 @@
 import unittest
+import sqlite3
 from collections.abc import Mapping
 from typing import Final, cast
 from unittest.mock import patch
 
-from eba_pipeline.index.embeddings import EmbeddingGenerationError, generate_embeddings
+from eba_pipeline.index.embeddings import (
+    DEFAULT_RETRIES,
+    DEFAULT_TIMEOUT_SECONDS,
+    RETRY_BACKOFF_SECONDS,
+    EmbeddingGenerationError,
+    generate_embeddings,
+)
+from eba_pipeline.index.build_index import _populate_vectors
 
 
 def unit_vector(*values: float) -> list[float]:
@@ -64,7 +72,7 @@ class EmbeddingGenerationTests(unittest.TestCase):
         def fake_post(_url: str, *, json: Mapping[str, object], timeout: int) -> FakeResponse:
             inputs = json["input"]
             input_count = len(cast(list[object], inputs)) if isinstance(inputs, list) else 0
-            self.assertEqual(timeout, 60)
+            self.assertEqual(timeout, DEFAULT_TIMEOUT_SECONDS)
             return FakeResponse(payload={"embeddings": [unit_vector(1.0, 0.0) for _ in range(input_count)]})
 
         with patch("eba_pipeline.index.embeddings.requests.post", side_effect=fake_post):
@@ -112,8 +120,8 @@ class EmbeddingGenerationTests(unittest.TestCase):
 
         self.assertEqual(vectors, [[1.0, 0.0]])
         self.assertEqual(post_mock.call_count, 3)
-        sleep_mock.assert_any_call(0.5)
-        sleep_mock.assert_any_call(1.0)
+        sleep_mock.assert_any_call(RETRY_BACKOFF_SECONDS[0])
+        sleep_mock.assert_any_call(RETRY_BACKOFF_SECONDS[1])
 
     def test_generate_embeddings_raises_clear_error_after_retries_exhausted(self) -> None:
         with patch(
@@ -121,7 +129,7 @@ class EmbeddingGenerationTests(unittest.TestCase):
             return_value=FakeResponse(status_code=503, text="service unavailable"),
         ):
             with patch("eba_pipeline.index.embeddings.time.sleep"):
-                with self.assertRaisesRegex(EmbeddingGenerationError, "failed after 3 attempts"):
+                with self.assertRaisesRegex(EmbeddingGenerationError, f"failed after {DEFAULT_RETRIES} attempts"):
                     _ = generate_embeddings(
                         [{"text": "alpha"}],
                         model="custom-embed",
@@ -165,6 +173,65 @@ class EmbeddingGenerationTests(unittest.TestCase):
                         ollama_url="http://localhost:11434",
                         batch_size=1,
                     )
+
+    def test_populate_vectors_persists_each_batch_for_resume_after_failure(self) -> None:
+        conn = sqlite3.connect(":memory:")
+        _ = conn.execute("CREATE TABLE chunks (chunk_id TEXT NOT NULL, text TEXT NOT NULL)")
+        _ = conn.execute("CREATE TABLE chunks_vec (rowid INTEGER PRIMARY KEY, embedding BLOB NOT NULL)")
+        _ = conn.executemany(
+            "INSERT INTO chunks (chunk_id, text) VALUES (?, ?)",
+            [("chunk-1", "alpha"), ("chunk-2", "beta")],
+        )
+        conn.commit()
+
+        with patch("eba_pipeline.index.build_index.init_vec_schema"), patch(
+            "eba_pipeline.index.embeddings.generate_embeddings",
+            side_effect=[[[1.0, 0.0]], EmbeddingGenerationError("boom")],
+        ):
+            with self.assertRaisesRegex(EmbeddingGenerationError, "boom"):
+                _populate_vectors(
+                    conn,
+                    model="custom-embed",
+                    ollama_url="http://localhost:11434",
+                    batch_size=1,
+                    resume=False,
+                )
+
+        saved_rowids = [row[0] for row in conn.execute("SELECT rowid FROM chunks_vec ORDER BY rowid").fetchall()]
+        self.assertEqual(saved_rowids, [1])
+
+    def test_populate_vectors_resume_skips_existing_vector_rows(self) -> None:
+        conn = sqlite3.connect(":memory:")
+        _ = conn.execute("CREATE TABLE chunks (chunk_id TEXT NOT NULL, text TEXT NOT NULL)")
+        _ = conn.execute("CREATE TABLE chunks_vec (rowid INTEGER PRIMARY KEY, embedding BLOB NOT NULL)")
+        _ = conn.executemany(
+            "INSERT INTO chunks (chunk_id, text) VALUES (?, ?)",
+            [("chunk-1", "alpha"), ("chunk-2", "beta"), ("chunk-3", "gamma")],
+        )
+        _ = conn.execute("INSERT INTO chunks_vec (rowid, embedding) VALUES (?, ?)", (1, b"already-done"))
+        conn.commit()
+
+        calls: list[list[Mapping[str, object]]] = []
+
+        def fake_generate(chunks: list[Mapping[str, object]], **_kwargs: object) -> list[list[float]]:
+            calls.append(chunks)
+            return [[1.0, 0.0] for _ in chunks]
+
+        with patch("eba_pipeline.index.build_index.init_vec_schema"), patch(
+            "eba_pipeline.index.embeddings.generate_embeddings",
+            side_effect=fake_generate,
+        ):
+            _populate_vectors(
+                conn,
+                model="custom-embed",
+                ollama_url="http://localhost:11434",
+                batch_size=2,
+                resume=True,
+            )
+
+        self.assertEqual([[chunk["chunk_id"] for chunk in batch] for batch in calls], [["chunk-2", "chunk-3"]])
+        saved_rowids = [row[0] for row in conn.execute("SELECT rowid FROM chunks_vec ORDER BY rowid").fetchall()]
+        self.assertEqual(saved_rowids, [1, 2, 3])
 
 
 if __name__ == "__main__":
