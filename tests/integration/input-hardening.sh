@@ -143,6 +143,15 @@ assert_error "decimal max_chars is rejected" "$res"
 res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","max_chars":100001}' 26)"
 assert_error "max_chars exceeding max is rejected" "$res"
 
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","max_citations":0}' 27)"
+assert_error "max_citations below minimum is rejected" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","max_citations":51}' 28)"
+assert_error "max_citations exceeding max (50) is rejected" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","response_mode":"verbose"}' 29)"
+assert_error "unknown response_mode is rejected" "$res"
+
 res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","unknown_field":"value"}' 5)"
 assert_error "unknown field in eba_search is rejected by .strict()" "$res"
 

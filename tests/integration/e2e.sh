@@ -56,7 +56,7 @@ assert "content" in outer["result"], "missing result.content"
 assert outer["result"]["content"], "empty result.content"
 text = outer["result"]["content"][0]["text"]
 payload = json.loads(text)
-namespace = {"outer": outer, "payload": payload}
+namespace = {"outer": outer, "payload": payload, "json": json}
 exec(os.environ["ASSERT_CODE"], namespace)
 PY
   then
@@ -272,6 +272,10 @@ search_schema = search_tool['inputSchema']
 search_props = search_schema['properties']
 assert 'translate the search intent to focused English regulatory terms' in search_tool['description'], search_tool['description']
 assert 'do not pass exclude_consultation_responses at top level' in search_tool['description'], search_tool['description']
+assert 'max_citations' in search_props, search_props
+assert 'response_mode' in search_props, search_props
+assert search_props['response_mode']['default'] == 'standard', search_props['response_mode']
+assert set(search_props['response_mode']['enum']) == {'compact', 'standard', 'full'}, search_props['response_mode']
 assert 'translate the intent to English first' in search_props['query']['description'], search_props['query']
 assert 'Put exclude_consultation_responses here, not at top level' in search_props['filters']['description'], search_props['filters']
 assert 'Must be nested under filters' in search_props['filters']['properties']['exclude_consultation_responses']['description'], search_props['filters']['properties']['exclude_consultation_responses']
@@ -317,6 +321,43 @@ first = payload['citations'][0]
 for key in ('citation_id', 'eba_id', 'text', 'citation', 'chunk_type', 'page_start', 'page_end'):
     assert key in first
 assert first['eba_id'] == '$search_eba_id'
+assert payload['response_mode'] == 'standard'
+assert payload['returned_citations'] == len(payload['citations'])
+assert payload['available_citations'] >= payload['returned_citations']
+assert all(len(citation['text']) <= 1200 for citation in payload['citations']), payload['citations']
+" true
+
+  res="$(call_tool "$db_path" "eba_search" "{\"query\":\"$search_query\",\"filters\":{\"eba_id\":\"$search_eba_id\"},\"limit\":3,\"include_context\":true,\"max_citations\":4}" 22)"
+  assert_json "eba_search caps context-expanded citations" "$res" "
+assert payload['answerability'] in ('exact', 'partial')
+assert payload['response_mode'] == 'standard'
+assert len(payload['citations']) <= 4, payload['citations']
+assert payload['returned_citations'] == len(payload['citations'])
+assert payload['available_citations'] >= payload['returned_citations']
+assert isinstance(payload['omitted_context'], int)
+assert payload['response_size_chars'] <= payload['response_size_budget_chars']
+" true
+
+  res="$(call_tool "$db_path" "eba_search" "{\"query\":\"$search_query\",\"filters\":{\"eba_id\":\"$search_eba_id\"},\"limit\":3,\"response_mode\":\"compact\"}" 23)"
+  assert_json "eba_search compact mode returns compact citations" "$res" "
+assert payload['response_mode'] == 'compact'
+assert len(payload['citations']) > 0
+first = payload['citations'][0]
+assert 'citation_id' in first and 'citation' in first and 'text' in first
+assert 'chunk_type' not in first
+assert all(len(citation['text']) <= 600 for citation in payload['citations']), payload['citations']
+" true
+
+  res="$(call_tool "$db_path" "eba_search" '{"query":"risk OR training OR staff OR AML OR CFT","filters":{"topic":"AML/CFT","language":"en"},"limit":50,"include_context":true,"max_citations":50,"response_mode":"full","max_chars":100000}' 24)"
+  assert_json "eba_search enforces response size budget for broad full search" "$res" "
+assert payload['answerability'] in ('exact', 'partial')
+assert payload['response_limited'] == True, payload
+assert payload['limit_reason'] == 'response_size_chars', payload
+assert payload['returned_citations'] == len(payload['citations'])
+assert payload['response_size_chars'] <= payload['response_size_budget_chars'], payload
+assert len(json.dumps(payload, indent=2, ensure_ascii=False)) <= payload['response_size_budget_chars'], payload
+assert len(payload['citations']) >= 1, payload
+assert any('response exceeded' in warning for warning in payload['warnings']), payload['warnings']
 " true
 
   if [ -n "$hyphen_eba_id" ]; then
