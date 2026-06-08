@@ -17,7 +17,9 @@ export interface HybridSearchResult extends Chunk {
 
 export interface HybridSearchOutcome {
   results: HybridSearchResult[];
-  search_mode: 'hybrid' | 'fts_fallback';
+  search_mode: 'hybrid' | 'vector' | 'fts_fallback';
+  embedding_model?: string;
+  embeddings_available: boolean;
 }
 
 function filterVectorResults(
@@ -108,7 +110,7 @@ export async function hybridSearch(
 ): Promise<HybridSearchOutcome> {
   const trimmedQuery = query.trim();
   if (!trimmedQuery || limit <= 0) {
-    return { results: [], search_mode: 'fts_fallback' };
+    return { results: [], search_mode: 'fts_fallback', embeddings_available: false };
   }
 
   const candidateLimit = Math.max(limit * 2, limit);
@@ -129,6 +131,7 @@ export async function hybridSearch(
         ftsRank: result.rank,
       })),
       search_mode: 'fts_fallback',
+      embeddings_available: false,
     };
   }
 
@@ -143,6 +146,7 @@ export async function hybridSearch(
         ftsRank: result.rank,
       })),
       search_mode: 'fts_fallback',
+      embeddings_available: false,
     };
   }
 
@@ -173,5 +177,68 @@ export async function hybridSearch(
     })
     .slice(0, limit);
 
-  return { results: mergedResults, search_mode: 'hybrid' };
+  return {
+    results: mergedResults,
+    search_mode: 'hybrid',
+    embedding_model: EMBEDDING_MODEL,
+    embeddings_available: true,
+  };
+}
+
+export async function vectorOnlySearch(
+  db: Database.Database,
+  query: string,
+  filters: SearchFilters = {},
+  limit: number = 10,
+): Promise<HybridSearchOutcome> {
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery || limit <= 0) {
+    return { results: [], search_mode: 'fts_fallback', embeddings_available: false };
+  }
+
+  let embedding: Float32Array;
+  try {
+    embedding = await embedQuery(trimmedQuery, {
+      ollamaUrl: OLLAMA_URL,
+      model: EMBEDDING_MODEL,
+      timeoutMs: OLLAMA_TIMEOUT_MS,
+    });
+  } catch (_error) {
+    return {
+      results: ftsSearch(db, trimmedQuery, filters, limit).map((result) => ({
+        ...result,
+        score: 0,
+        ftsRank: result.rank,
+      })),
+      search_mode: 'fts_fallback',
+      embeddings_available: false,
+    };
+  }
+
+  let vectorResults: VectorResult[];
+  try {
+    vectorResults = filterVectorResults(db, vectorSearch(db, embedding, limit), filters);
+  } catch (_error) {
+    return {
+      results: ftsSearch(db, trimmedQuery, filters, limit).map((result) => ({
+        ...result,
+        score: 0,
+        ftsRank: result.rank,
+      })),
+      search_mode: 'fts_fallback',
+      embeddings_available: false,
+    };
+  }
+
+  return {
+    results: vectorResults.map((result, index) => ({
+      ...result,
+      score: 1 / (index + 1),
+      vectorRank: index + 1,
+      distance: result.distance,
+    })),
+    search_mode: 'vector',
+    embedding_model: EMBEDDING_MODEL,
+    embeddings_available: true,
+  };
 }

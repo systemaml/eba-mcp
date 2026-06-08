@@ -49,6 +49,10 @@ export interface SearchFilters {
 
 export interface TocEntry {
   section_path: string;
+  section_ref?: string;
+  level?: number;
+  parent_section_ref?: string | null;
+  confidence?: 'high' | 'medium' | 'low';
   paragraph_refs: string[];
   first_paragraph_ref: string | null;
   last_paragraph_ref: string | null;

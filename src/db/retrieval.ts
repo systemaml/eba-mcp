@@ -1,5 +1,5 @@
 import { SEARCH_MODE } from '../config.js';
-import { hybridSearch } from './hybrid.js';
+import { hybridSearch, vectorOnlySearch } from './hybrid.js';
 import { getDb, isVecLoaded } from './sqlite.js';
 import { ftsSearch } from './fts.js';
 import { addConsultationResponseExclusion, addTopicFilterNoAlias } from './filter-helpers.js';
@@ -11,23 +11,99 @@ const LARGE_EBA_ID_PATTERN = /^EBA\/LARGE-[A-Za-z]+\/\d{4}\/\d+$/i;
 const MIN_DUPLICATE_TEXT_LENGTH = 80;
 const MIN_SHARED_TOKEN_COUNT = 12;
 const MIN_SMALLER_SIDE_TOKEN_COVERAGE = 0.9;
+const MAX_TOC_DEPTH = 3;
+const MAX_TOC_TITLE_WORDS = 16;
+
+const TOC_BOILERPLATE_SECTIONS = new Set([
+  '(unsectioned)',
+  'background',
+  'rationale',
+  'next steps',
+  'contents',
+  'guidelines',
+  'reporting requirements',
+  'status of these guidelines',
+]);
+
+const TOC_PARAGRAPH_STARTERS = [
+  'a common ',
+  'a number ',
+  'after ',
+  'another ',
+  'before ',
+  'by way ',
+  'competent authorities ',
+  'credit or financial institutions ',
+  'firms ',
+  'in accordance ',
+  'in relation ',
+  'many ',
+  'other ',
+  'several ',
+  'some ',
+  'the eba ',
+  'the factors ',
+  'the guidelines ',
+  'the international ',
+  'the management ',
+  'the original ',
+  'these guidelines ',
+  'there are ',
+  'this document ',
+  'this section ',
+  'through ',
+  'to comply ',
+  'regarding ',
+  'when ',
+  'where ',
+];
 
 export interface SearchChunksResult {
   chunks: Chunk[];
-  search_mode?: 'hybrid' | 'fts_fallback' | 'fts_only';
+  search_mode?: 'hybrid' | 'vector' | 'fts_fallback' | 'fts_only';
+  embedding_model?: string;
+  embeddings_available?: boolean;
 }
 
-function shouldUseHybridSearch(): boolean {
-  if (SEARCH_MODE === 'fts_only') {
-    return false;
-  }
+export type SearchModePreference = 'hybrid' | 'fts' | 'vector';
 
+interface TocCandidate {
+  sectionRef: string;
+  sectionPath: string;
+  level: number;
+  confidence: 'high' | 'medium' | 'low';
+}
+
+interface TocAccumulator {
+  sectionPath: string;
+  sectionRef: string;
+  level: number;
+  parentSectionRef: string | null;
+  confidence: 'high' | 'medium' | 'low';
+  paragraphRefs: string[];
+  seenParagraphRefs: Set<string>;
+  firstSequenceNo: number;
+  lastSequenceNo: number;
+  pageStart: number | null;
+  pageEnd: number | null;
+  chunkCount: number;
+}
+
+function hasUsableVectorSearch(): boolean {
   const db = getDb();
   return isVecLoaded() && hasVectorSearch(db);
 }
 
-function getFtsSearchMode(): 'fts_fallback' | 'fts_only' {
-  return SEARCH_MODE === 'fts_only' ? 'fts_only' : 'fts_fallback';
+function getEffectiveSearchMode(requestedMode?: SearchModePreference): SearchModePreference {
+  if (requestedMode) {
+    return requestedMode;
+  }
+
+  return SEARCH_MODE === 'fts_only' ? 'fts' : 'hybrid';
+}
+
+function getFtsSearchMode(effectiveMode: SearchModePreference): 'fts_fallback' | 'fts_only' {
+  return effectiveMode === 'fts' ? 'fts_only' : 'fts_fallback';
 }
 
 function isGeneratedLargeEbaId(ebaId: string | undefined): boolean {
@@ -152,7 +228,12 @@ export function preferCanonicalEbaResults<T extends Chunk>(
   return preferred.concat(demoted).slice(0, limit);
 }
 
-export async function searchChunksWithMode(query: string, filters: SearchFilters = {}, limit = 10): Promise<SearchChunksResult> {
+export async function searchChunksWithMode(
+  query: string,
+  filters: SearchFilters = {},
+  limit = 10,
+  requestedMode?: SearchModePreference,
+): Promise<SearchChunksResult> {
   const db = getDb();
 
   const trimmedQuery = query.trim();
@@ -178,26 +259,40 @@ export async function searchChunksWithMode(query: string, filters: SearchFilters
       ORDER BY c.sequence_no
       LIMIT ?
     `).all(...params) as Chunk[];
-    return { chunks: rows };
+    return { chunks: rows, embeddings_available: false };
   }
 
   if (!trimmedQuery) {
     return { chunks: [] };
   }
 
-  if (shouldUseHybridSearch()) {
-    const candidateLimit = Math.max(limit * 2, limit + 10);
+  const effectiveMode = getEffectiveSearchMode(requestedMode);
+  const candidateLimit = Math.max(limit * 2, limit + 10);
+
+  if (effectiveMode === 'hybrid' && hasUsableVectorSearch()) {
     const outcome = await hybridSearch(db, trimmedQuery, filters, candidateLimit);
     return {
       chunks: preferCanonicalEbaResults(outcome.results, trimmedQuery, filters, limit),
       search_mode: outcome.search_mode,
+      embedding_model: outcome.embedding_model,
+      embeddings_available: outcome.embeddings_available,
     };
   }
 
-  const candidateLimit = Math.max(limit * 2, limit + 10);
+  if (effectiveMode === 'vector' && hasUsableVectorSearch()) {
+    const outcome = await vectorOnlySearch(db, trimmedQuery, filters, candidateLimit);
+    return {
+      chunks: preferCanonicalEbaResults(outcome.results, trimmedQuery, filters, limit),
+      search_mode: outcome.search_mode,
+      embedding_model: outcome.embedding_model,
+      embeddings_available: outcome.embeddings_available,
+    };
+  }
+
   return {
     chunks: preferCanonicalEbaResults(ftsSearch(db, query, filters, candidateLimit), trimmedQuery, filters, limit),
-    search_mode: getFtsSearchMode(),
+    search_mode: getFtsSearchMode(effectiveMode),
+    embeddings_available: false,
   };
 }
 
@@ -368,7 +463,8 @@ export function getToc(ebaId: string, language = 'en', limit = 200): TocEntry[] 
       c.paragraph_ref,
       c.sequence_no,
       c.page_start,
-      c.page_end
+      c.page_end,
+      c.text
     FROM chunks c
     JOIN document_versions dv ON c.document_version_id = dv.version_id
     JOIN documents d ON dv.document_id = d.eba_id
@@ -380,57 +476,219 @@ export function getToc(ebaId: string, language = 'en', limit = 200): TocEntry[] 
     sequence_no: number;
     page_start: number | null;
     page_end: number | null;
+    text: string;
   }>;
 
-  const tocBySection = new Map<string, {
-    paragraphRefs: string[];
-    seenParagraphRefs: Set<string>;
-    firstSequenceNo: number;
-    lastSequenceNo: number;
-    pageStart: number | null;
-    pageEnd: number | null;
-    chunkCount: number;
-  }>();
+  const tocBySection = new Map<string, TocAccumulator>();
+  const activeSectionRefs: string[] = [];
+  let hasResetToGuidelinesBody = false;
 
   for (const row of rows) {
-    const existing = tocBySection.get(row.section_path);
-    const entry = existing ?? {
-      paragraphRefs: [],
-      seenParagraphRefs: new Set<string>(),
-      firstSequenceNo: row.sequence_no,
-      lastSequenceNo: row.sequence_no,
-      pageStart: row.page_start,
-      pageEnd: row.page_end,
-      chunkCount: 0,
-    };
-
-    if (row.paragraph_ref && !entry.seenParagraphRefs.has(row.paragraph_ref)) {
-      entry.paragraphRefs.push(row.paragraph_ref);
-      entry.seenParagraphRefs.add(row.paragraph_ref);
+    if (!hasResetToGuidelinesBody && normalizeTocText(row.section_path) === 'Guidelines' && row.sequence_no > 10) {
+      tocBySection.clear();
+      activeSectionRefs.length = 0;
+      hasResetToGuidelinesBody = true;
+      continue;
     }
 
-    entry.lastSequenceNo = row.sequence_no;
-    entry.pageStart = entry.pageStart === null ? row.page_start : Math.min(entry.pageStart, row.page_start ?? entry.pageStart);
-    entry.pageEnd = entry.pageEnd === null ? row.page_end : Math.max(entry.pageEnd, row.page_end ?? entry.pageEnd);
-    entry.chunkCount += 1;
-    tocBySection.set(row.section_path, entry);
+    if (shouldSkipTocRow(row.section_path, row.text)) {
+      activeSectionRefs.length = 0;
+      continue;
+    }
+
+    const candidate = getTocCandidate(row.section_path, row.paragraph_ref, row.text);
+    const existingCandidateEntry = candidate ? tocBySection.get(candidate.sectionRef) : undefined;
+    if (candidate && existingCandidateEntry && row.sequence_no > existingCandidateEntry.lastSequenceNo + 20) {
+      activeSectionRefs.length = 0;
+      continue;
+    }
+
+    if (candidate) {
+      activeSectionRefs[candidate.level - 1] = candidate.sectionRef;
+      activeSectionRefs.length = candidate.level;
+    }
+
+    const activeSectionRef = activeSectionRefs[activeSectionRefs.length - 1];
+    if (!activeSectionRef) {
+      continue;
+    }
+
+    const activeSection = tocBySection.get(activeSectionRef);
+    const entry = activeSection ?? createTocAccumulator(
+      activeSectionRef,
+      candidate?.sectionRef === activeSectionRef ? candidate : null,
+      row.sequence_no,
+      row.page_start,
+      row.page_end,
+    );
+
+    if (candidate?.sectionRef === activeSectionRef) {
+      entry.sectionPath = candidate.sectionPath;
+      entry.confidence = candidate.confidence;
+    }
+
+    addRowToTocAccumulator(entry, row.paragraph_ref, row.sequence_no, row.page_start, row.page_end);
+    tocBySection.set(activeSectionRef, entry);
   }
 
-  return [...tocBySection.entries()].slice(0, limit).map(([sectionPath, entry]) => {
-    const paragraphRefs = entry.paragraphRefs;
-
-    return {
-      section_path: sectionPath,
-      paragraph_refs: paragraphRefs,
-      first_paragraph_ref: paragraphRefs[0] ?? null,
-      last_paragraph_ref: paragraphRefs[paragraphRefs.length - 1] ?? null,
+  return [...tocBySection.values()]
+    .sort((a, b) => a.firstSequenceNo - b.firstSequenceNo)
+    .slice(0, limit)
+    .map((entry) => ({
+      section_path: entry.sectionPath,
+      section_ref: entry.sectionRef,
+      level: entry.level,
+      parent_section_ref: entry.parentSectionRef,
+      confidence: entry.confidence,
+      paragraph_refs: entry.paragraphRefs,
+      first_paragraph_ref: entry.paragraphRefs[0] ?? null,
+      last_paragraph_ref: entry.paragraphRefs[entry.paragraphRefs.length - 1] ?? null,
       page_start: entry.pageStart,
       page_end: entry.pageEnd,
       first_sequence_no: entry.firstSequenceNo,
       last_sequence_no: entry.lastSequenceNo,
       chunk_count: entry.chunkCount,
+    }));
+}
+
+function normalizeTocText(text: string): string {
+  return text.trim().replace(/\s+/g, ' ').replace(/[.…:;]+$/u, '').trim();
+}
+
+function getFirstLine(text: string): string {
+  return normalizeTocText(text.split(/\r?\n/, 1)[0] ?? '');
+}
+
+function extractNumericPrefix(text: string): string | null {
+  const match = normalizeTocText(text).match(/^(\d+(?:\.\d+){0,4})\.?\s+/);
+  return match?.[1] ?? null;
+}
+
+function isConsultationTocPath(sectionPath: string): boolean {
+  const normalized = sectionPath.toLowerCase();
+  return normalized.includes('do you have any comments') ||
+    normalized.includes('feedback on') ||
+    normalized.includes('summary of responses') ||
+    normalized.includes('public consultation') ||
+    normalized.includes('analysis of responses') ||
+    normalized.includes('consultation responses');
+}
+
+function isBackMatterTocPath(sectionPath: string): boolean {
+  const normalized = sectionPath.toLowerCase();
+  return normalized.includes('accompanying documents') || normalized.includes('feedback table');
+}
+
+function shouldSkipTocRow(sectionPath: string, text: string): boolean {
+  const normalizedSectionPath = normalizeTocText(sectionPath);
+  const firstLine = getFirstLine(text);
+  return isConsultationTocPath(normalizedSectionPath) ||
+    isConsultationTocPath(firstLine) ||
+    isBackMatterTocPath(normalizedSectionPath) ||
+    isBackMatterTocPath(firstLine);
+}
+
+function isBoilerplateTocPath(sectionPath: string): boolean {
+  const normalized = normalizeTocText(sectionPath).toLowerCase();
+  return TOC_BOILERPLATE_SECTIONS.has(normalized) || isConsultationTocPath(normalized);
+}
+
+function stripNumericPrefix(title: string, prefix: string): string {
+  const escapedPrefix = prefix.replace(/\./g, '\\.');
+  return normalizeTocText(title.replace(new RegExp(`^${escapedPrefix}(?:\.)?\\s*`), ''));
+}
+
+function isLikelyParagraphTitle(title: string, prefix: string): boolean {
+  const remainder = stripNumericPrefix(title, prefix).toLowerCase();
+  const wordCount = remainder.split(/\s+/).filter(Boolean).length;
+  if (wordCount > MAX_TOC_TITLE_WORDS) {
+    return true;
+  }
+
+  return TOC_PARAGRAPH_STARTERS.some((starter) => remainder.startsWith(starter));
+}
+
+function getTocCandidate(sectionPath: string, paragraphRef: string | null, text: string): TocCandidate | null {
+  const normalizedSectionPath = normalizeTocText(sectionPath);
+  const firstLine = getFirstLine(text);
+
+  if (isBoilerplateTocPath(normalizedSectionPath) && !paragraphRef?.includes('.')) {
+    return null;
+  }
+
+  const sectionPrefix = extractNumericPrefix(normalizedSectionPath);
+  if (sectionPrefix && sectionPrefix.split('.').length <= MAX_TOC_DEPTH && !isLikelyParagraphTitle(normalizedSectionPath, sectionPrefix)) {
+    return {
+      sectionRef: sectionPrefix,
+      sectionPath: normalizedSectionPath,
+      level: sectionPrefix.split('.').length,
+      confidence: 'high',
     };
-  });
+  }
+
+  const paragraphPrefix = paragraphRef && /^\d+(?:\.\d+){1,3}$/.test(paragraphRef) ? paragraphRef : null;
+  const firstLinePrefix = paragraphPrefix ? extractNumericPrefix(firstLine) : null;
+  if (
+    paragraphPrefix &&
+    firstLinePrefix === paragraphPrefix &&
+    paragraphPrefix.split('.').length <= MAX_TOC_DEPTH &&
+    !isLikelyParagraphTitle(firstLine, paragraphPrefix)
+  ) {
+    return {
+      sectionRef: paragraphPrefix,
+      sectionPath: firstLine,
+      level: paragraphPrefix.split('.').length,
+      confidence: 'medium',
+    };
+  }
+
+  return null;
+}
+
+function getParentSectionRef(sectionRef: string): string | null {
+  const parts = sectionRef.split('.');
+  return parts.length > 1 ? parts.slice(0, -1).join('.') : null;
+}
+
+function createTocAccumulator(
+  sectionRef: string,
+  candidate: TocCandidate | null,
+  sequenceNo: number,
+  pageStart: number | null,
+  pageEnd: number | null,
+): TocAccumulator {
+  return {
+    sectionPath: candidate?.sectionPath ?? sectionRef,
+    sectionRef,
+    level: candidate?.level ?? sectionRef.split('.').length,
+    parentSectionRef: getParentSectionRef(sectionRef),
+    confidence: candidate?.confidence ?? 'low',
+    paragraphRefs: [],
+    seenParagraphRefs: new Set<string>(),
+    firstSequenceNo: sequenceNo,
+    lastSequenceNo: sequenceNo,
+    pageStart,
+    pageEnd,
+    chunkCount: 0,
+  };
+}
+
+function addRowToTocAccumulator(
+  entry: TocAccumulator,
+  paragraphRef: string | null,
+  sequenceNo: number,
+  pageStart: number | null,
+  pageEnd: number | null,
+): void {
+  if (paragraphRef && !entry.seenParagraphRefs.has(paragraphRef)) {
+    entry.paragraphRefs.push(paragraphRef);
+    entry.seenParagraphRefs.add(paragraphRef);
+  }
+
+  entry.lastSequenceNo = sequenceNo;
+  entry.pageStart = entry.pageStart === null ? pageStart : Math.min(entry.pageStart, pageStart ?? entry.pageStart);
+  entry.pageEnd = entry.pageEnd === null ? pageEnd : Math.max(entry.pageEnd, pageEnd ?? entry.pageEnd);
+  entry.chunkCount += 1;
 }
 
 export function getContextForChunks(chunks: Chunk[], contextBefore = 1, contextAfter = 1): Chunk[] {

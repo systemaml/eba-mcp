@@ -179,6 +179,9 @@ assert_error "max_citations exceeding max (50) is rejected" "$res"
 res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","response_mode":"verbose"}' 29)"
 assert_error "unknown response_mode is rejected" "$res"
 
+res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","search_mode":"semantic"}' 30)"
+assert_error "unknown search_mode is rejected" "$res"
+
 res="$(call_tool "$TEMP_DB" "eba_search" '{"query":"risk","unknown_field":"value"}' 5)"
 assert_error "unknown field in eba_search is rejected by .strict()" "$res"
 

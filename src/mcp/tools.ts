@@ -226,7 +226,7 @@ export async function handleEbaSearch(input: EbaSearchInputType) {
     const responseMode = input.response_mode;
     const maxCitations = input.max_citations ?? getDefaultSearchMaxCitations(responseMode);
     const maxChars = input.max_chars ?? getDefaultSearchMaxChars(responseMode);
-    const searchResult = await searchChunksWithMode(input.query, input.filters || {}, input.limit || 10);
+    const searchResult = await searchChunksWithMode(input.query, input.filters || {}, input.limit || 10, input.search_mode);
     const baseChunks = searchResult.chunks;
     const expandedChunks = input.include_context ? getContextForChunks(baseChunks, 1, 1) : baseChunks;
     const orderedChunks = input.include_context ? prioritizeAnchorChunks(baseChunks, expandedChunks) : expandedChunks;
@@ -256,6 +256,8 @@ export async function handleEbaSearch(input: EbaSearchInputType) {
         documents_considered: [...new Set(chunks.map((chunk) => chunk.eba_id).filter(Boolean))] as string[],
         filters_applied: input.filters || {},
         search_mode: searchResult.search_mode,
+        embedding_model: searchResult.embedding_model,
+        embeddings_available: searchResult.embeddings_available,
         response_mode: responseMode,
         response_limited: citationCapLimited,
         limit_reason: citationCapLimited ? 'citation_cap' : undefined,

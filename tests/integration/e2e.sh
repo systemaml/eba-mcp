@@ -276,6 +276,9 @@ assert 'max_citations' in search_props, search_props
 assert 'response_mode' in search_props, search_props
 assert search_props['response_mode']['default'] == 'standard', search_props['response_mode']
 assert set(search_props['response_mode']['enum']) == {'compact', 'standard', 'full'}, search_props['response_mode']
+assert 'search_mode' in search_props, search_props
+assert search_props['search_mode']['default'] == 'hybrid', search_props['search_mode']
+assert set(search_props['search_mode']['enum']) == {'hybrid', 'fts', 'vector'}, search_props['search_mode']
 assert 'translate the intent to English first' in search_props['query']['description'], search_props['query']
 assert 'Put exclude_consultation_responses here, not at top level' in search_props['filters']['description'], search_props['filters']
 assert 'Must be nested under filters' in search_props['filters']['properties']['exclude_consultation_responses']['description'], search_props['filters']['properties']['exclude_consultation_responses']
@@ -325,9 +328,26 @@ for key in ('citation_id', 'eba_id', 'text', 'citation', 'chunk_type', 'page_sta
     assert key in first
 assert first['eba_id'] == '$search_eba_id'
 assert payload['response_mode'] == 'standard'
+assert isinstance(payload.get('embeddings_available'), bool), payload
+if payload.get('search_mode') in ('hybrid', 'vector'):
+    assert payload['embeddings_available'] == True, payload
+    assert isinstance(payload.get('embedding_model'), str) and payload['embedding_model'], payload
+elif payload.get('search_mode') in ('fts_fallback', 'fts_only'):
+    assert payload['embeddings_available'] == False, payload
+    assert payload.get('embedding_model') in (None, ''), payload
 assert payload['returned_citations'] == len(payload['citations'])
 assert payload['available_citations'] >= payload['returned_citations']
 assert all(len(citation['text']) <= 1200 for citation in payload['citations']), payload['citations']
+" true
+
+  res="$(call_tool "$db_path" "eba_search" "{\"query\":\"$search_query\",\"filters\":{\"eba_id\":\"$search_eba_id\"},\"limit\":3,\"search_mode\":\"fts\"}" 25)"
+  assert_json "eba_search explicit fts mode returns FTS-only real-DB results" "$res" "
+assert payload['answerability'] in ('exact', 'partial')
+assert payload.get('search_mode') == 'fts_only', payload
+assert payload.get('embeddings_available') == False, payload
+assert payload.get('embedding_model') in (None, ''), payload
+assert len(payload['citations']) > 0
+assert all(citation['eba_id'] == '$search_eba_id' for citation in payload['citations'])
 " true
 
   res="$(call_tool "$db_path" "eba_search" "{\"query\":\"$search_query\",\"filters\":{\"eba_id\":\"$search_eba_id\"},\"limit\":3,\"include_context\":true,\"max_citations\":4}" 22)"
@@ -368,6 +388,8 @@ assert any('response exceeded' in warning for warning in payload['warnings']), p
     assert_json "eba_search exact lookup supports hyphenated EBA IDs" "$res" "
 assert payload['answerability'] == 'exact'
 assert payload['documents_considered'] == ['$hyphen_eba_id']
+assert payload.get('embeddings_available') == False, payload
+assert payload.get('embedding_model') in (None, ''), payload
 assert len(payload['citations']) > 0
 assert all(citation['eba_id'] == '$hyphen_eba_id' for citation in payload['citations'])
 "
@@ -471,8 +493,15 @@ assert payload['answerability'] == 'exact'
 assert payload['total'] == len(payload['toc'])
 assert len(payload['toc']) >= 1
 first = payload['toc'][0]
-for key in ('section_path', 'paragraph_refs', 'first_sequence_no', 'last_sequence_no', 'chunk_count'):
+for key in ('section_path', 'section_ref', 'level', 'confidence', 'paragraph_refs', 'first_sequence_no', 'last_sequence_no', 'chunk_count'):
     assert key in first
+section_names = {entry['section_path'].strip().lower() for entry in payload['toc']}
+assert '(unsectioned)' not in section_names, payload['toc']
+assert 'guidelines' not in section_names, payload['toc']
+assert 'next steps' not in section_names, payload['toc']
+assert 'background' not in section_names, payload['toc']
+assert all('do you have any comments' not in entry['section_path'].lower() for entry in payload['toc']), payload['toc']
+assert all(isinstance(entry['level'], int) and entry['level'] >= 1 for entry in payload['toc']), payload['toc']
 " true
 
   res="$(call_tool "$db_path" "eba_search" '{"query":"xyznonexistent999","limit":3}' 7)"
@@ -613,6 +642,35 @@ assert payload['answerability'] == 'no_match'
 assert payload['citations'] == []
 assert payload['documents_considered'] == []
 assert payload.get('search_mode') == 'fts_fallback', payload
+assert payload.get('embeddings_available') == False, payload
+assert payload.get('embedding_model') in (None, ''), payload
+" 
+
+  res="$(call_tool "$temp_db" "eba_search" '{"query":"money laundering","limit":3,"search_mode":"fts"}' 106)"
+  assert_json "explicit fts search mode uses FTS only" "$res" "
+assert payload['answerability'] == 'no_match'
+assert payload['citations'] == []
+assert payload.get('search_mode') == 'fts_only', payload
+assert payload.get('embeddings_available') == False, payload
+assert payload.get('embedding_model') in (None, ''), payload
+" 
+
+  res="$(call_tool "$temp_db" "eba_search" '{"query":"money laundering","limit":3,"search_mode":"hybrid"}' 107)"
+  assert_json "explicit hybrid search mode falls back when vectors are unavailable" "$res" "
+assert payload['answerability'] == 'no_match'
+assert payload['citations'] == []
+assert payload.get('search_mode') == 'fts_fallback', payload
+assert payload.get('embeddings_available') == False, payload
+assert payload.get('embedding_model') in (None, ''), payload
+" 
+
+  res="$(call_tool "$temp_db" "eba_search" '{"query":"money laundering","limit":3,"search_mode":"vector"}' 108)"
+  assert_json "explicit vector search mode falls back when vectors are unavailable" "$res" "
+assert payload['answerability'] == 'no_match'
+assert payload['citations'] == []
+assert payload.get('search_mode') == 'fts_fallback', payload
+assert payload.get('embeddings_available') == False, payload
+assert payload.get('embedding_model') in (None, ''), payload
 " 
 
   res="$(call_tool "$temp_db" "eba_get_toc" '{"eba_id":"EBA/GL/9999/99"}' 103)"
