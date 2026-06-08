@@ -286,6 +286,9 @@ assert 'Requires either paragraph_ref or paragraph_refs' in paragraph_descriptio
 props = paragraph_schema['properties']
 assert 'Required unless paragraph_refs is supplied' in props['paragraph_ref']['description'], props['paragraph_ref']
 assert 'Required unless paragraph_ref is supplied' in props['paragraph_refs']['description'], props['paragraph_refs']
+assert props['context_before']['maximum'] == 10, props['context_before']
+assert props['context_after']['maximum'] == 10, props['context_after']
+assert 'from 0 to 10' in props['context_after']['description'], props['context_after']
 section_tool = tools['eba_get_section']
 assert 'broad navigation, not precision search' in section_tool['description'], section_tool['description']
 assert 'Use the narrowest available prefix' in section_tool['inputSchema']['properties']['section']['description'], section_tool['inputSchema']['properties']['section']
@@ -620,6 +623,12 @@ assert payload['citations'] == []
 
   res="$(call_tool "$temp_db" "eba_get_section" '{"eba_id":"EBA/GL/9999/99","section":"4"}' 104)"
   assert_json "empty DB eba_get_section returns no_match" "$res" "
+assert payload['answerability'] == 'no_match'
+assert payload['citations'] == []
+"
+
+  res="$(call_tool "$temp_db" "eba_get_paragraph" '{"eba_id":"EBA/GL/9999/99","paragraph_ref":"4.1.5","context_after":5}' 106)"
+  assert_json "eba_get_paragraph accepts context_after up to 10" "$res" "
 assert payload['answerability'] == 'no_match'
 assert payload['citations'] == []
 "

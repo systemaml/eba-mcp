@@ -60,6 +60,33 @@ PY
   fi
 }
 
+assert_error_contains() {
+  local name="$1"
+  local result="$2"
+  local expected="$3"
+
+  if RESULT_JSON="$result" EXPECTED="$expected" python3 - <<'PY'
+import json, os
+
+outer = json.loads(os.environ["RESULT_JSON"])
+assert "result" in outer, "missing result envelope"
+text = outer["result"]["content"][0]["text"]
+payload = json.loads(text)
+assert payload.get("answerability") == "error", f"expected answerability=error, got {payload.get('answerability')}"
+error = payload.get("error", "")
+expected = os.environ["EXPECTED"]
+assert expected in error, f"expected {expected!r} in {error!r}"
+PY
+  then
+    echo "[PASS] $name"
+    PASS=$((PASS + 1))
+  else
+    echo "[FAIL] $name"
+    FAIL=$((FAIL + 1))
+    echo "  Response (first 300 chars): ${result:0:300}"
+  fi
+}
+
 assert_no_crash() {
   local name="$1"
   local result="$2"
@@ -228,6 +255,9 @@ assert_error "paragraph_refs exceeding max (20) is rejected" "$res"
 
 res="$(call_tool "$TEMP_DB" "eba_get_paragraph" '{"eba_id":"EBA/GL/2021/02"}' 23)"
 assert_error "eba_get_paragraph without paragraph_ref or paragraph_refs is rejected" "$res"
+
+res="$(call_tool "$TEMP_DB" "eba_get_paragraph" '{"eba_id":"EBA/GL/2021/02","paragraph_ref":"4.1.2","context_after":11}' 24)"
+assert_error_contains "eba_get_paragraph context_after over 10 returns readable validation error" "$res" "context_after: context_after must be between 0 and 10"
 
 res="$(call_tool "$TEMP_DB" "eba_diff_versions" '{"eba_id":"EBA/GL/2021/02","version_a":"1.0","version_b":"2.0","prototype":{"polluted":true}}' 18)"
 assert_error "prototype key in eba_diff_versions is rejected by .strict()" "$res"

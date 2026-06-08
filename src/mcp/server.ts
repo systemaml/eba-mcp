@@ -1,6 +1,7 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { ZodError } from 'zod';
 
 import { initDb } from '../db/sqlite.js';
 import {
@@ -15,6 +16,7 @@ import {
   EbaListDocumentsInput,
   EbaSearchInput,
   EbaValidateCitationInput,
+  PARAGRAPH_CONTEXT_CHUNK_LIMIT,
 } from './schemas.js';
 import {
   handleEbaCorpusInfo,
@@ -36,6 +38,19 @@ const PARAGRAPH_REF_PATTERN = '^[A-Za-z0-9][A-Za-z0-9 ._/-]*$';
 const SECTION_REF_PATTERN = '^[A-Za-z0-9][A-Za-z0-9 ._/-]*$';
 const VERSION_LABEL_PATTERN = '^[A-Za-z0-9][A-Za-z0-9 ._/-]*$';
 const FILTER_STRING_PATTERN = '^[^\\x00-\\x1f\\x7f]+$';
+
+function formatToolError(error: unknown): string {
+  if (error instanceof ZodError) {
+    return error.issues
+      .map((issue) => {
+        const path = issue.path.length > 0 ? issue.path.join('.') : 'arguments';
+        return `${path}: ${issue.message}`;
+      })
+      .join('; ');
+  }
+
+  return error instanceof Error ? error.message : 'Unknown tool error';
+}
 
 const FILTER_PROPERTIES = {
   document_type: { type: 'string', maxLength: 80, pattern: FILTER_STRING_PATTERN },
@@ -111,8 +126,8 @@ const TOOLS = [
           description: 'Optional batch of paragraph references, up to 20. Required unless paragraph_ref is supplied.',
         },
         language: { type: 'string', enum: ['en'], default: 'en' },
-        context_before: { type: 'number', minimum: 0, maximum: 3, default: 0 },
-        context_after: { type: 'number', minimum: 0, maximum: 3, default: 0 },
+        context_before: { type: 'integer', minimum: 0, maximum: PARAGRAPH_CONTEXT_CHUNK_LIMIT, default: 0, description: `Number of preceding chunks to include, from 0 to ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}.` },
+        context_after: { type: 'integer', minimum: 0, maximum: PARAGRAPH_CONTEXT_CHUNK_LIMIT, default: 0, description: `Number of following chunks to include, from 0 to ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}.` },
         max_chars: { type: 'number', minimum: 1, maximum: 100000, description: 'Optional maximum characters per citation text. Omit to return full paragraph/chunk text.' },
       },
       required: ['eba_id'],
@@ -280,7 +295,7 @@ export async function createServer(): Promise<Server> {
           throw new Error(`Unknown tool: ${name}`);
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown tool error';
+      const message = formatToolError(error);
 
       result = {
         answerability: 'error',

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+export const PARAGRAPH_CONTEXT_CHUNK_LIMIT = 10;
+
 // ── Reusable string primitives ─────────────────────────────────────────────
 
 /** Trim + collapse internal whitespace runs to a single space. */
@@ -156,8 +158,18 @@ export const EbaGetParagraphInput = z
     paragraph_ref: ParagraphRef.optional(),
     paragraph_refs: z.array(ParagraphRef).max(20, 'paragraph_refs exceeds 20 items').optional(),
     language: Language.default('en'),
-    context_before: z.number().int().min(0).max(3).default(0),
-    context_after: z.number().int().min(0).max(3).default(0),
+    context_before: z
+      .number({ invalid_type_error: `context_before must be an integer between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}` })
+      .int(`context_before must be an integer between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}`)
+      .min(0, `context_before must be between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}`)
+      .max(PARAGRAPH_CONTEXT_CHUNK_LIMIT, `context_before must be between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}`)
+      .default(0),
+    context_after: z
+      .number({ invalid_type_error: `context_after must be an integer between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}` })
+      .int(`context_after must be an integer between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}`)
+      .min(0, `context_after must be between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}`)
+      .max(PARAGRAPH_CONTEXT_CHUNK_LIMIT, `context_after must be between 0 and ${PARAGRAPH_CONTEXT_CHUNK_LIMIT}`)
+      .default(0),
     max_chars: MaxChars,
   })
   .strict()
