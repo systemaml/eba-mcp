@@ -7,6 +7,8 @@ from typing import TypedDict, cast
 
 import yaml
 
+from eba_pipeline.ids import canonicalize_eba_id, slugify_eba_id
+
 
 PARA_REF_PATTERN = re.compile(r"^\s*(\d+)\.\s+\S")
 NUMBERED_PARA_PATTERN = re.compile(r"^\s*(\d+(?:\.\d+)*\.?)\s+\S")
@@ -37,7 +39,7 @@ class ChunkData(TypedDict):
 
 
 def slugify(eba_id: str) -> str:
-    return re.sub(r"[^A-Za-z0-9-]", "-", eba_id.replace("/", "-")).strip("-")
+    return slugify_eba_id(eba_id)
 
 
 def normalize_paragraph_ref(value: str) -> str:
@@ -272,11 +274,15 @@ def load_eba_id_map(processed_dir: Path, manifest_path: Path | None = None) -> d
 
     loaded = cast(dict[str, object], yaml.safe_load(manifest.read_text(encoding="utf-8")) or {})
     documents = cast(list[dict[str, object]], loaded.get("documents", []))
-    return {
-        slugify(str(doc["eba_id"])): str(doc["eba_id"])
-        for doc in documents
-        if "eba_id" in doc
-    }
+    eba_id_map: dict[str, str] = {}
+    for doc in documents:
+        if "eba_id" not in doc:
+            continue
+        raw_eba_id = str(doc["eba_id"])
+        canonical_eba_id = canonicalize_eba_id(raw_eba_id)
+        eba_id_map[slugify(raw_eba_id)] = canonical_eba_id
+        eba_id_map[slugify(canonical_eba_id)] = canonical_eba_id
+    return eba_id_map
 
 
 def paragraphize_all(processed_dir: Path, manifest_path: Path | None = None) -> None:
@@ -291,7 +297,7 @@ def paragraphize_all(processed_dir: Path, manifest_path: Path | None = None) -> 
         if not pages_file.exists():
             continue
 
-        eba_id = eba_id_map.get(doc_dir.name, doc_dir.name)
+        eba_id = eba_id_map.get(doc_dir.name, canonicalize_eba_id(doc_dir.name))
         print(f"  Paragraphizing {doc_dir.name} ({eba_id})...")
         pages = cast(list[PageData], json.loads(pages_file.read_text(encoding="utf-8")))
         chunks = paragraphize_document(pages, eba_id)

@@ -14,6 +14,7 @@ from eba_pipeline.index.sqlite_store import (
     insert_document_version,
     update_corpus_manifest,
 )
+from eba_pipeline.ids import canonicalize_eba_id, slugify_eba_id
 from eba_pipeline.index.fts import populate_fts
 from eba_pipeline.index.split_chunks import split_mega_chunks
 from eba_pipeline.parser.quality import validate_unique_chunk_ids
@@ -69,8 +70,12 @@ def build_index(
     if seed_yaml.exists():
         loaded = cast(dict[str, object], yaml.safe_load(seed_yaml.read_text()) or {})
         for doc in cast(list[SeedDoc], loaded.get("documents", [])):
-            slug = str(doc["eba_id"]).replace("/", "-").replace(" ", "-")
+            raw_eba_id = str(doc["eba_id"])
+            canonical_eba_id = canonicalize_eba_id(raw_eba_id)
+            slug = slugify_eba_id(raw_eba_id)
+            canonical_slug = slugify_eba_id(canonical_eba_id)
             seed_docs[slug] = doc
+            seed_docs[canonical_slug] = doc
             original_slug = str(doc.get("_original_slug", ""))
             if original_slug:
                 seed_docs[original_slug] = doc
@@ -101,7 +106,7 @@ def build_index(
         validate_unique_chunk_ids(chunks, f"{doc_dir.name} ({chunks_file})")
 
         seed_meta = seed_docs.get(doc_dir.name, {})
-        eba_id = str(seed_meta.get("eba_id") or chunks[0].get("eba_id") or doc_dir.name)
+        eba_id = canonicalize_eba_id(str(seed_meta.get("eba_id") or chunks[0].get("eba_id") or doc_dir.name))
 
         doc_row = {
             "eba_id": eba_id,
@@ -212,16 +217,31 @@ def _populate_vectors(
 
     try:
         print(f"  Generating embeddings for {len(chunk_records)} chunks with model={model}...")
-        vectors = generate_embeddings(chunk_records, model=model, ollama_url=ollama_url, batch_size=batch_size)
+        inserted = 0
+        next_progress_report = 100
+        total_rows = len(chunk_records)
+        for start in range(0, total_rows, batch_size):
+            batch_records = chunk_records[start : start + batch_size]
+            batch_rowids = rowids[start : start + batch_size]
+            vectors = generate_embeddings(
+                batch_records,
+                model=model,
+                ollama_url=ollama_url,
+                batch_size=batch_size,
+                show_progress=False,
+            )
 
-        if len(vectors) != len(rowids):
-            raise RuntimeError(f"Vector count mismatch: {len(vectors)} vectors for {len(rowids)} chunks")
+            if len(vectors) != len(batch_rowids):
+                raise RuntimeError(f"Vector count mismatch: {len(vectors)} vectors for {len(batch_rowids)} chunks")
 
-        insert_chunk_vectors(conn, list(zip(rowids, vectors)))
+            insert_chunk_vectors(conn, list(zip(batch_rowids, vectors)))
+            inserted += len(vectors)
+            while next_progress_report <= inserted and next_progress_report < total_rows:
+                print(f"  Embeddings saved: {next_progress_report}/{total_rows} chunks")
+                next_progress_report += 100
+            if inserted == total_rows and (total_rows < 100 or total_rows % 100 != 0):
+                print(f"  Embeddings saved: {total_rows}/{total_rows} chunks")
     except Exception:
-        if not resume:
-            conn.execute("DROP TABLE IF EXISTS chunks_vec")
-            conn.commit()
         raise
 
     vec_count = cast(int, conn.execute("SELECT count(*) FROM chunks_vec").fetchone()[0])

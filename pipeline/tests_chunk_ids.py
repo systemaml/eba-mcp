@@ -5,12 +5,35 @@ import unittest
 from pathlib import Path
 from typing import cast
 
+from eba_pipeline.ids import canonicalize_eba_id
 from eba_pipeline.index.build_index import build_index
-from eba_pipeline.parser.paragraphize import ChunkData, PageData, paragraphize_document
+from eba_pipeline.parser.paragraphize import ChunkData, PageData, load_eba_id_map, paragraphize_document
 from eba_pipeline.parser.quality import summarize_duplicate_chunk_ids, validate_unique_chunk_ids
 
 
 class ChunkIdTests(unittest.TestCase):
+    def test_canonicalize_slugged_eba_ids(self) -> None:
+        self.assertEqual(canonicalize_eba_id("EBA-GL-2021-02"), "EBA/GL/2021/02")
+        self.assertEqual(canonicalize_eba_id("EBA-Op-2022-01"), "EBA/Op/2022/01")
+        self.assertEqual(canonicalize_eba_id("EBA-LARGE-GL-0000-0070"), "EBA/LARGE-GL/0000/0070")
+        self.assertEqual(canonicalize_eba_id("EBA/GL/2021/02"), "EBA/GL/2021/02")
+
+    def test_load_eba_id_map_canonicalizes_slugged_manifest_ids(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            tmp_path = Path(temp_dir)
+            processed_dir = tmp_path / "data" / "processed"
+            processed_dir.mkdir(parents=True)
+            manifest_path = tmp_path / "pipeline" / "seed_documents.yaml"
+            manifest_path.parent.mkdir(parents=True)
+            _ = manifest_path.write_text(
+                json.dumps({"documents": [{"eba_id": "EBA-GL-2021-02"}]}),
+                encoding="utf-8",
+            )
+
+            mapping = load_eba_id_map(processed_dir, manifest_path)
+
+            self.assertEqual(mapping["EBA-GL-2021-02"], "EBA/GL/2021/02")
+
     def test_repeated_identical_paragraph_text_on_different_pages_get_distinct_chunk_ids(self) -> None:
         pages = [
             {
@@ -169,6 +192,77 @@ class ChunkIdTests(unittest.TestCase):
                 finally:
                     conn.close()
                 self.assertEqual(count, 0)
+
+    def test_build_index_canonicalizes_slugged_document_ids(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            tmp_path = Path(temp_dir)
+            processed_dir = tmp_path / "processed"
+            reports_dir = tmp_path / "quality_reports"
+            output_db = tmp_path / "eba.db"
+            seed_path = tmp_path / "seed.yaml"
+
+            doc_dir = processed_dir / "EBA-GL-2021-02"
+            doc_dir.mkdir(parents=True)
+            _ = (doc_dir / "chunks.json").write_text(
+                json.dumps(
+                    [
+                        {
+                            "chunk_id": "EBA-GL-2021-02:abc:en:p:1:p1:s0",
+                            "eba_id": "EBA-GL-2021-02",
+                            "language": "en",
+                            "section_path": "1. Intro",
+                            "paragraph_ref": "1",
+                            "page_start": 1,
+                            "page_end": 1,
+                            "text": "Alpha",
+                            "text_hash": "a1",
+                            "chunk_type": "paragraph",
+                            "sequence_no": 0,
+                        }
+                    ],
+                    indent=2,
+                ),
+                encoding="utf-8",
+            )
+            reports_dir.mkdir(parents=True)
+            _ = (reports_dir / "EBA-GL-2021-02.json").write_text(
+                json.dumps({"passed": True}, indent=2), encoding="utf-8"
+            )
+            _ = seed_path.write_text(
+                json.dumps(
+                    {
+                        "documents": [
+                            {
+                                "eba_id": "EBA-GL-2021-02",
+                                "title": "Risk Factors",
+                                "document_type": "guidelines",
+                                "topic": "AML/CFT",
+                                "language": "en",
+                                "publication_url": "",
+                                "published_at": "2021-01-01",
+                                "applicability_status": "applicable",
+                                "publication_status": "final",
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            build_index(output_db, processed_dir, reports_dir, seed_path)
+
+            conn = sqlite3.connect(output_db)
+            try:
+                doc_id = conn.execute("SELECT eba_id FROM documents").fetchone()[0]
+                chunk_doc_id = conn.execute(
+                    "SELECT d.eba_id FROM chunks c JOIN document_versions v ON c.document_version_id = v.version_id "
+                    "JOIN documents d ON v.document_id = d.eba_id"
+                ).fetchone()[0]
+            finally:
+                conn.close()
+
+            self.assertEqual(doc_id, "EBA/GL/2021/02")
+            self.assertEqual(chunk_doc_id, "EBA/GL/2021/02")
 
 
 if __name__ == "__main__":
