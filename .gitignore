@@ -82,3 +82,6 @@ Desktop.ini
 # Local orchestration state
 .sisyphus/
 .playwright-mcp/
+
+# Local planning notes
+TODO.md
