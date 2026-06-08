@@ -81,7 +81,7 @@ The POC uses stdio transport exclusively. This keeps the surface area small, avo
 
 ### Hybrid Retrieval (FTS5 + sqlite-vec)
 
-The production corpus (`data/corpora/`) includes precomputed `nomic-embed-text` embeddings (768-dim) stored in a `chunks_vec` virtual table via the `sqlite-vec` extension. At query time, the retrieval engine embeds the query using a locally running Ollama instance and fuses FTS5 keyword scores with cosine similarity scores via Reciprocal Rank Fusion (RRF). `EBA_SEARCH_MODE=auto` activates hybrid when vectors are present; `fts_only` falls back to keyword-only search.
+The production corpus (`data/corpora/`) includes precomputed `nomic-embed-text` embeddings (768-dim) stored in a `chunks_vec` virtual table via the `sqlite-vec` extension. At query time, the retrieval engine embeds the query using a locally running Ollama instance and fuses FTS5 keyword scores with cosine similarity scores via Reciprocal Rank Fusion (RRF). Retrieval is automatic for MCP clients: hybrid is used when vectors and Ollama are available, and FTS5 is used as the fallback.
 
 Embeddings and the Ollama dependency are optional at runtime: if Ollama is not running, the server falls back to FTS5 automatically.
 
@@ -123,7 +123,7 @@ Docling is reserved as a potential fallback for difficult PDFs in MVP. The POC u
 5. **Quality Gates**: Each document is checked against thresholds: page_coverage >= 0.85, paragraph_ref_detection >= 0.70, citation_roundtrip >= 0.95. Failures go to `needs_review`.
 6. **Index Build**: Passing documents are inserted into SQLite. The `chunks` table stores every chunk. The `chunks_fts` virtual table indexes eba_id, title, section_path, paragraph_ref, body, topic, and document_type with per-column weights.
 7. **Manifest**: A `corpus_manifest` row records the build timestamp, document count, chunk count, and a manifest hash.
-8. **MCP Runtime**: The TypeScript server opens the corpus DB on startup. When a client calls `eba_search`, the retrieval engine selects a search mode: in `fts_only` mode it runs an escaped FTS5 query and orders by SQLite FTS5 rank; in `hybrid` mode it also queries `chunks_vec` via sqlite-vec for cosine similarity and fuses both rank lists via Reciprocal Rank Fusion (RRF); `auto` mode picks hybrid when vectors are present, FTS5 otherwise. All modes return formatted citations.
+8. **MCP Runtime**: The TypeScript server opens the corpus DB on startup. When a client calls `eba_search`, the retrieval engine automatically attempts hybrid retrieval when vector search is available, fusing FTS5 and sqlite-vec ranks via Reciprocal Rank Fusion (RRF). If vector search or Ollama is unavailable, it returns FTS5 results instead. All modes return formatted citations.
 9. **Citation**: Every result includes a citation string like `EBA/GL/2024/01, para. 4.12, p. 42`, plus metadata: eba_id, title, status, applicability, source URL, and file SHA256.
 
 ## Quality Thresholds

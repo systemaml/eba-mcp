@@ -40,7 +40,7 @@ This is a **Proof of Concept** (POC) implementation that has since grown beyond 
 
 - **Original 9 EBA AML/CFT documents** — the small seed corpus was only used for initial development; the current production corpus covers 346 current/applicable EBA documents
 - **English only** — no multi-language support; EBA publications in other languages are not processed
-- **Hybrid retrieval available** — FTS5 keyword search is always active; sqlite-vec semantic search is available when the DB includes vectors (`nomic-embed-text` 768-dim) and Ollama is running locally; `EBA_SEARCH_MODE=auto` activates hybrid automatically
+- **Hybrid retrieval available** — FTS5 keyword search is always active; sqlite-vec semantic search is selected automatically when the DB includes vectors (`nomic-embed-text` 768-dim) and Ollama is running locally; otherwise the runtime falls back to FTS5
 - **Stdio transport only** — no HTTP or SSE transport; MCP server communicates via stdin/stdout
 - **Partial document relationship resolution** — M4 relationship extraction exists for curated seed notes but is not yet complete enough for production-scale current/applicable curation
 - **Partial version/status resolution** — status fields exist, but production curation still requires stronger detection of superseded/amended/withdrawn documents
