@@ -52,7 +52,7 @@ Citation objects are produced by `src/citations/formatter.ts`:
   "section_path": "Guidelines",
   "page_start": 1,
   "page_end": 1,
-  "text": "First 500 characters of chunk text...",
+  "text": "Full chunk text unless max_chars was supplied...",
   "citation": "EBA/GL/2021/02, para. 1, p. 1",
   "chunk_type": "paragraph",
   "truncated": false,
@@ -62,8 +62,8 @@ Citation objects are produced by `src/citations/formatter.ts`:
 
 Field notes:
 
-- `truncated` — always present; `true` when `text` was clipped to 500 chars, `false` when text is the full chunk text.
-- `truncation_offset` — always present; `"500 / N"` (chars shown / total chars) when `truncated` is `true`, otherwise `null`.
+- `truncated` — always present; `true` when `text` was clipped by an explicit `max_chars` input, `false` when text is the full chunk text.
+- `truncation_offset` — always present; `"M / N"` (chars shown / total chars) when `truncated` is `true`, otherwise `null`.
 - `is_anchor?` — present **only** in `eba_get_paragraph` responses; `true` for the specifically requested paragraph, `false` for surrounding context chunks.
 - `is_complete?` — present **only** in `eba_get_paragraph` responses; `false` when `chunk_id` ends in `:sub1` or `:sub2` (split paragraph fragment), `true` otherwise.
 
@@ -77,7 +77,7 @@ The POC does not expose `source_url`, `file_sha256`, or chunk-level document sta
 
 ## `eba_search`
 
-Search EBA document chunks. Uses SQLite FTS5 keyword search by default (`fts_only`), or hybrid FTS5 + sqlite-vec cosine similarity (`hybrid`) when a vector-enabled DB and local Ollama are available. `EBA_SEARCH_MODE=auto` selects hybrid automatically when vectors are present.
+Search EBA document chunks. The server selects retrieval automatically: it uses hybrid FTS5 + sqlite-vec semantic search when a vector-enabled DB and local Ollama are available, and falls back to SQLite FTS5 when they are not. MCP clients do not need to choose a search mode. Queries should be in English; if the end user asks in Polish or another language, consumer agents should translate the search intent into focused English EBA regulatory terms before calling this tool.
 
 ### Input
 
@@ -94,15 +94,16 @@ Search EBA document chunks. Uses SQLite FTS5 keyword search by default (`fts_onl
     "exclude_consultation_responses": true
   },
   "limit": 10,
-  "include_context": false
+  "include_context": false,
+  "max_chars": 2000
 }
 ```
 
 All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is supported when `query` itself is an EBA ID or when only `filters.eba_id` is provided.
 
-`topic: "AML/CFT"` matches both documents explicitly tagged `AML/CFT` and AML-relevant document titles whose stored corpus topic is a publication facet such as `EBA guidelines` or `EBA opinion`. `exclude_consultation_responses` must be a JSON boolean (`true` or `false`), not the string `"true"`. Pass `true` to remove chunks in parsed feedback/consultation-response sections while leaving final guideline text searchable.
+`topic: "AML/CFT"` matches both documents explicitly tagged `AML/CFT` and AML-relevant document titles whose stored corpus topic is a publication facet such as `EBA guidelines` or `EBA opinion`. `exclude_consultation_responses` must be nested under `filters` and must be a JSON boolean (`true` or `false`), not the string `"true"`. Pass `true` to remove chunks in parsed feedback/consultation-response sections while leaving final guideline text searchable.
 
-`include_context: true` includes neighboring chunks around each hit in the returned citation list.
+`include_context: true` includes neighboring chunks around each hit in the returned citation list. Omit `max_chars` to return full citation text; set it only when the client needs a bounded excerpt.
 
 ### Output
 
@@ -112,6 +113,7 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
   "citations": [{ "citation": "EBA/GL/2021/02, para. 20.6, p. 135" }],
   "documents_considered": ["EBA/GL/2021/02"],
   "filters_applied": { "document_type": "guidelines" },
+  "search_mode": "hybrid",
   "warnings": [],
   "query_trace_id": "...",
   "corpus_version": "cc75a91c1e091546"
@@ -125,7 +127,7 @@ Return document metadata and a small sample of leading citation chunks for a spe
 ### Input
 
 ```json
-{ "eba_id": "EBA/GL/2021/02", "language": "en" }
+{ "eba_id": "EBA/GL/2021/02", "language": "en", "max_chars": 2000 }
 ```
 
 ### Output
@@ -148,7 +150,7 @@ Return document metadata and a small sample of leading citation chunks for a spe
 
 Return all chunks matching a paragraph reference in a document. Some source PDFs reuse paragraph-like numbers in tables/annexes; if multiple chunks match, all are returned in sequence order.
 
-Accepts either `paragraph_ref` (single reference) or `paragraph_refs` (batch of up to 20 references). Exactly one of the two must be provided.
+Accepts `paragraph_ref` (single reference) or `paragraph_refs` (batch of up to 20 references). At least one of the two must be provided.
 
 ### Input (single)
 
@@ -158,7 +160,8 @@ Accepts either `paragraph_ref` (single reference) or `paragraph_refs` (batch of 
   "paragraph_ref": "1",
   "language": "en",
   "context_before": 1,
-  "context_after": 1
+  "context_after": 1,
+  "max_chars": 2000
 }
 ```
 
@@ -170,11 +173,12 @@ Accepts either `paragraph_ref` (single reference) or `paragraph_refs` (batch of 
   "paragraph_refs": ["1", "5", "10"],
   "language": "en",
   "context_before": 0,
-  "context_after": 0
+  "context_after": 0,
+  "max_chars": 2000
 }
 ```
 
-`paragraph_refs` accepts up to 20 paragraph references. Context bounds are integers from 0 to 3.
+`paragraph_refs` accepts up to 20 paragraph references. Context bounds are integers from 0 to 3. Omit `max_chars` to return full paragraph/chunk text; set it only when a bounded excerpt is needed.
 
 ### Output
 
@@ -212,7 +216,7 @@ If an `eba_search` result has `paragraph_ref: null`, this tool cannot retrieve i
 
 ## `eba_get_section`
 
-Return citation chunks for a numbered section or paragraph-prefix inside one document. For example, `section: "4"` matches `paragraph_ref` values `4`, `4.1`, `4.2`, etc., plus matching `section_path` headings.
+Return citation chunks for a numbered section or paragraph-prefix inside one document. For example, `section: "4"` matches `paragraph_ref` values `4`, `4.1`, `4.2`, etc., plus matching `section_path` headings. This is broad navigation rather than precision search: broad prefixes can include front matter, footnotes, consultation-response chunks, or many subsections. Use `eba_get_toc` first and choose the narrowest useful prefix; prefer `eba_get_paragraph` once exact paragraph references are known.
 
 ### Input
 
@@ -221,7 +225,8 @@ Return citation chunks for a numbered section or paragraph-prefix inside one doc
   "eba_id": "EBA/GL/2021/02",
   "section": "4",
   "language": "en",
-  "limit": 200
+  "limit": 200,
+  "max_chars": 2000
 }
 ```
 
@@ -423,9 +428,15 @@ Return the available versions for a specific EBA document.
 
 ## `eba_validate_citation`
 
-Validate a citation chunk ID and return the related document status metadata.
+Validate a returned citation identifier and return the related document status metadata. Prefer passing the `citation_id` field exactly as returned by citation-producing tools. `chunk_id` is accepted as a backward-compatible alias for the same value.
 
 ### Input
+
+```json
+{ "citation_id": "EBA-GL-2021-02:1633158a:en:p:3.6:p37:s114" }
+```
+
+Backward-compatible input:
 
 ```json
 { "chunk_id": "EBA-GL-2021-02:1633158a:en:p:3.6:p37:s114" }
@@ -485,7 +496,7 @@ Compare two versions of a specific EBA document.
 ## Known limitations
 
 - No HTTP/SSE transport (stdio only; Streamable HTTP planned for future milestone).
-- Hybrid semantic search is active when `EBA_SEARCH_MODE=hybrid` or `auto` and a vector-enabled DB + local Ollama are available; FTS5 is always the fallback.
+- Hybrid semantic search is selected automatically when a vector-enabled DB + local Ollama are available; FTS5 is always the fallback. `EBA_SEARCH_MODE` is an internal maintainer override, not a client-facing MCP parameter.
 - `application_date` depends on successful pipeline metadata extraction and may be `null` for documents where no date was detected.
 - Version history limited to single `1.0` entry per document (full version tracking planned for future milestone).
 - Incremental index updates are not implemented; corpus updates require a full rebuild and a new GitHub Release artifact named `eba-corpus.db`.

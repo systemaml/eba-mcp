@@ -130,7 +130,6 @@ Add to `claude_desktop_config.json`, replacing the path with your clone location
         "/absolute/path/to/eba-mcp/data/corpora/eba-corpus.db"
       ],
       "env": {
-        "EBA_SEARCH_MODE": "auto",
         "OLLAMA_URL": "http://localhost:11434"
       }
     }
@@ -138,13 +137,7 @@ Add to `claude_desktop_config.json`, replacing the path with your clone location
 }
 ```
 
-Without Ollama:
-
-```json
-"env": {
-  "EBA_SEARCH_MODE": "fts_only"
-}
-```
+Without Ollama, omit the `env` block or leave `OLLAMA_URL` unset; the server automatically falls back to FTS5 keyword search.
 
 ### Other MCP Clients
 
@@ -158,13 +151,9 @@ Use stdio transport. This server does not expose HTTP, SSE, or Streamable HTTP.
 
 ---
 
-## Search Modes
+## Retrieval behavior
 
-| Mode | Description |
-|------|-------------|
-| `auto` | Default. Uses hybrid when vectors + Ollama are available; falls back to FTS5. |
-| `fts_only` | SQLite FTS5 keyword search only. No Ollama required. |
-| `hybrid` | Requires vector-enabled DB and reachable Ollama. Fails if either is unavailable. |
+Retrieval is automatic for MCP clients. With the production vector-enabled DB and reachable Ollama, the server uses hybrid FTS5 + semantic retrieval. If Ollama or vector search is unavailable, it falls back to SQLite FTS5 and reports `search_mode: "fts_fallback"` or `"fts_only"` in the response payload.
 
 ---
 
@@ -188,7 +177,7 @@ Requires Node.js >= 18 on a supported OS and architecture.
 
 ### Ollama is unavailable
 
-Set `EBA_SEARCH_MODE=fts_only` to use keyword-only search, or start Ollama and pull the model:
+Start Ollama and pull the model to enable hybrid retrieval. If Ollama is unavailable, no client-side mode switch is required; the server falls back to FTS5:
 
 ```bash
 ollama pull nomic-embed-text
@@ -206,9 +195,12 @@ Use absolute paths in MCP client configuration. Ensure the user running the MCP 
 
 ## Agent Query Guidance
 
-- Use English queries. The corpus is English, and `nomic-embed-text` is optimized for English.
+- Use English queries. The corpus is English, and `nomic-embed-text` is optimized for English. If the end user asks in Polish or another language, translate the search intent to focused English regulatory terms before calling `eba_search`.
 - Run multiple focused searches rather than one broad legal question.
 - Use EBA regulatory terms: `customer due diligence`, `high-risk third countries`, `source of funds`, `beneficial ownership`, `PEP`, `ongoing monitoring`, `risk factors`.
+- Put `exclude_consultation_responses` under `filters`, not at the top level: `{ "filters": { "exclude_consultation_responses": true } }`.
 - Cite only excerpts returned by the MCP tools.
+- To validate a returned citation, pass its `citation_id` directly to `eba_validate_citation` as `citation_id` (or as `chunk_id` for backward compatibility).
+- Treat `eba_get_section` as broad navigation. Use `eba_get_toc` first and choose the narrowest useful section prefix; use `eba_get_paragraph` for precise paragraph context.
 - Do not present MCP output as legal advice or a definitive legal interpretation.
 - Use `eba_get_paragraph` after discovery when you need surrounding context for a known `eba_id` and `paragraph_ref`.

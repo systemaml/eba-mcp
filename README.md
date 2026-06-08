@@ -114,14 +114,14 @@ The server accepts a single argument `--db <path>` pointing to the built SQLite 
 
 ### Runtime Environment Variables
 
-Optional hybrid-retrieval settings:
+Optional maintainer overrides for hybrid retrieval:
 
 - `OLLAMA_URL` (default: `http://localhost:11434`)
 - `EMBEDDING_MODEL` (default: `nomic-embed-text`)
 - `RRF_K` (default: `60`)
 - `RRF_WEIGHT_FTS` (default: `1.0`)
 - `RRF_WEIGHT_VEC` (default: `1.0`)
-- `EBA_SEARCH_MODE` (default: `auto`)
+- `EBA_SEARCH_MODE` (default: `auto`; leave unset for normal MCP clients)
 
 Example invocation:
 
@@ -149,11 +149,11 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 ### Tool Details
 
-**`eba_search`** — Searches indexed EBA chunks and returns citation objects with document ID, page, paragraph reference, and text excerpt. Retrieval is controlled by `EBA_SEARCH_MODE`: `fts_only` uses SQLite FTS5, `hybrid` requires sqlite-vec vectors plus query-time Ollama embeddings, and `auto` uses hybrid when available while preserving citation-first results. Supports filters including `eba_id`, `document_type`, `topic`, `publication_status`, `applicability_status`, and `exclude_consultation_responses`. `topic="AML/CFT"` also matches AML-relevant titles whose stored corpus topic is a publication facet such as `EBA guidelines`.
+**`eba_search`** — Searches indexed EBA chunks and returns citation objects with document ID, page, paragraph reference, and text. Retrieval is automatic: the server uses hybrid FTS + semantic search when vectors and Ollama are available, and falls back to FTS5 when they are not. Supports filters including `eba_id`, `document_type`, `topic`, `publication_status`, `applicability_status`, and `exclude_consultation_responses`. `topic="AML/CFT"` also matches AML-relevant titles whose stored corpus topic is a publication facet such as `EBA guidelines`. Use optional `max_chars` only when a bounded excerpt is needed; omit it for full citation text.
 
 **`eba_get_document`** — Returns document metadata and a small sample of leading parsed chunks for a given document identifier. It is not a full-document dump; use `eba_get_toc` and `eba_get_section` for document navigation.
 
-**`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters to include surrounding chunks. Accepts `paragraph_refs: string[]` (up to 20) for batch retrieval of multiple paragraphs in a single call; each citation includes `is_anchor` (marks the requested paragraph vs. surrounding context) and `is_complete` (`false` for split paragraph fragments ending in `:sub1`/`:sub2`, `true` otherwise) flags.
+**`eba_get_paragraph`** — Retrieves chunks matching a paragraph reference, with optional `context_before` and `context_after` parameters to include surrounding chunks. Accepts `paragraph_refs: string[]` (up to 20) for batch retrieval of multiple paragraphs in a single call; each citation includes `is_anchor` (marks the requested paragraph vs. surrounding context) and `is_complete` (`false` for split paragraph fragments ending in `:sub1`/`:sub2`, `true` otherwise) flags. Omit `max_chars` for full paragraph text.
 
 **`eba_get_section`** — Retrieves chunks where `paragraph_ref` or `section_path` matches a section prefix such as `4` or `4.7`. This is a quick way to read a whole EBA guideline section after search discovery.
 
@@ -165,7 +165,7 @@ node dist/index.js --db /absolute/path/to/data/corpora/eba-corpus.db
 
 ### Agent Usage Guidance
 
-Use `eba_search` for discovery. Send English queries because the corpus is English and the default local embedding model, `nomic-embed-text`, is optimized for English text. For broad compliance or legal questions, run several focused English searches using EBA regulatory terms, then synthesize the answer only from returned citations and excerpts. `eba_search` returns citation-ready excerpts, not final legal advice or definitive legal interpretations.
+Use `eba_search` for discovery. Send English queries because the corpus is English and the default local embedding model, `nomic-embed-text`, is optimized for English text. If the user asks in Polish or another language, translate the search intent to focused English regulatory terms before calling `eba_search`. For broad compliance or legal questions, run several focused English searches using EBA regulatory terms, then synthesize the answer only from returned citations and excerpts. `eba_search` returns citation-ready excerpts, not final legal advice or definitive legal interpretations.
 
 Good AML risk-scoring query patterns include:
 
@@ -176,14 +176,14 @@ Good AML risk-scoring query patterns include:
 - `ongoing monitoring customer risk profile transaction monitoring`
 - `risk weighting scoring methodology automated model override`
 
-Use `eba_get_paragraph` after discovery when an exact `eba_id` and `paragraph_ref` need surrounding context for a citation. If a result has `paragraph_ref: null`, use `eba_get_section`/`eba_get_toc` or validate the `citation_id` instead of trying paragraph navigation.
+Use `eba_get_paragraph` after discovery when an exact `eba_id` and `paragraph_ref` need surrounding context for a citation. If a result has `paragraph_ref: null`, use `eba_get_section`/`eba_get_toc` or validate the returned `citation_id` with `eba_validate_citation` instead of trying paragraph navigation. `eba_get_section` is broad navigation; prefer the narrowest available section prefix after inspecting `eba_get_toc`.
 
 ---
 
 ## Troubleshooting
 
 - **Missing tools (`eba_get_toc`, `eba_get_section`) in MCP client**: rebuild the server (`npm run build`) and restart the MCP client so the tool list is re-fetched. Some clients cache `tools/list` results.
-- **`Expected boolean, received string` on `exclude_consultation_responses`**: pass a JSON boolean (`true`/`false`), not the string `"true"`. Example: `"filters": {"exclude_consultation_responses": true}`.
+- **`Expected boolean, received string` or unknown top-level key on `exclude_consultation_responses`**: pass a JSON boolean (`true`/`false`), not the string `"true"`, and nest it under `filters`. Example: `"filters": {"exclude_consultation_responses": true}`.
 
 ## Development Setup
 
