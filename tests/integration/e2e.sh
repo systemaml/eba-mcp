@@ -256,7 +256,7 @@ assert payload['answerability'] == 'exact'
 assert info['document_count'] == int('$expected_doc_count')
 assert info['chunk_count'] == int('$expected_chunk_count')
 assert isinstance(info['manifest_hash'], str) and info['manifest_hash']
-caps = info.get('server_capabilities', {})
+caps = payload.get('server_capabilities', {})
 assert isinstance(caps.get('registered_tools'), list), f'registered_tools missing: {payload}'
 assert caps.get('tool_count') == 11, f'expected 11 tools, got {caps}'
 assert 'eba_search' in caps['registered_tools']
@@ -514,7 +514,7 @@ fi
 
 echo
 echo "Results: $PASS passed, $FAIL failed"
-if [ "$TOOL_FAIL" -eq 0 ] && [ "$TOOL_PASS" -ge 15 ] && [ "$FAIL" -eq 0 ]; then
+if [ "$TOOL_FAIL" -eq 0 ] && [ "$TOOL_PASS" -ge 18 ] && [ "$FAIL" -eq 0 ]; then
   echo "${TOOL_PASS}/${TOOL_PASS} tool tests passed"
   exit 0
 fi
