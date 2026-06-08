@@ -132,7 +132,19 @@ export async function hybridSearch(
     };
   }
 
-  const vectorResults = filterVectorResults(db, vectorSearch(db, embedding, candidateLimit), filters);
+  let vectorResults: VectorResult[];
+  try {
+    vectorResults = filterVectorResults(db, vectorSearch(db, embedding, candidateLimit), filters);
+  } catch (_error) {
+    return {
+      results: ftsSearch(db, trimmedQuery, filters, limit).map((result) => ({
+        ...result,
+        score: 0,
+        ftsRank: result.rank,
+      })),
+      search_mode: 'fts_fallback',
+    };
+  }
 
   const merged = new Map<string, HybridSearchResult>();
   addRankedResults(merged, ftsResults, 'fts', RRF_WEIGHT_FTS);

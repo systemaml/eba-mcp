@@ -26,6 +26,10 @@ function shouldUseHybridSearch(): boolean {
   return isVecLoaded() && hasVectorSearch(db);
 }
 
+function getFtsSearchMode(): 'fts_fallback' | 'fts_only' {
+  return SEARCH_MODE === 'fts_only' ? 'fts_only' : 'fts_fallback';
+}
+
 function isGeneratedLargeEbaId(ebaId: string | undefined): boolean {
   return Boolean(ebaId && LARGE_EBA_ID_PATTERN.test(ebaId));
 }
@@ -181,13 +185,6 @@ export async function searchChunksWithMode(query: string, filters: SearchFilters
     return { chunks: [] };
   }
 
-  if (SEARCH_MODE === 'hybrid' && (!isVecLoaded() || !hasVectorSearch(db))) {
-    throw new Error(
-      'EBA_SEARCH_MODE=hybrid requires sqlite-vec extension and chunks_vec table; ' +
-      'build the index with --embed flag or use EBA_SEARCH_MODE=auto for graceful fallback'
-    );
-  }
-
   if (shouldUseHybridSearch()) {
     const candidateLimit = Math.max(limit * 2, limit + 10);
     const outcome = await hybridSearch(db, trimmedQuery, filters, candidateLimit);
@@ -200,7 +197,7 @@ export async function searchChunksWithMode(query: string, filters: SearchFilters
   const candidateLimit = Math.max(limit * 2, limit + 10);
   return {
     chunks: preferCanonicalEbaResults(ftsSearch(db, query, filters, candidateLimit), trimmedQuery, filters, limit),
-    search_mode: 'fts_only',
+    search_mode: getFtsSearchMode(),
   };
 }
 
