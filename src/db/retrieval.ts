@@ -1,10 +1,12 @@
-import { SEARCH_MODE } from '../config.js';
-import { hybridSearch, vectorOnlySearch } from './hybrid.js';
+import { EMBEDDING_MODEL, SEARCH_MODE } from '../config.js';
+import type Database from 'better-sqlite3';
+import { hybridSearch } from './hybrid.js';
 import { getDb, isVecLoaded } from './sqlite.js';
 import { ftsSearch } from './fts.js';
 import { addConsultationResponseExclusion, addTopicFilterNoAlias } from './filter-helpers.js';
-import { Chunk, Document, CorpusManifest, SearchFilters, TocEntry } from './types.js';
+import { Chunk, Document, CorpusManifest, PersistedTocEntry, SearchFilters, TocConfidence, TocEntry } from './types.js';
 import { hasVectorSearch } from './vector.js';
+import { getDocumentAlias, resolveDocumentId, resolveSearchFilters } from './aliases.js';
 
 const EBA_ID_PATTERN = /^EBA\/[A-Za-z][A-Za-z-]*\/\d{4}\/\d+$/;
 const LARGE_EBA_ID_PATTERN = /^EBA\/LARGE-[A-Za-z]+\/\d{4}\/\d+$/i;
@@ -13,6 +15,11 @@ const MIN_SHARED_TOKEN_COUNT = 12;
 const MIN_SMALLER_SIDE_TOKEN_COVERAGE = 0.9;
 const MAX_TOC_DEPTH = 3;
 const MAX_TOC_TITLE_WORDS = 16;
+const NOMIC_EMBED_TEXT_DIM = 768;
+const HIGH_TOC_CONFIDENCE = 0.85;
+const MEDIUM_TOC_CONFIDENCE = 0.6;
+
+const PREFERRED_DOCUMENT_REGIONS = new Set(['body', 'default']);
 
 const TOC_BOILERPLATE_SECTIONS = new Set([
   '(unsectioned)',
@@ -63,9 +70,10 @@ export interface SearchChunksResult {
   search_mode?: 'hybrid' | 'vector' | 'fts_fallback' | 'fts_only';
   embedding_model?: string;
   embeddings_available?: boolean;
+  warnings?: string[];
 }
 
-export type SearchModePreference = 'hybrid' | 'fts' | 'vector';
+type SearchModePreference = 'hybrid' | 'fts';
 
 interface TocCandidate {
   sectionRef: string;
@@ -89,21 +97,72 @@ interface TocAccumulator {
   chunkCount: number;
 }
 
+interface TocChunkSummary {
+  paragraphRefs: string[];
+  firstSequenceNo: number | null;
+  lastSequenceNo: number | null;
+  pageStart: number | null;
+  pageEnd: number | null;
+  chunkCount: number;
+}
+
+interface DocumentIdRow {
+  eba_id: string;
+}
+
+interface VersionRow {
+  version_label: string;
+  published_at: string | null;
+  is_current: number | boolean | null;
+  file_sha256: string;
+}
+
 function hasUsableVectorSearch(): boolean {
   const db = getDb();
   return isVecLoaded() && hasVectorSearch(db);
 }
 
-function getEffectiveSearchMode(requestedMode?: SearchModePreference): SearchModePreference {
-  if (requestedMode) {
-    return requestedMode;
-  }
-
+function getEffectiveSearchMode(): SearchModePreference {
   return SEARCH_MODE === 'fts_only' ? 'fts' : 'hybrid';
 }
 
 function getFtsSearchMode(effectiveMode: SearchModePreference): 'fts_fallback' | 'fts_only' {
   return effectiveMode === 'fts' ? 'fts_only' : 'fts_fallback';
+}
+
+function getExpectedEmbeddingDim(model: string): number | null {
+  const baseModel = model.trim().toLowerCase().split(':', 1)[0];
+  return baseModel === 'nomic-embed-text' ? NOMIC_EMBED_TEXT_DIM : null;
+}
+
+function getAliasResolutionWarning(db: Database.Database, query: string, filters: SearchFilters): string | null {
+  const queriedAlias = EBA_ID_PATTERN.test(query.trim()) ? getDocumentAlias(query.trim(), db) : null;
+  const filteredAlias = getDocumentAlias(filters.eba_id, db);
+  const alias = queriedAlias ?? filteredAlias;
+
+  return alias ? `${alias.requested_id} resolved to ${alias.resolved_id}: ${alias.note}` : null;
+}
+
+function getEmbeddingCompatibilityWarning(effectiveMode: SearchModePreference): string | null {
+  if (effectiveMode === 'fts') {
+    return null;
+  }
+
+  const manifest = getCorpusInfo();
+  if (!manifest?.embedding_model || !manifest.embedding_dim) {
+    return 'Vector search disabled: corpus manifest is missing embedding_model or embedding_dim metadata. Rebuild the embedded corpus with the current pipeline; falling back to FTS.';
+  }
+
+  if (manifest.embedding_model !== EMBEDDING_MODEL) {
+    return `Vector search disabled: runtime EMBEDDING_MODEL=${JSON.stringify(EMBEDDING_MODEL)} does not match corpus embedding_model=${JSON.stringify(manifest.embedding_model)}; falling back to FTS.`;
+  }
+
+  const expectedDim = getExpectedEmbeddingDim(EMBEDDING_MODEL);
+  if (expectedDim !== null && manifest.embedding_dim !== expectedDim) {
+    return `Vector search disabled: runtime EMBEDDING_MODEL=${JSON.stringify(EMBEDDING_MODEL)} expects embedding_dim=${expectedDim}, but corpus manifest has embedding_dim=${manifest.embedding_dim}; falling back to FTS.`;
+  }
+
+  return null;
 }
 
 function isGeneratedLargeEbaId(ebaId: string | undefined): boolean {
@@ -228,28 +287,63 @@ export function preferCanonicalEbaResults<T extends Chunk>(
   return preferred.concat(demoted).slice(0, limit);
 }
 
+function getDocumentRegionPriority(chunk: Chunk): number {
+  if (chunk.document_region === undefined || chunk.document_region === null) {
+    return 0;
+  }
+
+  return PREFERRED_DOCUMENT_REGIONS.has(chunk.document_region.toLowerCase()) ? 0 : 1;
+}
+
+function preferBodyDefaultRegionResults<T extends Chunk>(chunks: T[], limit = chunks.length): T[] {
+  if (!chunks.some((chunk) => chunk.document_region !== undefined && chunk.document_region !== null)) {
+    return chunks.slice(0, Math.max(limit, 0));
+  }
+
+  return chunks
+    .map((chunk, index) => ({ chunk, index }))
+    .sort((a, b) => {
+      const regionDelta = getDocumentRegionPriority(a.chunk) - getDocumentRegionPriority(b.chunk);
+      return regionDelta !== 0 ? regionDelta : a.index - b.index;
+    })
+    .slice(0, Math.max(limit, 0))
+    .map(({ chunk }) => chunk);
+}
+
+function rankChunksForPresentation<T extends Chunk>(
+  chunks: T[],
+  query: string,
+  filters: SearchFilters,
+  limit: number,
+): T[] {
+  const regionPreferred = preferBodyDefaultRegionResults(chunks, chunks.length);
+  return preferCanonicalEbaResults(regionPreferred, query, filters, limit);
+}
+
 export async function searchChunksWithMode(
   query: string,
   filters: SearchFilters = {},
   limit = 10,
-  requestedMode?: SearchModePreference,
 ): Promise<SearchChunksResult> {
   const db = getDb();
+  const resolvedFilters = resolveSearchFilters(filters, db);
+  const aliasWarning = getAliasResolutionWarning(db, query, filters);
 
   const trimmedQuery = query.trim();
-  const exactId = EBA_ID_PATTERN.test(trimmedQuery) ? trimmedQuery : filters.eba_id;
+  const exactId = EBA_ID_PATTERN.test(trimmedQuery) ? resolveDocumentId(trimmedQuery, db) : resolvedFilters.eba_id;
 
-  if (exactId && (!trimmedQuery || trimmedQuery === exactId)) {
+  if (exactId && (!trimmedQuery || resolveDocumentId(trimmedQuery, db) === exactId)) {
     const conditions: string[] = ['d.eba_id = ?'];
     const params: unknown[] = [exactId];
 
-    if (filters.language) { conditions.push('c.language = ?'); params.push(filters.language); }
-    if (filters.document_type) { conditions.push('d.document_type = ?'); params.push(filters.document_type); }
-    if (filters.publication_status) { conditions.push('d.publication_status = ?'); params.push(filters.publication_status); }
-    if (filters.applicability_status) { conditions.push('d.applicability_status = ?'); params.push(filters.applicability_status); }
-    addConsultationResponseExclusion(conditions, filters);
+    if (resolvedFilters.language) { conditions.push('c.language = ?'); params.push(resolvedFilters.language); }
+    if (resolvedFilters.document_type) { conditions.push('d.document_type = ?'); params.push(resolvedFilters.document_type); }
+    if (resolvedFilters.publication_status) { conditions.push('d.publication_status = ?'); params.push(resolvedFilters.publication_status); }
+    if (resolvedFilters.applicability_status) { conditions.push('d.applicability_status = ?'); params.push(resolvedFilters.applicability_status); }
+    addConsultationResponseExclusion(conditions, resolvedFilters);
 
-    params.push(limit);
+    const candidateLimit = Math.max(limit * 2, limit + 10);
+    params.push(candidateLimit);
     const rows = db.prepare(`
       SELECT c.*, d.eba_id, d.title
       FROM chunks c
@@ -259,40 +353,49 @@ export async function searchChunksWithMode(
       ORDER BY c.sequence_no
       LIMIT ?
     `).all(...params) as Chunk[];
-    return { chunks: rows, embeddings_available: false };
+    return {
+      chunks: preferBodyDefaultRegionResults(rows, limit),
+      embeddings_available: false,
+      warnings: aliasWarning ? [aliasWarning] : undefined,
+    };
   }
 
   if (!trimmedQuery) {
     return { chunks: [] };
   }
 
-  const effectiveMode = getEffectiveSearchMode(requestedMode);
+  const effectiveMode = getEffectiveSearchMode();
   const candidateLimit = Math.max(limit * 2, limit + 10);
+  const vectorSearchAvailable = hasUsableVectorSearch();
 
-  if (effectiveMode === 'hybrid' && hasUsableVectorSearch()) {
-    const outcome = await hybridSearch(db, trimmedQuery, filters, candidateLimit);
-    return {
-      chunks: preferCanonicalEbaResults(outcome.results, trimmedQuery, filters, limit),
-      search_mode: outcome.search_mode,
-      embedding_model: outcome.embedding_model,
-      embeddings_available: outcome.embeddings_available,
-    };
+  if (vectorSearchAvailable) {
+    const compatibilityWarning = getEmbeddingCompatibilityWarning(effectiveMode);
+    if (compatibilityWarning) {
+      return {
+        chunks: rankChunksForPresentation(ftsSearch(db, query, resolvedFilters, candidateLimit), trimmedQuery, resolvedFilters, limit),
+        search_mode: getFtsSearchMode(effectiveMode),
+        embeddings_available: false,
+        warnings: aliasWarning ? [aliasWarning, compatibilityWarning] : [compatibilityWarning],
+      };
+    }
   }
 
-  if (effectiveMode === 'vector' && hasUsableVectorSearch()) {
-    const outcome = await vectorOnlySearch(db, trimmedQuery, filters, candidateLimit);
+  if (effectiveMode === 'hybrid' && vectorSearchAvailable) {
+    const outcome = await hybridSearch(db, trimmedQuery, resolvedFilters, candidateLimit);
     return {
-      chunks: preferCanonicalEbaResults(outcome.results, trimmedQuery, filters, limit),
+      chunks: rankChunksForPresentation(outcome.results, trimmedQuery, resolvedFilters, limit),
       search_mode: outcome.search_mode,
       embedding_model: outcome.embedding_model,
       embeddings_available: outcome.embeddings_available,
+      warnings: aliasWarning ? [aliasWarning] : undefined,
     };
   }
 
   return {
-    chunks: preferCanonicalEbaResults(ftsSearch(db, query, filters, candidateLimit), trimmedQuery, filters, limit),
+    chunks: rankChunksForPresentation(ftsSearch(db, query, resolvedFilters, candidateLimit), trimmedQuery, resolvedFilters, limit),
     search_mode: getFtsSearchMode(effectiveMode),
     embeddings_available: false,
+    warnings: aliasWarning ? [aliasWarning] : undefined,
   };
 }
 
@@ -301,17 +404,30 @@ export async function searchChunks(query: string, filters: SearchFilters = {}, l
   return result.chunks;
 }
 
+export function getResolvedDocumentId(ebaId: string): string {
+  const db = getDb();
+  return resolveDocumentId(ebaId, db);
+}
+
+export function getDocumentAliasWarning(ebaId: string): string | null {
+  const db = getDb();
+  const alias = getDocumentAlias(ebaId, db);
+  return alias ? `${alias.requested_id} resolved to ${alias.resolved_id}: ${alias.note}` : null;
+}
+
 export function getDocument(ebaId: string, language = 'en'): Document | null {
   const db = getDb();
+  const resolvedId = resolveDocumentId(ebaId, db);
   return db.prepare(`
     SELECT * FROM documents WHERE eba_id = ? AND language = ?
-  `).get(ebaId, language) as Document | null;
+  `).get(resolvedId, language) as Document | null;
 }
 
 export function getVersions(ebaId: string): { version_label: string; published_at: string | null; is_current: boolean; file_sha256: string }[] | null {
   const db = getDb();
+  const resolvedId = resolveDocumentId(ebaId, db);
 
-  const doc = db.prepare('SELECT eba_id FROM documents WHERE eba_id = ?').get(ebaId);
+  const doc = db.prepare('SELECT eba_id FROM documents WHERE eba_id = ?').get(resolvedId) as DocumentIdRow | undefined;
   if (!doc) return null;
 
   const rows = db.prepare(`
@@ -319,7 +435,7 @@ export function getVersions(ebaId: string): { version_label: string; published_a
       FROM document_versions
       WHERE document_id = ?
       ORDER BY published_at DESC
-    `).all(ebaId) as any[];
+    `).all(resolvedId) as VersionRow[];
 
   return rows.map(r => ({
     version_label: r.version_label,
@@ -337,23 +453,24 @@ export function diffVersions(ebaId: string, versionA: string, versionB: string):
   error?: string;
 } | null {
   const db = getDb();
+  const resolvedId = resolveDocumentId(ebaId, db);
 
-  const doc = db.prepare('SELECT eba_id FROM documents WHERE eba_id = ?').get(ebaId);
+  const doc = db.prepare('SELECT eba_id FROM documents WHERE eba_id = ?').get(resolvedId) as DocumentIdRow | undefined;
   if (!doc) return null;
 
-  const verA = db.prepare('SELECT version_label, published_at, file_sha256, is_current FROM document_versions WHERE document_id = ? AND version_label = ?').get(ebaId, versionA) as any;
-  const verB = db.prepare('SELECT version_label, published_at, file_sha256, is_current FROM document_versions WHERE document_id = ? AND version_label = ?').get(ebaId, versionB) as any;
+  const verA = db.prepare('SELECT version_label, published_at, file_sha256, is_current FROM document_versions WHERE document_id = ? AND version_label = ?').get(resolvedId, versionA) as VersionRow | undefined;
+  const verB = db.prepare('SELECT version_label, published_at, file_sha256, is_current FROM document_versions WHERE document_id = ? AND version_label = ?').get(resolvedId, versionB) as VersionRow | undefined;
 
-  if (!verA && !verB) return { eba_id: ebaId, version_a: versionA, version_b: versionB, changes: [], error: `Versions '${versionA}' and '${versionB}' not found` };
-  if (!verA) return { eba_id: ebaId, version_a: versionA, version_b: versionB, changes: [], error: `Version '${versionA}' not found` };
-  if (!verB) return { eba_id: ebaId, version_a: versionA, version_b: versionB, changes: [], error: `Version '${versionB}' not found` };
+  if (!verA && !verB) return { eba_id: resolvedId, version_a: versionA, version_b: versionB, changes: [], error: `Versions '${versionA}' and '${versionB}' not found` };
+  if (!verA) return { eba_id: resolvedId, version_a: versionA, version_b: versionB, changes: [], error: `Version '${versionA}' not found` };
+  if (!verB) return { eba_id: resolvedId, version_a: versionA, version_b: versionB, changes: [], error: `Version '${versionB}' not found` };
 
   const fields = ['published_at', 'file_sha256', 'is_current'] as const;
   const changes = fields
     .filter(f => verA[f] !== verB[f])
     .map(f => ({ field: f, old_value: String(verA[f] ?? ''), new_value: String(verB[f] ?? '') }));
 
-  return { eba_id: ebaId, version_a: versionA, version_b: versionB, changes };
+  return { eba_id: resolvedId, version_a: versionA, version_b: versionB, changes };
 }
 
 export function getParagraph(
@@ -364,6 +481,7 @@ export function getParagraph(
   contextAfter = 0
 ): Chunk[] {
   const db = getDb();
+  const resolvedId = resolveDocumentId(ebaId, db);
   
   const matches = db.prepare(`
     SELECT c.*, d.eba_id, d.title
@@ -372,7 +490,7 @@ export function getParagraph(
     JOIN documents d ON dv.document_id = d.eba_id
     WHERE d.eba_id = ? AND c.paragraph_ref = ? AND c.language = ?
     ORDER BY c.sequence_no
-  `).all(ebaId, paragraphRef, language) as Chunk[];
+  `).all(resolvedId, paragraphRef, language) as Chunk[];
 
   if (matches.length === 0) return [];
 
@@ -417,11 +535,35 @@ export function getSection(
   limit = 200,
 ): Chunk[] {
   const db = getDb();
+  const resolvedId = resolveDocumentId(ebaId, db);
   const normalizedSection = normalizeSectionRef(section);
-  const sectionPrefix = `${normalizedSection}.%`;
-  const headingPrefix = `${normalizedSection}. %`;
+  const tocSectionPrefix = `${normalizedSection}.%`;
+  const persistedSectionRows = tableExists(db, 'document_toc') ? db.prepare(`
+    SELECT DISTINCT c.*, d.eba_id, d.title
+    FROM documents d
+    JOIN document_versions dv ON dv.document_id = d.eba_id
+    JOIN document_toc dt ON dt.document_version_id = dv.version_id
+    JOIN chunks c ON c.document_version_id = dv.version_id
+    WHERE d.eba_id = ?
+      AND d.language = ?
+      AND c.language = ?
+      AND (dt.section_ref = ? OR dt.section_ref LIKE ?)
+      AND dt.sequence_start IS NOT NULL
+      AND dt.sequence_end IS NOT NULL
+      AND c.sequence_no BETWEEN dt.sequence_start AND dt.sequence_end
+    ORDER BY c.sequence_no
+    LIMIT ?
+  `).all(resolvedId, language, language, normalizedSection, tocSectionPrefix, limit) as Chunk[] : [];
 
-  return db.prepare(`
+  if (persistedSectionRows.length > 0) {
+    return persistedSectionRows;
+  }
+
+  const sectionPrefix = tocSectionPrefix;
+  const headingPrefix = `${normalizedSection}. %`;
+  const candidateLimit = Math.max(limit * 2, limit + 10);
+
+  return preferBodyDefaultRegionResults(db.prepare(`
     SELECT c.*, d.eba_id, d.title
     FROM chunks c
     JOIN document_versions dv ON c.document_version_id = dv.version_id
@@ -438,23 +580,36 @@ export function getSection(
     ORDER BY c.sequence_no
     LIMIT ?
   `).all(
-    ebaId,
+    resolvedId,
     language,
     normalizedSection,
     sectionPrefix,
     normalizedSection,
     sectionPrefix,
     headingPrefix,
-    limit,
-  ) as Chunk[];
+    candidateLimit,
+  ) as Chunk[], limit);
 }
 
 export function getToc(ebaId: string, language = 'en', limit = 200): TocEntry[] | null {
   const db = getDb();
-  const doc = db.prepare('SELECT eba_id FROM documents WHERE eba_id = ? AND language = ?').get(ebaId, language);
+  const resolvedId = resolveDocumentId(ebaId, db);
+  const doc = db.prepare(`
+    SELECT d.eba_id, dv.version_id
+    FROM documents d
+    JOIN document_versions dv ON dv.document_id = d.eba_id
+    WHERE d.eba_id = ? AND d.language = ?
+    ORDER BY dv.is_current DESC, dv.published_at DESC, dv.version_id DESC
+    LIMIT 1
+  `).get(resolvedId, language) as { eba_id: string; version_id: number } | undefined;
 
   if (!doc) {
     return null;
+  }
+
+  const persistedToc = getPersistedToc(db, doc.version_id, language, limit);
+  if (persistedToc) {
+    return persistedToc;
   }
 
   const rows = db.prepare(`
@@ -470,7 +625,7 @@ export function getToc(ebaId: string, language = 'en', limit = 200): TocEntry[] 
     JOIN documents d ON dv.document_id = d.eba_id
     WHERE d.eba_id = ? AND c.language = ?
     ORDER BY c.sequence_no
-  `).all(ebaId, language) as Array<{
+  `).all(resolvedId, language) as Array<{
     section_path: string;
     paragraph_ref: string | null;
     sequence_no: number;
@@ -549,6 +704,164 @@ export function getToc(ebaId: string, language = 'en', limit = 200): TocEntry[] 
       last_sequence_no: entry.lastSequenceNo,
       chunk_count: entry.chunkCount,
     }));
+}
+
+function tableExists(db: Database.Database, tableName: string): boolean {
+  const row = db.prepare(`
+    SELECT 1 AS present
+    FROM sqlite_master
+    WHERE type = 'table' AND name = ?
+  `).get(tableName) as { present: number } | undefined;
+
+  return row !== undefined;
+}
+
+function columnExists(db: Database.Database, tableName: 'chunks', columnName: string): boolean {
+  const rows = db.prepare(`PRAGMA table_info(${tableName})`).all() as Array<{ name: string }>;
+  return rows.some((row) => row.name === columnName);
+}
+
+function toTocConfidence(confidence: number | null, source: string | null): TocConfidence {
+  if (confidence !== null) {
+    if (confidence >= HIGH_TOC_CONFIDENCE) {
+      return 'high';
+    }
+    if (confidence >= MEDIUM_TOC_CONFIDENCE) {
+      return 'medium';
+    }
+    return 'low';
+  }
+
+  const normalizedSource = source?.toLowerCase() ?? '';
+  if (normalizedSource.includes('deterministic') || normalizedSource.includes('parser')) {
+    return 'high';
+  }
+  if (normalizedSource.includes('repair') || normalizedSource.includes('llm')) {
+    return 'medium';
+  }
+
+  return 'low';
+}
+
+function summarizeTocChunks(chunks: Chunk[]): TocChunkSummary {
+  const paragraphRefs: string[] = [];
+  const seenParagraphRefs = new Set<string>();
+  let firstSequenceNo: number | null = null;
+  let lastSequenceNo: number | null = null;
+  let pageStart: number | null = null;
+  let pageEnd: number | null = null;
+
+  for (const chunk of chunks) {
+    if (chunk.paragraph_ref && !seenParagraphRefs.has(chunk.paragraph_ref)) {
+      paragraphRefs.push(chunk.paragraph_ref);
+      seenParagraphRefs.add(chunk.paragraph_ref);
+    }
+
+    firstSequenceNo = firstSequenceNo === null ? chunk.sequence_no : Math.min(firstSequenceNo, chunk.sequence_no);
+    lastSequenceNo = lastSequenceNo === null ? chunk.sequence_no : Math.max(lastSequenceNo, chunk.sequence_no);
+    pageStart = pageStart === null ? chunk.page_start : Math.min(pageStart, chunk.page_start ?? pageStart);
+    pageEnd = pageEnd === null ? chunk.page_end : Math.max(pageEnd, chunk.page_end ?? pageEnd);
+  }
+
+  return {
+    paragraphRefs,
+    firstSequenceNo,
+    lastSequenceNo,
+    pageStart,
+    pageEnd,
+    chunkCount: chunks.length,
+  };
+}
+
+function getPersistedTocChunks(
+  db: Database.Database,
+  row: PersistedTocEntry,
+  language: string,
+  hasSectionRefColumn: boolean,
+): Chunk[] {
+  if (hasSectionRefColumn) {
+    const sectionRows = db.prepare(`
+      SELECT c.*
+      FROM chunks c
+      WHERE c.document_version_id = ?
+        AND c.language = ?
+        AND c.section_ref = ?
+      ORDER BY c.sequence_no
+    `).all(row.document_version_id, language, row.section_ref) as Chunk[];
+
+    if (sectionRows.length > 0) {
+      return sectionRows;
+    }
+  }
+
+  if (row.sequence_start === null || row.sequence_end === null) {
+    return [];
+  }
+
+  return db.prepare(`
+    SELECT c.*
+    FROM chunks c
+    WHERE c.document_version_id = ?
+      AND c.language = ?
+      AND c.sequence_no BETWEEN ? AND ?
+    ORDER BY c.sequence_no
+  `).all(row.document_version_id, language, row.sequence_start, row.sequence_end) as Chunk[];
+}
+
+function getPersistedToc(
+  db: Database.Database,
+  documentVersionId: number,
+  language: string,
+  limit: number,
+): TocEntry[] | null {
+  if (!tableExists(db, 'document_toc')) {
+    return null;
+  }
+
+  const rows = db.prepare(`
+    SELECT
+      document_version_id,
+      section_ref,
+      title,
+      level,
+      parent_section_ref,
+      page_start,
+      page_end,
+      sequence_start,
+      sequence_end,
+      confidence,
+      source
+    FROM document_toc
+    WHERE document_version_id = ?
+    ORDER BY COALESCE(sequence_start, 9223372036854775807), level, section_ref
+    LIMIT ?
+  `).all(documentVersionId, limit) as PersistedTocEntry[];
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  const hasSectionRefColumn = columnExists(db, 'chunks', 'section_ref');
+
+  return rows.map((row) => {
+    const summary = summarizeTocChunks(getPersistedTocChunks(db, row, language, hasSectionRefColumn));
+
+    return {
+      section_path: row.title,
+      section_ref: row.section_ref,
+      level: row.level,
+      parent_section_ref: row.parent_section_ref,
+      confidence: toTocConfidence(row.confidence, row.source),
+      paragraph_refs: summary.paragraphRefs,
+      first_paragraph_ref: summary.paragraphRefs[0] ?? null,
+      last_paragraph_ref: summary.paragraphRefs[summary.paragraphRefs.length - 1] ?? null,
+      page_start: row.page_start ?? summary.pageStart,
+      page_end: row.page_end ?? summary.pageEnd,
+      first_sequence_no: row.sequence_start ?? summary.firstSequenceNo ?? 0,
+      last_sequence_no: row.sequence_end ?? summary.lastSequenceNo ?? row.sequence_start ?? 0,
+      chunk_count: summary.chunkCount,
+    };
+  });
 }
 
 function normalizeTocText(text: string): string {
@@ -751,26 +1064,28 @@ export interface DocumentStatus {
   warnings: string[];
 }
 
-export function getDocumentStatus(ebaId: string): DocumentStatus | null {
+function getDocumentStatusForId(ebaId: string, resolveAlias: boolean): DocumentStatus | null {
   const db = getDb();
+  const alias = resolveAlias ? getDocumentAlias(ebaId, db) : null;
+  const resolvedId = alias?.resolved_id ?? ebaId;
 
   const doc = db.prepare(`
     SELECT eba_id, publication_status, applicability_status, published_at, application_date, language
     FROM documents WHERE eba_id = ?
-  `).get(ebaId) as { eba_id: string; publication_status: string; applicability_status: string; published_at: string | null; application_date: string | null; language: string } | undefined;
+  `).get(resolvedId) as { eba_id: string; publication_status: string; applicability_status: string; published_at: string | null; application_date: string | null; language: string } | undefined;
 
   if (!doc) return null;
 
   const amendedByRows = db.prepare(`
     SELECT source_eba_id FROM document_relationships
     WHERE target_eba_id = ? AND relationship_type = 'amends'
-  `).all(ebaId) as { source_eba_id: string }[];
+  `).all(resolvedId) as { source_eba_id: string }[];
   const amended_by = amendedByRows.map(r => r.source_eba_id);
 
   const supersededTargetRows = db.prepare(`
     SELECT source_eba_id FROM document_relationships
     WHERE target_eba_id = ? AND relationship_type IN ('supersedes', 'replaces')
-  `).all(ebaId) as { source_eba_id: string }[];
+  `).all(resolvedId) as { source_eba_id: string }[];
   const superseded_by = supersededTargetRows.map(r => r.source_eba_id);
 
   const is_consultation = doc.publication_status.includes('consultation');
@@ -778,6 +1093,7 @@ export function getDocumentStatus(ebaId: string): DocumentStatus | null {
   const is_partially_superseded = amended_by.length > 0 && !is_superseded;
 
   const warnings: string[] = [];
+  if (alias) warnings.push(`${alias.requested_id} resolved to ${alias.resolved_id}: ${alias.note}`);
   if (is_consultation) warnings.push('Document is in consultation status');
   if (is_superseded) warnings.push(`Document superseded by ${superseded_by[0]}`);
 
@@ -795,6 +1111,10 @@ export function getDocumentStatus(ebaId: string): DocumentStatus | null {
     amended_by,
     warnings,
   };
+}
+
+export function getDocumentStatus(ebaId: string): DocumentStatus | null {
+  return getDocumentStatusForId(ebaId, true);
 }
 
 export interface CitationValidation {
@@ -821,7 +1141,7 @@ export function validateCitation(chunkId: string): CitationValidation {
     return { valid: false, chunk_exists: false, document_eba_id: null, publication_status: null, applicability_status: null, is_superseded: false, warnings: [] };
   }
 
-  const status = getDocumentStatus(chunk.document_id);
+  const status = getDocumentStatusForId(chunk.document_id, false);
   if (!status) {
     return { valid: false, chunk_exists: true, document_eba_id: chunk.document_id, publication_status: null, applicability_status: null, is_superseded: false, warnings: [] };
   }

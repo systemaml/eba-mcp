@@ -20,6 +20,13 @@ export interface Chunk {
   paragraph_ref: string | null;
   page_start: number | null;
   page_end: number | null;
+  section_ref?: string | null;
+  section_title?: string | null;
+  section_level?: number | null;
+  parent_section_ref?: string | null;
+  document_region?: string | null;
+  metadata_confidence?: number | null;
+  metadata_source?: string | null;
   text: string;
   text_hash: string;
   chunk_type: string;
@@ -33,8 +40,8 @@ export interface CorpusManifest {
   built_at: string;
   document_count: number;
   chunk_count: number;
-  embedding_model: string;
-  embedding_dim: number;
+  embedding_model?: string | null;
+  embedding_dim?: number | null;
 }
 
 export interface SearchFilters {
@@ -47,12 +54,14 @@ export interface SearchFilters {
   exclude_consultation_responses?: boolean;
 }
 
+export type TocConfidence = 'high' | 'medium' | 'low';
+
 export interface TocEntry {
   section_path: string;
   section_ref?: string;
   level?: number;
   parent_section_ref?: string | null;
-  confidence?: 'high' | 'medium' | 'low';
+  confidence?: TocConfidence;
   paragraph_refs: string[];
   first_paragraph_ref: string | null;
   last_paragraph_ref: string | null;
@@ -61,4 +70,18 @@ export interface TocEntry {
   first_sequence_no: number;
   last_sequence_no: number;
   chunk_count: number;
+}
+
+export interface PersistedTocEntry {
+  document_version_id: number;
+  section_ref: string;
+  title: string;
+  level: number;
+  parent_section_ref: string | null;
+  page_start: number | null;
+  page_end: number | null;
+  sequence_start: number | null;
+  sequence_end: number | null;
+  confidence: number | null;
+  source: string | null;
 }
