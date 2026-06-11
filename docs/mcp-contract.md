@@ -48,20 +48,37 @@ Most tools return these fields:
 
 `eba_corpus_info` additionally returns `corpus_info`. `eba_list_documents` additionally returns `documents` and `total`.
 
+## Document ID alias resolution
+
+ID-based tools resolve curated/current-document aliases before querying the corpus. This lets older or base references point to newer consolidated documents when the corpus contains a current consolidated source.
+
+Alias sources are:
+
+- curated runtime overrides for cases where the relationship extractor is too broad, e.g. `EBA/GL/2021/02` resolves to the current consolidated ML/TF Risk Factors document `EBA/GL/2023/03`;
+- data-driven `document_relationships` rows whose type is `consolidates`, `replaces`, or `supersedes`, when the relationship source is present as an indexed document.
+
+When an alias is used, responses include a warning such as:
+
+```text
+EBA/GL/2021/17 resolved to EBA/GL/2023/02: Resolved through document relationship consolidates ...
+```
+
+Returned citations use the actual indexed document ID, not the requested alias, so citation provenance remains traceable.
+
 ## Citation object
 
 Citation objects are produced by `src/citations/formatter.ts`:
 
 ```json
 {
-  "citation_id": "EBA-GL-2021-02:5390a1ef:en:p:1",
-  "eba_id": "EBA/GL/2021/02",
+  "citation_id": "EBA-GL-2023-03:5390a1ef:en:p:1",
+  "eba_id": "EBA/GL/2023/03",
   "paragraph_ref": "1",
   "section_path": "Guidelines",
   "page_start": 1,
   "page_end": 1,
   "text": "Full chunk text or a bounded excerpt depending on the tool and max_chars...",
-  "citation": "EBA/GL/2021/02, para. 1, p. 1",
+  "citation": "EBA/GL/2023/03, para. 1, p. 1",
   "chunk_type": "paragraph",
   "truncated": false,
   "truncation_offset": null
@@ -85,7 +102,7 @@ The POC does not expose `source_url`, `file_sha256`, or chunk-level document sta
 
 ## `eba_search`
 
-Search EBA document chunks. Retrieval defaults to hybrid FTS5 + sqlite-vec semantic search when a vector-enabled DB and local Ollama are available, and falls back to SQLite FTS5 when they are not. MCP clients may optionally set `search_mode` to force keyword-only, hybrid, or semantic-only retrieval. Queries should be in English; if the end user asks in Polish or another language, consumer agents should translate the search intent into focused English EBA regulatory terms before calling this tool.
+Search EBA document chunks. Retrieval automatically uses hybrid FTS5 + sqlite-vec semantic search when a vector-enabled DB and configured Ollama endpoint are available, and falls back to SQLite FTS5 when they are not. MCP clients cannot choose the retrieval mode per call; configure the server-side `OLLAMA_URL` environment variable when Ollama is not at the default URL. Queries should be in English; if the end user asks in Polish or another language, consumer agents should translate the search intent into focused English EBA regulatory terms before calling this tool.
 
 ### Input
 
@@ -93,7 +110,7 @@ Search EBA document chunks. Retrieval defaults to hybrid FTS5 + sqlite-vec seman
 {
   "query": "customer due diligence",
   "filters": {
-    "eba_id": "EBA/GL/2021/02",
+    "eba_id": "EBA/GL/2023/03",
     "document_type": "guidelines",
     "topic": "AML/CFT",
     "publication_status": "final",
@@ -105,7 +122,6 @@ Search EBA document chunks. Retrieval defaults to hybrid FTS5 + sqlite-vec seman
   "include_context": false,
   "max_citations": 10,
   "response_mode": "standard",
-  "search_mode": "hybrid",
   "max_chars": 2000
 }
 ```
@@ -122,11 +138,7 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
 - `standard` — default bounded citation-ready output (default 1200 chars when `max_chars` is omitted).
 - `full` — longer excerpts for focused calls (default 5000 chars when `max_chars` is omitted), still subject to the response size budget.
 
-`search_mode` is optional and defaults to `hybrid` preference:
-
-- `hybrid` — use FTS5 + semantic vector fusion when vectors and Ollama are available; otherwise return FTS5 results with `search_mode: "fts_fallback"`.
-- `fts` — force keyword-only FTS5 retrieval; responses report `search_mode: "fts_only"`.
-- `vector` — force semantic-only vector retrieval when vectors and Ollama are available; otherwise return FTS5 results with `search_mode: "fts_fallback"`.
+Retrieval mode is server-selected and not exposed as a client-controlled parameter. Use `embeddings_available` and `embedding_model` to tell whether semantic retrieval actually ran.
 
 `include_context: true` includes neighboring chunks around each hit only within `max_citations` and the response budget. Use `eba_get_paragraph` or `eba_get_section` for full follow-up context.
 
@@ -135,10 +147,9 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
 ```json
 {
   "answerability": "partial",
-  "citations": [{ "citation": "EBA/GL/2021/02, para. 20.6, p. 135" }],
-  "documents_considered": ["EBA/GL/2021/02"],
+  "citations": [{ "citation": "EBA/GL/2023/03, para. 20.6, p. 135" }],
+  "documents_considered": ["EBA/GL/2023/03"],
   "filters_applied": { "document_type": "guidelines" },
-  "search_mode": "hybrid",
   "embedding_model": "nomic-embed-text",
   "embeddings_available": true,
   "response_mode": "standard",
@@ -157,7 +168,7 @@ All filters are applied in both FTS and hybrid paths. Exact `eba_id` lookup is s
 
 When the final citation cap or response-size budget is hit, `response_limited` is `true`, `limit_reason` is set to `citation_cap` or `response_size_chars`, and `warnings` explains how many citations/context chunks were omitted. `suggested_next_tools` points to focused retrieval tools for the omitted context.
 
-For `eba_search`, `embeddings_available` reports whether semantic embedding retrieval actually ran for the query. When `search_mode` is `hybrid` or `vector`, `embedding_model` names the runtime model used for query-time embedding. If vector search is unavailable or the call requests `search_mode: "fts"`, `embeddings_available` is `false` and `embedding_model` is omitted.
+For `eba_search`, `embeddings_available` reports whether semantic embedding retrieval actually ran for the query. When semantic retrieval runs, `embedding_model` names the runtime model used for query-time embedding. If vector search or Ollama is unavailable, `embeddings_available` is `false` and `embedding_model` is omitted.
 
 ## `eba_get_document`
 
@@ -166,7 +177,7 @@ Return document metadata and a small sample of leading citation chunks for a spe
 ### Input
 
 ```json
-{ "eba_id": "EBA/GL/2021/02", "language": "en", "max_chars": 2000 }
+{ "eba_id": "EBA/GL/2023/03", "language": "en", "max_chars": 2000 }
 ```
 
 ### Output
@@ -174,7 +185,7 @@ Return document metadata and a small sample of leading citation chunks for a spe
 ```json
 {
   "answerability": "exact",
-  "document": { "eba_id": "EBA/GL/2021/02", "title": "...", "application_date": "2022-01-01" },
+  "document": { "eba_id": "EBA/GL/2023/03", "title": "...", "application_date": "2022-01-01" },
   "citations": [],
   "citation_sample": {
     "returned": 5,
@@ -195,7 +206,7 @@ Accepts `paragraph_ref` (single reference) or `paragraph_refs` (batch of up to 2
 
 ```json
 {
-  "eba_id": "EBA/GL/2021/02",
+  "eba_id": "EBA/GL/2023/03",
   "paragraph_ref": "1",
   "language": "en",
   "context_before": 1,
@@ -208,7 +219,7 @@ Accepts `paragraph_ref` (single reference) or `paragraph_refs` (batch of up to 2
 
 ```json
 {
-  "eba_id": "EBA/GL/2021/02",
+  "eba_id": "EBA/GL/2023/03",
   "paragraph_refs": ["1", "5", "10"],
   "language": "en",
   "context_before": 0,
@@ -231,7 +242,7 @@ All returned citations include `is_anchor` and `is_complete` flags:
       "citation_id": "...",
       "paragraph_ref": "1",
       "text": "...",
-      "citation": "EBA/GL/2021/02, para. 1, p. 12",
+      "citation": "EBA/GL/2023/03, para. 1, p. 12",
       "truncated": false,
       "truncation_offset": null,
       "is_anchor": true,
@@ -241,7 +252,7 @@ All returned citations include `is_anchor` and `is_complete` flags:
       "citation_id": "...",
       "paragraph_ref": "2",
       "text": "...",
-      "citation": "EBA/GL/2021/02, para. 2, p. 12",
+      "citation": "EBA/GL/2023/03, para. 2, p. 12",
       "truncated": false,
       "truncation_offset": null,
       "is_anchor": false,
@@ -261,7 +272,7 @@ Return citation chunks for a numbered section or paragraph-prefix inside one doc
 
 ```json
 {
-  "eba_id": "EBA/GL/2021/02",
+  "eba_id": "EBA/GL/2023/03",
   "section": "4",
   "language": "en",
   "limit": 200,
@@ -276,7 +287,7 @@ Return citation chunks for a numbered section or paragraph-prefix inside one doc
   "answerability": "exact",
   "section": "4",
   "total_chunks": 25,
-  "citations": [{ "citation": "EBA/GL/2021/02, para. 4.1, p. 18" }]
+  "citations": [{ "citation": "EBA/GL/2023/03, para. 4.1, p. 18" }]
 }
 ```
 
@@ -289,7 +300,7 @@ Return a best-effort outline for one document. The runtime normalizes noisy pars
 ### Input
 
 ```json
-{ "eba_id": "EBA/GL/2021/02", "language": "en", "limit": 200 }
+{ "eba_id": "EBA/GL/2023/03", "language": "en", "limit": 200 }
 ```
 
 ### Output
@@ -346,7 +357,7 @@ List indexed documents with optional filters. `topic="AML/CFT"` uses the same he
   "answerability": "partial",
   "documents": [
     {
-      "eba_id": "EBA/GL/2021/02",
+      "eba_id": "EBA/GL/2023/03",
       "title": "...",
       "document_type": "guidelines",
       "published_at": "2021-07-01",
@@ -383,8 +394,8 @@ Return corpus manifest data.
   "corpus_info": {
     "manifest_hash": "...",
     "built_at": "...",
-    "document_count": 346,
-    "chunk_count": 42146,
+    "document_count": 341,
+    "chunk_count": 41345,
     "embedding_model": "nomic-embed-text",
     "embedding_dim": 768,
     "server_capabilities": {
@@ -418,7 +429,7 @@ Return publication and applicability status metadata for a specific EBA document
 ### Input
 
 ```json
-{ "eba_id": "EBA/GL/2021/02" }
+{ "eba_id": "EBA/GL/2023/03" }
 ```
 
 ### Output
@@ -427,7 +438,7 @@ Return publication and applicability status metadata for a specific EBA document
 {
   "answerability": "exact",
   "status": {
-    "eba_id": "EBA/GL/2021/02",
+    "eba_id": "EBA/GL/2023/03",
     "publication_status": "final",
     "applicability_status": "applicable",
     "published_at": "...",
@@ -450,7 +461,7 @@ Return the available versions for a specific EBA document.
 ### Input
 
 ```json
-{ "eba_id": "EBA/GL/2021/02" }
+{ "eba_id": "EBA/GL/2023/03" }
 ```
 
 ### Output
@@ -458,6 +469,7 @@ Return the available versions for a specific EBA document.
 ```json
 {
   "answerability": "exact",
+  "document_eba_id": "EBA/GL/2023/03",
   "versions": [
     {
       "version_label": "...",
@@ -476,13 +488,13 @@ Validate a returned citation identifier and return the related document status m
 ### Input
 
 ```json
-{ "citation_id": "EBA-GL-2021-02:1633158a:en:p:3.6:p37:s114" }
+{ "citation_id": "EBA-GL-2023-03:1633158a:en:p:3.6:p37:s114" }
 ```
 
 Backward-compatible input:
 
 ```json
-{ "chunk_id": "EBA-GL-2021-02:1633158a:en:p:3.6:p37:s114" }
+{ "chunk_id": "EBA-GL-2023-03:1633158a:en:p:3.6:p37:s114" }
 ```
 
 ### Output
@@ -493,7 +505,7 @@ Backward-compatible input:
   "validation": {
     "valid": true,
     "chunk_exists": true,
-    "document_eba_id": "EBA/GL/2021/02",
+    "document_eba_id": "EBA/GL/2023/03",
     "publication_status": "final",
     "applicability_status": "applicable",
     "is_superseded": false,
@@ -509,7 +521,7 @@ Compare two versions of a specific EBA document.
 ### Input
 
 ```json
-{ "eba_id": "EBA/GL/2021/02", "version_a": "v1", "version_b": "v2" }
+{ "eba_id": "EBA/GL/2023/03", "version_a": "v1", "version_b": "v2" }
 ```
 
 ### Output
@@ -518,7 +530,7 @@ Compare two versions of a specific EBA document.
 {
   "answerability": "exact",
   "diff": {
-    "eba_id": "EBA/GL/2021/02",
+    "eba_id": "EBA/GL/2023/03",
     "version_a": "v1",
     "version_b": "v2",
     "changes": [
@@ -539,7 +551,7 @@ Compare two versions of a specific EBA document.
 ## Known limitations
 
 - No HTTP/SSE transport (stdio only; Streamable HTTP planned for future milestone).
-- Hybrid semantic search is the default preference when a vector-enabled DB + local Ollama are available; FTS5 is the fallback when vector search is unavailable. `eba_search.search_mode` can request `hybrid`, `fts`, or `vector`; `EBA_SEARCH_MODE` remains an internal maintainer override for process defaults.
+- Hybrid semantic search is automatic when a vector-enabled DB + configured Ollama endpoint are available; FTS5 is the fallback when vector search or Ollama is unavailable. `eba_search` has no consumer-visible search-mode input; `EBA_SEARCH_MODE` remains an internal maintainer override for diagnostics and process defaults.
 - `application_date` depends on successful pipeline metadata extraction and may be `null` for documents where no date was detected.
 - Version history limited to single `1.0` entry per document (full version tracking planned for future milestone).
 - Incremental index updates are not implemented; corpus updates require a full rebuild and a new GitHub Release artifact named `eba-corpus.db`.

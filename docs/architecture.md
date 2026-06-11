@@ -47,7 +47,7 @@ EBA MCP is a local, citation-first MCP connector for EBA regulatory publications
 │                    TypeScript MCP Runtime                           │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌───────────┐   │
 │  │   stdio     │  │   tools     │  │   schemas   │  │  citation │   │
-│  │  transport  │  │  (9 tools)  │  │   (Zod)     │  │ formatter │   │
+│  │  transport  │  │ (11 tools)  │  │   (Zod)     │  │ formatter │   │
 │  └─────────────┘  └─────────────┘  └─────────────┘  └───────────┘   │
 │  ┌─────────────┐  ┌─────────────┐                                   │
 │  │better-sqlite│  │  retrieval  │                                   │
@@ -81,7 +81,7 @@ The POC uses stdio transport exclusively. This keeps the surface area small, avo
 
 ### Hybrid Retrieval (FTS5 + sqlite-vec)
 
-The production corpus (`data/corpora/`) includes precomputed `nomic-embed-text` embeddings (768-dim) stored in a `chunks_vec` virtual table via the `sqlite-vec` extension. At query time, the retrieval engine embeds the query using a locally running Ollama instance and fuses FTS5 keyword scores with cosine similarity scores via Reciprocal Rank Fusion (RRF). Retrieval defaults to hybrid for MCP clients when vectors and Ollama are available, and FTS5 is used as the fallback. `eba_search.search_mode` can request `hybrid`, `fts`, or `vector` for a specific call.
+The production corpus (`data/corpora/`) includes precomputed `nomic-embed-text` embeddings (768-dim) stored in a `chunks_vec` virtual table via the `sqlite-vec` extension. At query time, the retrieval engine embeds the query using a locally running Ollama instance and fuses FTS5 keyword scores with cosine similarity scores via Reciprocal Rank Fusion (RRF). Retrieval is automatic for MCP clients: hybrid is used when vectors and Ollama are available, and FTS5 is used as the fallback. `eba_search` does not expose a consumer-visible search-mode selector; maintainers can use process-level `EBA_SEARCH_MODE` only for diagnostics.
 
 Embeddings and the Ollama dependency are optional at runtime: if Ollama is not running, the server falls back to FTS5 automatically.
 
@@ -116,7 +116,7 @@ Docling is reserved as a potential fallback for difficult PDFs in MVP. The POC u
 
 ## Data Flow
 
-1. **Seed/Discover**: A curated YAML manifest or a current-applicable discovery profile defines which EBA publications to ingest. Production uses a full current-applicable manifest (346 documents).
+1. **Seed/Discover**: A curated YAML manifest or a current-applicable discovery profile defines which EBA publications to ingest. Production uses a full current-applicable manifest (341 indexed documents in the current validated corpus).
 2. **Download**: The Python downloader fetches each PDF, computes SHA256, and stores it at `data/raw/{eba_id_slug}/en/{sha256}.pdf`.
 3. **Parse**: PyMuPDF4LLM extracts page-level text, blocks, and tables. Fallback to pdftotext if quality gates fail.
 4. **Paragraphize**: The paragraphizer splits text into chunks, detects paragraph references, assigns section paths, and records page_start/page_end.
