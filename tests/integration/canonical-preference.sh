@@ -24,7 +24,6 @@ initDb(dbPath);
   const ids = result.chunks.map((chunk) => `${chunk.eba_id}|${chunk.paragraph_ref ?? 'null'}`);
 
   console.log(`query=${query}`);
-  console.log(`search_mode=${result.search_mode}`);
   ids.forEach((id, index) => console.log(`${String(index + 1).padStart(2, '0')} ${id}`));
 
   const seriesCode = (ebaId) => {

@@ -252,6 +252,20 @@ run_real_db_checks() {
   relationship_count="$(sqlite_value "$db_path" 'SELECT COUNT(*) FROM document_relationships')"
   local aml_compliance_officers_present
   aml_compliance_officers_present="$(sqlite_value "$db_path" "SELECT COUNT(*) FROM documents WHERE eba_id = 'EBA/GL/2022/05'")"
+  local dynamic_alias_source
+  dynamic_alias_source="$(sqlite_value "$db_path" "
+    SELECT COALESCE((
+      SELECT r.target_eba_id || '|' || r.source_eba_id
+      FROM document_relationships r
+      JOIN documents d ON d.eba_id = r.source_eba_id
+      WHERE r.relationship_type = 'consolidates'
+        AND r.target_eba_id = 'EBA/GL/2021/17'
+        AND r.source_eba_id = 'EBA/GL/2023/02'
+      LIMIT 1
+    ), '')
+  ")"
+  local dynamic_alias_eba_id="${dynamic_alias_source%%|*}"
+  local dynamic_alias_resolved_id="${dynamic_alias_source#*|}"
 
   local res
 
@@ -276,9 +290,7 @@ assert 'max_citations' in search_props, search_props
 assert 'response_mode' in search_props, search_props
 assert search_props['response_mode']['default'] == 'standard', search_props['response_mode']
 assert set(search_props['response_mode']['enum']) == {'compact', 'standard', 'full'}, search_props['response_mode']
-assert 'search_mode' in search_props, search_props
-assert search_props['search_mode']['default'] == 'hybrid', search_props['search_mode']
-assert set(search_props['search_mode']['enum']) == {'hybrid', 'fts', 'vector'}, search_props['search_mode']
+assert 'search_mode' not in search_props, search_props
 assert 'translate the intent to English first' in search_props['query']['description'], search_props['query']
 assert 'Put exclude_consultation_responses here, not at top level' in search_props['filters']['description'], search_props['filters']
 assert 'Must be nested under filters' in search_props['filters']['properties']['exclude_consultation_responses']['description'], search_props['filters']['properties']['exclude_consultation_responses']
@@ -329,11 +341,9 @@ for key in ('citation_id', 'eba_id', 'text', 'citation', 'chunk_type', 'page_sta
 assert first['eba_id'] == '$search_eba_id'
 assert payload['response_mode'] == 'standard'
 assert isinstance(payload.get('embeddings_available'), bool), payload
-if payload.get('search_mode') in ('hybrid', 'vector'):
-    assert payload['embeddings_available'] == True, payload
+if payload.get('embeddings_available'):
     assert isinstance(payload.get('embedding_model'), str) and payload['embedding_model'], payload
-elif payload.get('search_mode') in ('fts_fallback', 'fts_only'):
-    assert payload['embeddings_available'] == False, payload
+else:
     assert payload.get('embedding_model') in (None, ''), payload
 assert payload['returned_citations'] == len(payload['citations'])
 assert payload['available_citations'] >= payload['returned_citations']
@@ -341,9 +351,16 @@ assert all(len(citation['text']) <= 1200 for citation in payload['citations']), 
 " true
 
   res="$(call_tool "$db_path" "eba_search" "{\"query\":\"$search_query\",\"filters\":{\"eba_id\":\"$search_eba_id\"},\"limit\":3,\"search_mode\":\"fts\"}" 25)"
-  assert_json "eba_search explicit fts mode returns FTS-only real-DB results" "$res" "
+  assert_json "eba_search rejects consumer-visible search_mode" "$res" "
+assert payload['answerability'] == 'error', payload
+assert payload['citations'] == [], payload
+assert 'search_mode' in payload.get('error', ''), payload
+" true
+
+  res="$(OLLAMA_URL=http://127.0.0.1:9 call_tool "$db_path" "eba_search" "{\"query\":\"$search_query\",\"filters\":{\"eba_id\":\"$search_eba_id\"},\"limit\":3}" 26)"
+  assert_json "eba_search respects OLLAMA_URL and falls back when unavailable" "$res" "
 assert payload['answerability'] in ('exact', 'partial')
-assert payload.get('search_mode') == 'fts_only', payload
+assert payload.get('search_mode') is None, payload
 assert payload.get('embeddings_available') == False, payload
 assert payload.get('embedding_model') in (None, ''), payload
 assert len(payload['citations']) > 0
@@ -371,7 +388,7 @@ assert 'chunk_type' not in first
 assert all(len(citation['text']) <= 600 for citation in payload['citations']), payload['citations']
 " true
 
-  res="$(call_tool "$db_path" "eba_search" '{"query":"risk OR training OR staff OR AML OR CFT","filters":{"topic":"AML/CFT","language":"en"},"limit":50,"include_context":true,"max_citations":50,"response_mode":"full","max_chars":100000}' 24)"
+  res="$(call_tool "$db_path" "eba_search" '{"query":"customer OR institution OR competent OR authority OR risk","filters":{"topic":"AML/CFT","language":"en"},"limit":50,"include_context":true,"max_citations":50,"response_mode":"full","max_chars":100000}' 24)"
   assert_json "eba_search enforces response size budget for broad full search" "$res" "
 assert payload['answerability'] in ('exact', 'partial')
 assert payload['response_limited'] == True, payload
@@ -431,7 +448,113 @@ assert 'warnings' in payload
 sample = payload.get('citation_sample', {})
 assert sample.get('full_document_dump') == False
 assert isinstance(sample.get('navigation_tools'), list) and len(sample['navigation_tools']) > 0
+  " true
+
+  res="$(call_tool "$db_path" "eba_get_document" '{"eba_id":"EBA/GL/2021/02","max_chars":120}' 67)"
+  assert_json "eba_get_document resolves curated EBA alias" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['document']['eba_id'] == 'EBA/GL/2023/03', payload
+assert len(payload['citations']) > 0
+assert all(citation['eba_id'] == 'EBA/GL/2023/03' for citation in payload['citations']), payload['citations']
+assert any('EBA/GL/2021/02 resolved to EBA/GL/2023/03' in warning for warning in payload['warnings']), payload['warnings']
 " true
+
+  if [ -n "$dynamic_alias_source" ]; then
+    res="$(call_tool "$db_path" "eba_search" "{\"query\":\"$dynamic_alias_eba_id\",\"limit\":2,\"response_mode\":\"compact\"}" 68)"
+    assert_json "eba_search resolves relationship-driven EBA alias" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['documents_considered'] == ['$dynamic_alias_resolved_id'], payload
+assert len(payload['citations']) > 0
+assert all(citation['eba_id'] == '$dynamic_alias_resolved_id' for citation in payload['citations']), payload['citations']
+assert any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in payload['warnings']), payload['warnings']
+" true
+
+    res="$(call_tool "$db_path" "eba_get_status" "{\"eba_id\":\"$dynamic_alias_eba_id\"}" 69)"
+    assert_json "eba_get_status resolves relationship-driven EBA alias" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['status']['eba_id'] == '$dynamic_alias_resolved_id', payload
+assert any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in payload['warnings']), payload['warnings']
+" true
+
+    res="$(call_tool "$db_path" "eba_get_versions" "{\"eba_id\":\"$dynamic_alias_eba_id\"}" 70)"
+    assert_json "eba_get_versions returns resolved alias document id" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['document_eba_id'] == '$dynamic_alias_resolved_id', payload
+assert len(payload['versions']) > 0
+assert any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in payload['warnings']), payload['warnings']
+" true
+
+    res="$(call_tool "$db_path" "eba_get_toc" "{\"eba_id\":\"$dynamic_alias_eba_id\",\"limit\":3}" 72)"
+    assert_json "eba_get_toc resolves relationship-driven EBA alias" "$res" "
+assert payload['answerability'] == 'exact'
+assert len(payload['toc']) > 0
+assert any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in payload['warnings']), payload['warnings']
+" true
+
+    local alias_section_ref
+    alias_section_ref="$(RESULT_JSON="$res" python3 - <<'PY'
+import json, os
+outer = json.loads(os.environ['RESULT_JSON'])
+payload = json.loads(outer['result']['content'][0]['text'])
+print(payload['toc'][0]['section_ref'])
+PY
+)"
+
+    res="$(call_tool "$db_path" "eba_get_section" "{\"eba_id\":\"$dynamic_alias_eba_id\",\"section\":\"$alias_section_ref\",\"limit\":3,\"max_chars\":120}" 73)"
+    assert_json "eba_get_section resolves relationship-driven EBA alias" "$res" "
+assert payload['answerability'] == 'exact'
+assert len(payload['citations']) > 0
+assert all(citation['eba_id'] == '$dynamic_alias_resolved_id' for citation in payload['citations']), payload['citations']
+assert any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in payload['warnings']), payload['warnings']
+" true
+
+    local alias_paragraph_ref
+    alias_paragraph_ref="$(RESULT_JSON="$res" python3 - <<'PY'
+import json, os
+outer = json.loads(os.environ['RESULT_JSON'])
+payload = json.loads(outer['result']['content'][0]['text'])
+for citation in payload['citations']:
+    if citation.get('paragraph_ref'):
+        print(citation['paragraph_ref'])
+        break
+PY
+)"
+    if [ -n "$alias_paragraph_ref" ]; then
+      res="$(call_tool "$db_path" "eba_get_paragraph" "{\"eba_id\":\"$dynamic_alias_eba_id\",\"paragraph_ref\":\"$alias_paragraph_ref\",\"max_chars\":120}" 74)"
+      assert_json "eba_get_paragraph resolves relationship-driven EBA alias" "$res" "
+assert payload['answerability'] == 'exact'
+assert len(payload['citations']) > 0
+assert all(citation['eba_id'] == '$dynamic_alias_resolved_id' for citation in payload['citations']), payload['citations']
+assert any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in payload['warnings']), payload['warnings']
+" true
+    fi
+
+    res="$(call_tool "$db_path" "eba_diff_versions" "{\"eba_id\":\"$dynamic_alias_eba_id\",\"version_a\":\"1.0\",\"version_b\":\"99.0\"}" 75)"
+    assert_json "eba_diff_versions resolves alias on error path" "$res" "
+assert payload['answerability'] == 'error'
+assert payload['diff']['eba_id'] == '$dynamic_alias_resolved_id', payload
+assert any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in payload['warnings']), payload['warnings']
+" true
+
+    local alias_chunk_id
+    alias_chunk_id="$(sqlite_value "$db_path" "
+      SELECT c.chunk_id
+      FROM chunks c
+      JOIN document_versions dv ON dv.version_id = c.document_version_id
+      WHERE dv.document_id = '$dynamic_alias_eba_id'
+      ORDER BY c.sequence_no
+      LIMIT 1
+    ")"
+    if [ -n "$alias_chunk_id" ]; then
+      res="$(call_tool "$db_path" "eba_validate_citation" "{\"citation_id\":\"$alias_chunk_id\"}" 76)"
+      assert_json "eba_validate_citation preserves cited alias-target document status" "$res" "
+validation = payload.get('validation', {})
+assert validation.get('valid') == True, validation
+assert validation.get('document_eba_id') == '$dynamic_alias_eba_id', validation
+assert not any('$dynamic_alias_eba_id resolved to $dynamic_alias_resolved_id' in warning for warning in validation.get('warnings', [])), validation
+" true
+    fi
+  fi
 
   res="$(call_tool "$db_path" "eba_get_paragraph" "{\"eba_id\":\"$paragraph_eba_id\",\"paragraph_ref\":\"$paragraph_ref\",\"context_before\":1,\"context_after\":1}" 6)"
   assert_json "eba_get_paragraph returns paragraph citations" "$res" "
@@ -614,10 +737,117 @@ conn.close()
 PY
 }
 
+create_toc_fixture_db() {
+  local fixture_db="$1"
+  local mode="$2"
+
+  python3 - "$SCHEMA_SQL" "$fixture_db" "$mode" <<'PY'
+from datetime import datetime, timezone
+from pathlib import Path
+import sqlite3
+import sys
+
+schema_path = Path(sys.argv[1])
+db_path = sys.argv[2]
+mode = sys.argv[3]
+
+conn = sqlite3.connect(db_path)
+conn.executescript(schema_path.read_text())
+
+if mode == 'old-no-document-toc':
+    conn.execute('DROP TABLE document_toc')
+
+conn.execute(
+    'INSERT INTO corpus_manifest (manifest_hash, built_at, document_count, chunk_count) VALUES (?, ?, ?, ?)',
+    (f'toc-fixture-{mode}', datetime.now(timezone.utc).isoformat(), 1, 3 if mode != 'old-no-document-toc' else 1),
+)
+eba_id = 'EBA/GL/2099/02' if mode == 'old-no-document-toc' else 'EBA/GL/2099/01'
+conn.execute(
+    '''
+    INSERT INTO documents (
+      eba_id, title, document_type, topic, language, publication_url,
+      published_at, application_date, applicability_status, publication_status, is_canonical
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''',
+    (eba_id, 'Runtime TOC fixture', 'guidelines', 'AML/CFT', 'en', 'https://example.test/runtime-toc', None, None, 'applicable', 'final', 1),
+)
+cursor = conn.execute(
+    '''
+    INSERT INTO document_versions (document_id, version_label, published_at, file_sha256, file_path, is_current)
+    VALUES (?, ?, ?, ?, ?, ?)
+    ''',
+    (eba_id, 'current', '2099-01-01', f'sha-{mode}', f'/tmp/{mode}.pdf', 1),
+)
+version_id = cursor.lastrowid
+
+if mode == 'old-no-document-toc':
+    conn.execute(
+        '''
+        INSERT INTO chunks (
+          chunk_id, document_version_id, language, section_path, paragraph_ref,
+          page_start, page_end, section_ref, section_title, section_level,
+          parent_section_ref, document_region, metadata_confidence, metadata_source,
+          text, text_hash, chunk_type, sequence_no
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''',
+        (
+            'old-toc-body', version_id, 'en', '4. Legacy Derived Title', '4.1',
+            7, 7, '4', 'Legacy Derived Title', 1, None, 'body', 0.91, 'deterministic',
+            '4. Legacy Derived Title\nLegacy section body.', 'hash-old-body', 'paragraph', 1,
+        ),
+    )
+else:
+    conn.executemany(
+        '''
+        INSERT INTO chunks (
+          chunk_id, document_version_id, language, section_path, paragraph_ref,
+          page_start, page_end, section_ref, section_title, section_level,
+          parent_section_ref, document_region, metadata_confidence, metadata_source,
+          text, text_hash, chunk_type, sequence_no
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''',
+        [
+            (
+                'toc-front', version_id, 'en', '4. Heuristic Front Matter Title', '4.1',
+                1, 1, '4', 'Heuristic Front Matter Title', 1, None, 'front_matter', 0.75, 'deterministic',
+                '4. Heuristic Front Matter Title\nFront matter should not be preferred.', 'hash-front', 'paragraph', 1,
+            ),
+            (
+                'toc-body', version_id, 'en', '4. Heuristic Body Title', '4.2',
+                2, 2, '4', 'Heuristic Body Title', 1, None, 'body', 0.92, 'deterministic',
+                '4. Heuristic Body Title\nBody/default metadata should be preferred.', 'hash-body', 'paragraph', 2,
+            ),
+            (
+                'toc-child', version_id, 'en', '4.1 Child Detail', '4.1',
+                3, 3, '4.1', 'Child Detail', 2, '4', 'body', 0.9, 'deterministic',
+                '4.1 Child Detail\nChild section should be included when retrieving section 4.', 'hash-child', 'paragraph', 3,
+            ),
+        ],
+    )
+    conn.executemany(
+        '''
+        INSERT INTO document_toc (
+          document_version_id, section_ref, title, level, parent_section_ref,
+          page_start, page_end, sequence_start, sequence_end, confidence, source
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''',
+        [
+            (version_id, '4', 'Persisted Authoritative Title', 1, None, 2, 2, 2, 2, 0.92, 'deterministic'),
+            (version_id, '4.1', 'Persisted Child Title', 2, '4', 3, 3, 3, 3, 0.9, 'deterministic'),
+        ],
+    )
+
+conn.commit()
+conn.close()
+PY
+}
+
 run_empty_db_checks() {
-  local temp_db
+  local temp_db toc_db old_toc_db
   temp_db="$(mktemp /tmp/empty-eba-XXXXXX.db)"
-  trap 'rm -f "$temp_db"' EXIT
+  toc_db="$(mktemp /tmp/toc-eba-XXXXXX.db)"
+  old_toc_db="$(mktemp /tmp/old-toc-eba-XXXXXX.db)"
+  trap 'rm -f "$temp_db" "$toc_db" "$old_toc_db"' EXIT
 
   create_empty_db "$temp_db"
 
@@ -641,34 +871,7 @@ assert payload['documents_considered'] == []
 assert payload['answerability'] == 'no_match'
 assert payload['citations'] == []
 assert payload['documents_considered'] == []
-assert payload.get('search_mode') == 'fts_fallback', payload
-assert payload.get('embeddings_available') == False, payload
-assert payload.get('embedding_model') in (None, ''), payload
-" 
-
-  res="$(call_tool "$temp_db" "eba_search" '{"query":"money laundering","limit":3,"search_mode":"fts"}' 106)"
-  assert_json "explicit fts search mode uses FTS only" "$res" "
-assert payload['answerability'] == 'no_match'
-assert payload['citations'] == []
-assert payload.get('search_mode') == 'fts_only', payload
-assert payload.get('embeddings_available') == False, payload
-assert payload.get('embedding_model') in (None, ''), payload
-" 
-
-  res="$(call_tool "$temp_db" "eba_search" '{"query":"money laundering","limit":3,"search_mode":"hybrid"}' 107)"
-  assert_json "explicit hybrid search mode falls back when vectors are unavailable" "$res" "
-assert payload['answerability'] == 'no_match'
-assert payload['citations'] == []
-assert payload.get('search_mode') == 'fts_fallback', payload
-assert payload.get('embeddings_available') == False, payload
-assert payload.get('embedding_model') in (None, ''), payload
-" 
-
-  res="$(call_tool "$temp_db" "eba_search" '{"query":"money laundering","limit":3,"search_mode":"vector"}' 108)"
-  assert_json "explicit vector search mode falls back when vectors are unavailable" "$res" "
-assert payload['answerability'] == 'no_match'
-assert payload['citations'] == []
-assert payload.get('search_mode') == 'fts_fallback', payload
+assert payload.get('search_mode') is None, payload
 assert payload.get('embeddings_available') == False, payload
 assert payload.get('embedding_model') in (None, ''), payload
 " 
@@ -691,7 +894,59 @@ assert payload['answerability'] == 'no_match'
 assert payload['citations'] == []
 "
 
-  rm -f "$temp_db"
+  create_toc_fixture_db "$toc_db" "persisted"
+
+  res="$(call_tool "$toc_db" "eba_get_toc" '{"eba_id":"EBA/GL/2099/01","limit":5}' 109)"
+  assert_json "eba_get_toc prefers persisted document_toc rows" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['total'] == 2
+first = payload['toc'][0]
+assert first['section_path'] == 'Persisted Authoritative Title', payload['toc']
+assert first['section_ref'] == '4'
+assert first['level'] == 1
+assert first['confidence'] == 'high'
+assert first['page_start'] == 2
+assert first['page_end'] == 2
+assert first['first_sequence_no'] == 2
+assert first['last_sequence_no'] == 2
+assert 'paragraph_refs' in first
+second = payload['toc'][1]
+assert second['section_ref'] == '4.1', payload['toc']
+assert second['parent_section_ref'] == '4', payload['toc']
+" true
+
+  res="$(call_tool "$toc_db" "eba_get_section" '{"eba_id":"EBA/GL/2099/01","section":"4","limit":2}' 110)"
+  assert_json "eba_get_section includes persisted child sections" "$res" "
+assert payload['answerability'] == 'exact'
+assert len(payload['citations']) == 2
+assert [citation['citation_id'] for citation in payload['citations']] == ['toc-body', 'toc-child'], payload['citations']
+assert [citation['paragraph_ref'] for citation in payload['citations']] == ['4.2', '4.1'], payload['citations']
+" true
+
+  res="$(call_tool "$toc_db" "eba_search" '{"query":"EBA/GL/2099/01","limit":1}' 111)"
+  assert_json "eba_search exact-id lookup prefers body/default regions" "$res" "
+assert payload['answerability'] == 'exact'
+assert len(payload['citations']) == 1
+first = payload['citations'][0]
+assert first['citation_id'] == 'toc-body', payload['citations']
+assert first['paragraph_ref'] == '4.2'
+" true
+
+  create_toc_fixture_db "$old_toc_db" "old-no-document-toc"
+
+  res="$(call_tool "$old_toc_db" "eba_get_toc" '{"eba_id":"EBA/GL/2099/02","limit":5}' 112)"
+  assert_json "eba_get_toc falls back when document_toc table is absent" "$res" "
+assert payload['answerability'] == 'exact'
+assert payload['total'] == 1
+first = payload['toc'][0]
+assert first['section_path'] == '4. Legacy Derived Title', payload['toc']
+assert first['section_ref'] == '4'
+assert first['level'] == 1
+assert first['confidence'] == 'high'
+assert first['paragraph_refs'] == ['4.1']
+" true
+
+  rm -f "$temp_db" "$toc_db" "$old_toc_db"
   trap - EXIT
 }
 
@@ -707,7 +962,7 @@ fi
 
 echo
 echo "Results: $PASS passed, $FAIL failed"
-if [ "$TOOL_FAIL" -eq 0 ] && [ "$TOOL_PASS" -ge 18 ] && [ "$FAIL" -eq 0 ]; then
+if [ "$TOOL_FAIL" -eq 0 ] && [ "$FAIL" -eq 0 ] && { [ "$MODE" = "empty" ] || [ "$TOOL_PASS" -ge 18 ]; }; then
   echo "${TOOL_PASS}/${TOOL_PASS} tool tests passed"
   exit 0
 fi
