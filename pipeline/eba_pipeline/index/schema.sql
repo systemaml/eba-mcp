@@ -40,10 +40,31 @@ CREATE TABLE IF NOT EXISTS chunks (
   paragraph_ref TEXT,
   page_start INTEGER,
   page_end INTEGER,
+  section_ref TEXT,
+  section_title TEXT,
+  section_level INTEGER,
+  parent_section_ref TEXT,
+  document_region TEXT,
+  metadata_confidence REAL,
+  metadata_source TEXT,
   text TEXT NOT NULL,
   text_hash TEXT NOT NULL,
   chunk_type TEXT NOT NULL,
   sequence_no INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS document_toc (
+  document_version_id INTEGER NOT NULL REFERENCES document_versions(version_id) ON DELETE CASCADE,
+  section_ref TEXT NOT NULL,
+  title TEXT NOT NULL,
+  level INTEGER NOT NULL,
+  parent_section_ref TEXT,
+  page_start INTEGER,
+  page_end INTEGER,
+  sequence_start INTEGER,
+  sequence_end INTEGER,
+  confidence REAL,
+  source TEXT
 );
 
 CREATE VIRTUAL TABLE IF NOT EXISTS chunks_fts USING fts5(
@@ -68,3 +89,7 @@ CREATE TABLE IF NOT EXISTS corpus_manifest (
 CREATE INDEX IF NOT EXISTS idx_document_versions_document_id ON document_versions(document_id);
 CREATE INDEX IF NOT EXISTS idx_chunks_document_version_id ON chunks(document_version_id);
 CREATE INDEX IF NOT EXISTS idx_chunks_section_path ON chunks(section_path);
+CREATE INDEX IF NOT EXISTS idx_chunks_section_ref ON chunks(section_ref);
+CREATE INDEX IF NOT EXISTS idx_document_toc_document_version_id ON document_toc(document_version_id);
+CREATE INDEX IF NOT EXISTS idx_document_toc_section_ref ON document_toc(section_ref);
+CREATE INDEX IF NOT EXISTS idx_document_toc_document_section_ref ON document_toc(document_version_id, section_ref);

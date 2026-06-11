@@ -1,10 +1,14 @@
 import hashlib
 import json
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 from typing import cast
 
+from eba_pipeline.ids import canonicalize_eba_id, slugify_eba_id
+from eba_pipeline.index.fts import populate_fts
+from eba_pipeline.index.split_chunks import split_mega_chunks
 from eba_pipeline.index.sqlite_store import (
+    SqlRecord,
     get_connection,
     init_schema,
     init_vec_schema,
@@ -12,17 +16,35 @@ from eba_pipeline.index.sqlite_store import (
     insert_chunk_vectors,
     insert_document,
     insert_document_version,
+    replace_document_toc_entries,
     update_corpus_manifest,
 )
-from eba_pipeline.ids import canonicalize_eba_id, slugify_eba_id
-from eba_pipeline.index.fts import populate_fts
-from eba_pipeline.index.split_chunks import split_mega_chunks
 from eba_pipeline.parser.quality import validate_unique_chunk_ids
 
 ChunkRecord = dict[str, object]
 SeedDoc = dict[str, object]
+EmbeddingMetadata = tuple[str, int]
 
 SCHEMA_PATH = Path(__file__).parent / "schema.sql"
+MISSING_PARENT_CONFIDENCE_CAP = 0.85
+
+SECTION_BOILERPLATE_PHRASES = (
+    "do you have any comments",
+    "feedback on",
+    "summary of responses",
+    "public consultation",
+    "analysis of responses",
+    "consultation responses",
+)
+
+
+def _embedding_metadata(model: str) -> EmbeddingMetadata:
+    from eba_pipeline.index.embeddings import (
+        NOMIC_EMBED_TEXT_DIM,
+        expected_embedding_dim,
+    )
+
+    return model, expected_embedding_dim(model) or NOMIC_EMBED_TEXT_DIM
 
 
 def build_index(
@@ -44,17 +66,6 @@ def build_index(
         print(f"  Resume mode: reusing existing DB {output_db}")
         conn = get_connection(output_db)
         _populate_vectors(conn, model=model, ollama_url=ollama_url, batch_size=batch_size, resume=True)
-        manifest_hash = hashlib.sha256(
-            "|".join(sorted(
-                str(row[0]) for row in conn.execute("SELECT chunk_id FROM chunks").fetchall()
-            )).encode()
-        ).hexdigest()
-        doc_count = cast(int, conn.execute("SELECT count(*) FROM documents").fetchone()[0])
-        actual_chunks = cast(int, conn.execute("SELECT count(*) FROM chunks").fetchone()[0])
-        from eba_pipeline.index.embeddings import NOMIC_EMBED_TEXT_DIM, _expected_embedding_dim
-        embedding_dim = _expected_embedding_dim(model) or NOMIC_EMBED_TEXT_DIM
-        update_corpus_manifest(conn, manifest_hash, doc_count, actual_chunks, embedding_model=model, embedding_dim=embedding_dim)
-        print(f"  Manifest: {doc_count} docs, {actual_chunks} chunks, embedding_model={model}, embedding_dim={embedding_dim}, hash={manifest_hash[:16]}...")
         conn.close()
         return
 
@@ -103,6 +114,7 @@ def build_index(
             continue
 
         chunks = cast(list[ChunkRecord], split_mega_chunks(list(chunks)))
+        _sanitize_section_metadata(chunks)
         validate_unique_chunk_ids(chunks, f"{doc_dir.name} ({chunks_file})")
 
         seed_meta = seed_docs.get(doc_dir.name, {})
@@ -142,6 +154,13 @@ def build_index(
                 "paragraph_ref": chunk.get("paragraph_ref"),
                 "page_start": chunk.get("page_start"),
                 "page_end": chunk.get("page_end"),
+                "section_ref": chunk.get("section_ref"),
+                "section_title": chunk.get("section_title"),
+                "section_level": chunk.get("section_level"),
+                "parent_section_ref": chunk.get("parent_section_ref"),
+                "document_region": chunk.get("document_region", "body"),
+                "metadata_confidence": chunk.get("metadata_confidence"),
+                "metadata_source": chunk.get("metadata_source"),
                 "text": chunk["text"],
                 "text_hash": chunk["text_hash"],
                 "chunk_type": chunk.get("chunk_type", "paragraph"),
@@ -159,6 +178,8 @@ def build_index(
                 ) from error
             all_chunk_ids.append(str(chunk["chunk_id"]))
 
+        replace_document_toc_entries(conn, version_id, _build_document_toc_entries(chunks, version_id))
+
         conn.commit()
         total_chunks += len(chunks)
         print(f"  Indexed {doc_dir.name}: {len(chunks)} chunks")
@@ -174,15 +195,166 @@ def build_index(
     actual_chunks = cast(int, conn.execute("SELECT count(*) FROM chunks").fetchone()[0])
 
     if embed:
-        from eba_pipeline.index.embeddings import NOMIC_EMBED_TEXT_DIM, _expected_embedding_dim
-        embedding_dim = _expected_embedding_dim(model) or NOMIC_EMBED_TEXT_DIM
-        update_corpus_manifest(conn, manifest_hash, doc_count, actual_chunks, embedding_model=model, embedding_dim=embedding_dim)
-        print(f"  Manifest: {doc_count} docs, {actual_chunks} chunks, embedding_model={model}, embedding_dim={embedding_dim}, hash={manifest_hash[:16]}...")
+        embedding_model, embedding_dim = _embedding_metadata(model)
+        update_corpus_manifest(conn, manifest_hash, doc_count, actual_chunks, embedding_model=embedding_model, embedding_dim=embedding_dim)
+        print(f"  Manifest: {doc_count} docs, {actual_chunks} chunks, embedding_model={embedding_model}, embedding_dim={embedding_dim}, hash={manifest_hash[:16]}...")
     else:
         update_corpus_manifest(conn, manifest_hash, doc_count, actual_chunks)
         print(f"  Manifest: {doc_count} docs, {actual_chunks} chunks, hash={manifest_hash[:16]}...")
 
     conn.close()
+
+
+def _build_document_toc_entries(chunks: list[ChunkRecord], document_version_id: int) -> list[SqlRecord]:
+    toc_entries: dict[str, dict[str, object]] = {}
+    section_refs = {
+        str(chunk["section_ref"]).strip()
+        for chunk in chunks
+        if isinstance(chunk.get("section_ref"), str) and str(chunk["section_ref"]).strip()
+    }
+    for chunk in sorted(chunks, key=_chunk_sequence_no):
+        region = str(chunk.get("document_region") or "body")
+        if region not in {"body", "annex"}:
+            continue
+
+        section_ref = chunk.get("section_ref")
+        if not isinstance(section_ref, str) or not section_ref.strip():
+            continue
+        normalized_section_ref = section_ref.strip()
+        sequence_no = _chunk_sequence_no(chunk)
+        page_start = _optional_int(chunk.get("page_start"))
+        page_end = _optional_int(chunk.get("page_end"))
+        title = chunk.get("section_title")
+        derived_parent = _parent_section_ref(normalized_section_ref)
+        parent_section_ref = chunk.get("parent_section_ref") or (derived_parent if derived_parent in section_refs else None)
+        entry = toc_entries.setdefault(
+            normalized_section_ref,
+            {
+                "document_version_id": document_version_id,
+                "section_ref": normalized_section_ref,
+                "title": str(title).strip() if title else normalized_section_ref,
+                "level": _section_level(chunk.get("section_level"), normalized_section_ref),
+                "parent_section_ref": parent_section_ref,
+                "page_start": page_start,
+                "page_end": page_end,
+                "sequence_start": sequence_no,
+                "sequence_end": sequence_no,
+                "confidence": chunk.get("metadata_confidence"),
+                "source": chunk.get("metadata_source") or "parser_metadata",
+            },
+        )
+        entry["sequence_start"] = min(cast(int, entry["sequence_start"]), sequence_no)
+        entry["sequence_end"] = max(cast(int, entry["sequence_end"]), sequence_no)
+        entry["page_start"] = _min_optional_int(cast(int | None, entry["page_start"]), page_start)
+        entry["page_end"] = _max_optional_int(cast(int | None, entry["page_end"]), page_end)
+
+    return cast(list[SqlRecord], list(toc_entries.values()))
+
+
+def _normalized_text(value: object) -> str:
+    return " ".join(str(value or "").strip().lower().split())
+
+
+def _has_boilerplate_section_metadata(chunk: ChunkRecord) -> bool:
+    title = _normalized_text(chunk.get("section_title") or chunk.get("section_path"))
+    first_line = _normalized_text(str(chunk.get("text") or "").splitlines()[0] if chunk.get("text") else "")
+    return any(phrase in title or phrase in first_line for phrase in SECTION_BOILERPLATE_PHRASES)
+
+
+def _clear_section_metadata(chunk: ChunkRecord) -> None:
+    chunk["section_path"] = ""
+    chunk["section_ref"] = None
+    chunk["section_title"] = None
+    chunk["section_level"] = None
+    chunk["parent_section_ref"] = None
+
+
+def _cap_metadata_confidence(chunk: ChunkRecord, cap: float) -> None:
+    confidence = _optional_float(chunk.get("metadata_confidence"))
+    chunk["metadata_confidence"] = min(confidence, cap) if confidence is not None else cap
+
+
+def _sanitize_section_metadata(chunks: list[ChunkRecord]) -> None:
+    changed = True
+    while changed:
+        changed = False
+        section_refs = {str(chunk["section_ref"]) for chunk in chunks if chunk.get("section_ref")}
+        for chunk in chunks:
+            if not chunk.get("section_ref"):
+                continue
+            if _has_boilerplate_section_metadata(chunk):
+                _clear_section_metadata(chunk)
+                changed = True
+                continue
+            parent = chunk.get("parent_section_ref")
+            if parent and str(parent) not in section_refs:
+                chunk["parent_section_ref"] = None
+                _cap_metadata_confidence(chunk, MISSING_PARENT_CONFIDENCE_CAP)
+
+
+def _chunk_sequence_no(chunk: ChunkRecord) -> int:
+    return _optional_int(chunk.get("sequence_no")) or 0
+
+
+def _optional_int(value: object) -> int | None:
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value)
+    if isinstance(value, str):
+        try:
+            return int(value)
+        except ValueError:
+            return None
+    return None
+
+
+def _optional_float(value: object) -> float | None:
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return float(value)
+    if isinstance(value, int | float):
+        return float(value)
+    if isinstance(value, str):
+        try:
+            return float(value)
+        except ValueError:
+            return None
+    return None
+
+
+def _min_optional_int(current: int | None, candidate: int | None) -> int | None:
+    if current is None:
+        return candidate
+    if candidate is None:
+        return current
+    return min(current, candidate)
+
+
+def _max_optional_int(current: int | None, candidate: int | None) -> int | None:
+    if current is None:
+        return candidate
+    if candidate is None:
+        return current
+    return max(current, candidate)
+
+
+def _section_level(value: object, section_ref: str) -> int:
+    explicit = _optional_int(value)
+    if explicit is not None:
+        return explicit
+    return len(section_ref.split("."))
+
+
+def _parent_section_ref(section_ref: str) -> str | None:
+    if "." not in section_ref:
+        return None
+    return section_ref.rsplit(".", 1)[0]
 
 
 def _populate_vectors(
@@ -192,17 +364,21 @@ def _populate_vectors(
     batch_size: int,
     resume: bool = False,
 ) -> None:
-    from eba_pipeline.index.embeddings import NOMIC_EMBED_TEXT_DIM, _expected_embedding_dim, generate_embeddings
+    from eba_pipeline.index.embeddings import (
+        NOMIC_EMBED_TEXT_DIM,
+        expected_embedding_dim,
+        generate_embeddings,
+    )
 
-    embedding_dim = _expected_embedding_dim(model) or NOMIC_EMBED_TEXT_DIM
+    embedding_dim = expected_embedding_dim(model) or NOMIC_EMBED_TEXT_DIM
     init_vec_schema(conn, embedding_dim)
 
     if resume:
-        rows = conn.execute(
-            "SELECT c.rowid, c.chunk_id, c.text FROM chunks c"
-            " WHERE c.rowid NOT IN (SELECT rowid FROM chunks_vec)"
-            " ORDER BY c.rowid"
-        ).fetchall()
+        rows = cast(list[tuple[int, str, str]], conn.execute(
+            """SELECT c.rowid, c.chunk_id, c.text FROM chunks c
+               WHERE c.rowid NOT IN (SELECT rowid FROM chunks_vec)
+               ORDER BY c.rowid"""
+        ).fetchall())
         already_done = cast(int, conn.execute("SELECT count(*) FROM chunks_vec").fetchone()[0])
         total_in_db = cast(int, conn.execute("SELECT count(*) FROM chunks").fetchone()[0])
         if not rows:
@@ -210,39 +386,36 @@ def _populate_vectors(
             return
         print(f"  Resume: {already_done}/{total_in_db} already embedded, continuing with {len(rows)} remaining...")
     else:
-        rows = conn.execute("SELECT rowid, chunk_id, text FROM chunks ORDER BY rowid").fetchall()
+        rows = cast(list[tuple[int, str, str]], conn.execute("SELECT rowid, chunk_id, text FROM chunks ORDER BY rowid").fetchall())
 
     chunk_records = [{"chunk_id": row[1], "text": row[2]} for row in rows]
     rowids = [row[0] for row in rows]
 
-    try:
-        print(f"  Generating embeddings for {len(chunk_records)} chunks with model={model}...")
-        inserted = 0
-        next_progress_report = 100
-        total_rows = len(chunk_records)
-        for start in range(0, total_rows, batch_size):
-            batch_records = chunk_records[start : start + batch_size]
-            batch_rowids = rowids[start : start + batch_size]
-            vectors = generate_embeddings(
-                batch_records,
-                model=model,
-                ollama_url=ollama_url,
-                batch_size=batch_size,
-                show_progress=False,
-            )
+    print(f"  Generating embeddings for {len(chunk_records)} chunks with model={model}...")
+    inserted = 0
+    next_progress_report = 100
+    total_rows = len(chunk_records)
+    for start in range(0, total_rows, batch_size):
+        batch_records = chunk_records[start : start + batch_size]
+        batch_rowids = rowids[start : start + batch_size]
+        vectors = generate_embeddings(
+            batch_records,
+            model=model,
+            ollama_url=ollama_url,
+            batch_size=batch_size,
+            show_progress=False,
+        )
 
-            if len(vectors) != len(batch_rowids):
-                raise RuntimeError(f"Vector count mismatch: {len(vectors)} vectors for {len(batch_rowids)} chunks")
+        if len(vectors) != len(batch_rowids):
+            raise RuntimeError(f"Vector count mismatch: {len(vectors)} vectors for {len(batch_rowids)} chunks")
 
-            insert_chunk_vectors(conn, list(zip(batch_rowids, vectors)))
-            inserted += len(vectors)
-            while next_progress_report <= inserted and next_progress_report < total_rows:
-                print(f"  Embeddings saved: {next_progress_report}/{total_rows} chunks")
-                next_progress_report += 100
-            if inserted == total_rows and (total_rows < 100 or total_rows % 100 != 0):
-                print(f"  Embeddings saved: {total_rows}/{total_rows} chunks")
-    except Exception:
-        raise
+        insert_chunk_vectors(conn, list(zip(batch_rowids, vectors)))
+        inserted += len(vectors)
+        while next_progress_report <= inserted and next_progress_report < total_rows:
+            print(f"  Embeddings saved: {next_progress_report}/{total_rows} chunks")
+            next_progress_report += 100
+        if inserted == total_rows and (total_rows < 100 or total_rows % 100 != 0):
+            print(f"  Embeddings saved: {total_rows}/{total_rows} chunks")
 
     vec_count = cast(int, conn.execute("SELECT count(*) FROM chunks_vec").fetchone()[0])
     print(f"  chunks_vec populated: {vec_count} vectors")
