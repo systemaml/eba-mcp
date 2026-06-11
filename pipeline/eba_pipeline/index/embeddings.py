@@ -5,10 +5,12 @@ from typing import cast
 
 import requests
 
+from eba_pipeline.config import OLLAMA_TIMEOUT_MS
+
 DEFAULT_BATCH_SIZE = 32
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
 DEFAULT_RETRIES = 5
-DEFAULT_TIMEOUT_SECONDS = 180
+DEFAULT_TIMEOUT_SECONDS = OLLAMA_TIMEOUT_MS / 1000
 NOMIC_EMBED_TEXT_DIM = 768
 NORM_TOLERANCE = 1e-3
 RETRY_BACKOFF_SECONDS = (1.0, 4.0, 16.0, 60.0)
@@ -36,7 +38,7 @@ def generate_embeddings(
         return []
 
     endpoint = f"{ollama_url.rstrip('/')}/api/embed"
-    expected_dim = _expected_embedding_dim(model)
+    expected_dim = expected_embedding_dim(model)
     embeddings: list[EmbeddingVector] = []
     total_chunks = len(texts)
     next_progress_report = 100
@@ -212,7 +214,7 @@ def _validate_embedding_vector(vector: EmbeddingVector, *, index: int, expected_
         )
 
 
-def _expected_embedding_dim(model: str) -> int | None:
+def expected_embedding_dim(model: str) -> int | None:
     normalized = model.strip().lower()
     base_model = normalized.split(":", 1)[0]
     if base_model == "nomic-embed-text":
@@ -225,4 +227,4 @@ def _response_detail(response: requests.Response) -> str:
     return body[:300] if body else "empty response body"
 
 
-__all__ = ["EmbeddingGenerationError", "generate_embeddings", "DEFAULT_BATCH_SIZE", "DEFAULT_OLLAMA_URL"]
+__all__ = ["EmbeddingGenerationError", "generate_embeddings", "expected_embedding_dim", "DEFAULT_BATCH_SIZE", "DEFAULT_OLLAMA_URL"]
