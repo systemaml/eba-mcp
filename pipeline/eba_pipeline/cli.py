@@ -6,6 +6,8 @@ from typing import cast
 
 import click
 
+from eba_pipeline.config import DB_PATH, EMBEDDING_MODEL, OLLAMA_URL
+
 
 def _coerce_expected_min_results(value: object) -> int:
     if isinstance(value, bool):
@@ -50,7 +52,10 @@ def discover(output: str, limit: int, pages_per_type: int, sleep_seconds: float,
     """Discover official EBA PDF publications and write a seed manifest."""
     from collections import Counter
 
-    from eba_pipeline.crawler.discovery import discover_publication_pdfs, write_seed_manifest
+    from eba_pipeline.crawler.discovery import (
+        discover_publication_pdfs,
+        write_seed_manifest,
+    )
 
     documents = discover_publication_pdfs(
         limit=limit,
@@ -123,25 +128,27 @@ def normalize(manifest: str, pdfs: str, output: str, review_queue: str | None) -
 @click.option("--input", "input_dir", required=True)
 @click.option("--output", "output_dir", required=True)
 @click.option("--manifest", default=None, help="Seed YAML used to map processed slugs to EBA IDs")
-def parse(input_dir: str, output_dir: str, manifest: str | None) -> None:
+@click.option("--repair-low-confidence", is_flag=True, default=False, help="Use local Ollama to repair low-confidence parser metadata spans")
+def parse(input_dir: str, output_dir: str, manifest: str | None, repair_low_confidence: bool) -> None:
     """Parse downloaded PDFs and paragraphize them."""
     from eba_pipeline.parser.paragraphize import paragraphize_all
     from eba_pipeline.parser.pdf_extract import extract_all_documents
 
     output_path = Path(output_dir)
     extract_all_documents(Path(input_dir), output_path)
-    paragraphize_all(output_path, Path(manifest) if manifest else None)
+    paragraphize_all(output_path, Path(manifest) if manifest else None, repair_low_confidence=repair_low_confidence)
     click.echo("Parse complete.")
 
 
 @cli.command()
 @click.option("--input", "input_dir", required=True)
 @click.option("--manifest", default=None, help="Seed YAML used to map processed slugs to EBA IDs")
-def paragraphize(input_dir: str, manifest: str | None) -> None:
+@click.option("--repair-low-confidence", is_flag=True, default=False, help="Use local Ollama to repair low-confidence parser metadata spans")
+def paragraphize(input_dir: str, manifest: str | None, repair_low_confidence: bool) -> None:
     """Build chunks.json from extracted pages.json files."""
     from eba_pipeline.parser.paragraphize import paragraphize_all
 
-    paragraphize_all(Path(input_dir), Path(manifest) if manifest else None)
+    paragraphize_all(Path(input_dir), Path(manifest) if manifest else None, repair_low_confidence=repair_low_confidence)
     click.echo("Paragraphize complete.")
 
 
@@ -166,18 +173,18 @@ def quality(input_dir: str, reports: str | None) -> None:
 @click.option("--quality-reports", default=None, help="Quality reports directory")
 @click.option("--embed", is_flag=True, default=False, help="Generate and store embeddings in chunks_vec")
 @click.option("--resume", is_flag=True, default=False, help="Resume interrupted embedding run: reuse existing DB, embed only missing vectors")
-@click.option("--model", default="nomic-embed-text", show_default=True, help="Ollama embedding model")
-@click.option("--ollama-url", default="http://localhost:11434", show_default=True, help="Ollama server URL")
+@click.option("--model", default=EMBEDDING_MODEL, show_default=True, help="Ollama embedding model")
+@click.option("--ollama-url", default=OLLAMA_URL, show_default=True, help="Ollama server URL")
 @click.option("--batch-size", default=32, show_default=True, type=int, help="Embedding batch size")
 def build_index(output: str | None, seed: str | None, override: str | None, processed: str | None, quality_reports: str | None, embed: bool, resume: bool, model: str, ollama_url: str, batch_size: int) -> None:
     """Build SQLite/FTS5 index from processed data."""
     import sqlite3
 
-    from eba_pipeline.config import CORPORA_DIR, PROCESSED_DIR, QUALITY_REPORTS_DIR
+    from eba_pipeline.config import PROCESSED_DIR, QUALITY_REPORTS_DIR
     from eba_pipeline.index.build_index import build_index as _build_index
     from eba_pipeline.relationships.extractor import extract_relationships
 
-    output_path = Path(output) if output else CORPORA_DIR / "eba-corpus.db"
+    output_path = Path(output) if output else DB_PATH
 
     _build_index(
         output_path,
@@ -191,14 +198,18 @@ def build_index(output: str | None, seed: str | None, override: str | None, proc
         resume=resume,
     )
 
+    if resume:
+        click.echo("Build-index resume complete.")
+        return
+
     seed_path = seed or str(Path(__file__).parent.parent / "seed_documents.yaml")
     override_path = override or str(Path(__file__).parent.parent / "relationships_override.yaml")
     relationships = extract_relationships(seed_path, override_path)
 
-    enriched_rels_path = Path(seed_path).parent / "current-relationships.yaml" if seed else None
-    if enriched_rels_path and not enriched_rels_path.exists():
+    enriched_rels_path = Path(seed_path).parent / "current-relationships.yaml"
+    if not enriched_rels_path.exists():
         enriched_rels_path = Path(__file__).parent.parent.parent / "data" / "current-relationships.yaml"
-    if enriched_rels_path and enriched_rels_path.exists():
+    if enriched_rels_path.exists():
         import yaml as _yaml
         enriched_data = _yaml.safe_load(enriched_rels_path.read_text()) or {}
         for rel in enriched_data.get("relationships", []):
@@ -224,11 +235,34 @@ def build_index(output: str | None, seed: str | None, override: str | None, proc
 @cli.command()
 @click.option("--db", required=True)
 @click.option("--queries", default=None)
-@click.option("--mode", default="queries", type=click.Choice(["queries", "citation-roundtrip"]))
+@click.option("--mode", default="queries", type=click.Choice(["queries", "citation-roundtrip", "metadata", "toc", "navigation"]))
 @click.option("--tags", default=None, help="Comma-separated tags to filter queries (e.g. 'semantic,aml_cft')")
 def eval(db: str, queries: str | None, mode: str, tags: str | None) -> None:
     """Run evaluation suite."""
     db_path = str(Path(db).resolve())
+
+    if mode in {"metadata", "toc", "navigation"}:
+        import sys
+
+        if mode == "metadata":
+            from eba_pipeline.eval.metadata import run_metadata_eval
+
+            result = run_metadata_eval(db_path)
+        elif mode == "toc":
+            from eba_pipeline.eval.toc import run_toc_eval
+
+            result = run_toc_eval(db_path)
+        else:
+            from eba_pipeline.eval.navigation import run_navigation_eval
+
+            result = run_navigation_eval(db_path)
+
+        click.echo(json.dumps(result, sort_keys=True))
+        failed_count = int(cast(int | float, result["failed_count"]))
+        pass_rate = float(cast(int | float, result["pass_rate"]))
+        if failed_count or pass_rate < 0.95:
+            sys.exit(1)
+        return
 
     if mode == "citation-roundtrip":
         import sys

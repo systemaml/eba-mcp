@@ -10,6 +10,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Protocol, cast
 
 import pymupdf
 import yaml
@@ -26,6 +27,17 @@ TYPE_PREFIX_MAP: dict[str, str] = {
     "its": "ITS",
 }
 
+ManifestDocument = dict[str, object]
+
+
+class PdfPage(Protocol):
+    def get_text(self, option: str = "text") -> str: ...
+
+
+def _doc_str(doc: ManifestDocument, key: str) -> str:
+    value = doc.get(key, "")
+    return value if isinstance(value, str) else str(value)
+
 
 @dataclass
 class NormalizationResult:
@@ -41,9 +53,10 @@ def extract_refs_from_pdf(pdf_path: Path, max_pages: int = 5) -> list[str]:
     doc = pymupdf.open(str(pdf_path))
     text = ""
     for i in range(min(max_pages, len(doc))):
-        text += doc[i].get_text() + "\n"
+        page = cast(PdfPage, cast(object, doc[i]))
+        text += page.get_text("text") + "\n"
     doc.close()
-    raw_refs = EBA_ID_RE.findall(text)
+    raw_refs = cast(list[str], EBA_ID_RE.findall(text))
     # Normalize: replace dashes with slashes, deduplicate
     normalized = list(dict.fromkeys(r.replace("-", "/") for r in raw_refs))
     return normalized
@@ -93,19 +106,21 @@ def normalize_manifest(
     pdfs_dir: Path,
     output_path: Path | None = None,
     review_queue_path: Path | None = None,
-) -> tuple[list[dict], list[NormalizationResult]]:
+) -> tuple[list[ManifestDocument], list[NormalizationResult]]:
     """Normalize eba_ids in a manifest using PDF content extraction.
 
     Returns (updated_documents, all_results).
     """
-    data = yaml.safe_load(manifest_path.read_text())
-    documents = data.get("documents", [])
+    data = cast(dict[str, object], yaml.safe_load(manifest_path.read_text()))
+    documents = cast(list[ManifestDocument], data.get("documents", []))
     results: list[NormalizationResult] = []
-    review_queue: list[dict] = []
+    review_queue: list[ManifestDocument] = []
     seen_ids: dict[str, str] = {}  # normalized_id -> original slug (for collision detection)
 
     for doc in documents:
-        original_id = doc["eba_id"]
+        original_id = _doc_str(doc, "eba_id")
+        title = _doc_str(doc, "title")
+        document_type = _doc_str(doc, "document_type")
         slug = original_id.replace("/", "-")
         pdf_dir = pdfs_dir / slug / "en"
 
@@ -119,7 +134,7 @@ def normalize_manifest(
                     reason="PDF directory not found",
                 )
             )
-            review_queue.append({"eba_id": original_id, "reason": "pdf_not_found", "title": doc.get("title", "")})
+            review_queue.append({"eba_id": original_id, "reason": "pdf_not_found", "title": title})
             continue
 
         pdfs = list(pdf_dir.glob("*.pdf"))
@@ -133,11 +148,11 @@ def normalize_manifest(
                     reason="No PDF files found",
                 )
             )
-            review_queue.append({"eba_id": original_id, "reason": "no_pdf", "title": doc.get("title", "")})
+            review_queue.append({"eba_id": original_id, "reason": "no_pdf", "title": title})
             continue
 
         refs = extract_refs_from_pdf(pdfs[0])
-        selected, confidence = pick_primary_ref(refs, doc.get("document_type", ""), doc.get("title", ""))
+        selected, confidence = pick_primary_ref(refs, document_type, title)
 
         if selected and not original_id.startswith("EBA/LARGE"):
             if selected.upper() == original_id.upper().replace("-", "/"):
@@ -152,7 +167,7 @@ def normalize_manifest(
                     "normalized_to": final_id,
                     "reason": "collision",
                     "collides_with": seen_ids[original_id],
-                    "title": doc.get("title", ""),
+                    "title": title,
                     "all_refs": refs,
                 })
             else:
@@ -178,7 +193,7 @@ def normalize_manifest(
                     "normalized_to": selected,
                     "reason": "collision",
                     "collides_with": seen_ids[selected],
-                    "title": doc.get("title", ""),
+                    "title": title,
                     "all_refs": refs,
                 })
                 # Append /DUP suffix
@@ -210,20 +225,20 @@ def normalize_manifest(
             review_queue.append({
                 "eba_id": original_id,
                 "reason": "no_ref_in_pdf",
-                "title": doc.get("title", ""),
+                "title": title,
             })
 
     # Write outputs
     if output_path:
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(
+        _ = output_path.write_text(
             yaml.safe_dump({"documents": documents}, sort_keys=False, allow_unicode=True),
             encoding="utf-8",
         )
 
     if review_queue_path and review_queue:
         review_queue_path.parent.mkdir(parents=True, exist_ok=True)
-        review_queue_path.write_text(
+        _ = review_queue_path.write_text(
             yaml.safe_dump({"review_queue": review_queue}, sort_keys=False, allow_unicode=True),
             encoding="utf-8",
         )

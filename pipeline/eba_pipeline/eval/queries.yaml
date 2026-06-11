@@ -1,9 +1,9 @@
 queries:
   # --- Exact ID lookups (tag: exact_id) ---
   - id: q001
-    query: "EBA/GL/2021/02"
+    query: "EBA/GL/2021/16"
     expected_answerability: exact
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2021/16"
     expected_min_results: 1
     tags: [exact_id, aml_cft]
 
@@ -15,9 +15,9 @@ queries:
     tags: [exact_id, aml_cft]
 
   - id: q003
-    query: "EBA/GL/2024/01"
+    query: "EBA/GL/2021/14"
     expected_answerability: exact
-    expected_eba_id: "EBA/GL/2024/01"
+    expected_eba_id: "EBA/GL/2021/14"
     expected_min_results: 1
     tags: [exact_id, aml_cft]
 
@@ -43,14 +43,14 @@ queries:
     tags: [exact_id]
 
   - id: q007
-    query: "EBA/Op/2022/01"
+    query: "EBA/Op/2016/07"
     expected_answerability: exact
-    expected_eba_id: "EBA/Op/2022/01"
+    expected_eba_id: "EBA/Op/2016/07"
     expected_min_results: 1
     tags: [exact_id]
 
   - id: q008
-    query: "EBA GL 2021 02"
+    query: "EBA GL 2023 03"
     expected_answerability: partial
     expected_min_results: 1
     tags: [exact_id, variant_format]
@@ -317,16 +317,16 @@ queries:
     expected_min_results: 1
     tags: [edge_case, slash_in_query, aml_cft]
 
-  - id: m4_get_status_amended
-    description: "Get status for document with amendments"
+  - id: m4_get_status_current
+    description: "Get status for current AML/CFT guidelines"
     tool: eba_get_status
     args:
-      eba_id: "EBA/GL/2021/02"
+      eba_id: "EBA/GL/2023/03"
     expect:
       min_results: 0
       fields:
-        - name: "status.amended_by"
-          not_empty: true
+        - name: "status.is_superseded"
+          value: false
 
   - id: m4_get_status_clean
     description: "Get status for document with no relationships"
@@ -343,7 +343,7 @@ queries:
     description: "Get version history for known document"
     tool: eba_get_versions
     args:
-      eba_id: "EBA/GL/2021/02"
+      eba_id: "EBA/GL/2023/03"
     expect:
       min_results: 0
       fields:
@@ -354,7 +354,7 @@ queries:
     description: "Validate a real chunk_id"
     tool: eba_validate_citation
     args:
-      chunk_id: "EBA-GL-2021-02:001921c3:en:p:seq-527"
+      chunk_id: "EBA-GL-2023-03:332bc643:en:p:1:p2:s7"
     expect:
       min_results: 0
       fields:
@@ -376,7 +376,7 @@ queries:
     description: "Diff with missing version returns error"
     tool: eba_diff_versions
     args:
-      eba_id: "EBA/GL/2021/02"
+      eba_id: "EBA/GL/2023/03"
       version_a: "1.0"
       version_b: "99.0"
     expect:
@@ -399,7 +399,7 @@ queries:
   - id: s002
     query: "politically exposed persons enhanced measures and risk factors"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["10.10", "4.47", "4.48", "4.49"]
     tags: [semantic, aml_cft]
@@ -407,7 +407,7 @@ queries:
   - id: s003
     query: "geographic and country jurisdiction risk indicators for money laundering"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["11.11", "18.6", "4.55"]
     tags: [semantic, aml_cft]
@@ -415,7 +415,7 @@ queries:
   - id: s004
     query: "weighting and scoring of risk factors in the overall risk assessment"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["3.5", "3.6", "3.1"]
     tags: [semantic, aml_cft]
@@ -423,7 +423,7 @@ queries:
   - id: s005
     query: "non-face-to-face delivery channel and distance customer onboarding risk"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["14.10", "9.10", "4.29"]
     tags: [semantic, aml_cft]
@@ -431,7 +431,7 @@ queries:
   - id: s006
     query: "source of funds and source of wealth verification procedures"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/LARGE-Op/0000/0220"
     expected_min_results: 1
     expected_paragraph_refs: ["12.8", "8.24"]
     tags: [semantic, aml_cft]
@@ -439,7 +439,7 @@ queries:
   - id: s007
     query: "conditions for applying simplified due diligence to low-risk customers"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["1.25", "9.18"]
     tags: [semantic, aml_cft]
@@ -447,7 +447,7 @@ queries:
   - id: s008
     query: "transparency of beneficial ownership structures and identification"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["4.12", "4.14", "4.15"]
     tags: [semantic, aml_cft]
@@ -455,7 +455,7 @@ queries:
   - id: s009
     query: "cash-intensive businesses and products presenting higher money laundering risk"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["10.4", "10.5", "11.9"]
     tags: [semantic, aml_cft]
@@ -470,7 +470,7 @@ queries:
   - id: s011
     query: "correspondent banking relationship due diligence obligations"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["16.17", "8.17", "8.2"]
     tags: [semantic, aml_cft]
@@ -478,13 +478,13 @@ queries:
   - id: s012
     query: "ongoing monitoring of customer transactions and business relationship"
     expected_answerability: partial
-    expected_eba_id: "EBA/GL/2021/02"
+    expected_eba_id: "EBA/GL/2023/03"
     expected_min_results: 1
     expected_paragraph_refs: ["4.70", "4.73", "10.13"]
     tags: [semantic, aml_cft]
 
   # --- Full-curated semantic queries (tag: full_curated_semantic) ---
-  # Calibrated against data/corpora/eba-corpus.db (346 docs, 42,146 chunks).
+  # Calibrated against data/corpora/eba-corpus.db (341 docs, 41,345 chunks).
   # expected_eba_ids lists all acceptable doc IDs (EBA/GL/2023/03 is the primary
   # CDD/AML guidelines in the full corpus; EBA/LARGE-GL/0000/0070 is an annotated
   # version that duplicates the same paragraph numbering and content).
