@@ -30,7 +30,7 @@ Archive/proposed corpora can still be built for research, but must use an explic
 
 ## Current Corpus State
 
-The current production corpus (`eba-corpus.db`, versioned by GitHub Release tag) contains **346 current/applicable EBA documents** with **42,146 chunks** and **42,146 semantic embedding vectors** (`nomic-embed-text`, dim 768). Hybrid retrieval (FTS5 + sqlite-vec) is active when the DB includes vectors and Ollama is running. See [README.md](../README.md#production-corpus) for eval results and versioning policy.
+The current production corpus (`eba-corpus.db`, versioned by GitHub Release tag) contains **341 current/applicable EBA documents** with **41,345 chunks** and **41,345 semantic embedding vectors** (`nomic-embed-text`, dim 768). Hybrid retrieval (FTS5 + sqlite-vec) is active when the DB includes vectors and Ollama is running. See [README.md](../README.md#production-corpus) for eval results and versioning policy.
 
 ---
 
@@ -38,7 +38,7 @@ The current production corpus (`eba-corpus.db`, versioned by GitHub Release tag)
 
 This is a **Proof of Concept** (POC) implementation that has since grown beyond initial POC scope. The following notes describe the original scope and current state:
 
-- **Original 9 EBA AML/CFT documents** — the small seed corpus was only used for initial development; the current production corpus covers 346 current/applicable EBA documents
+- **Original 9 EBA AML/CFT documents** — the small seed corpus was only used for initial development; the current production corpus covers 341 current/applicable EBA documents
 - **English only** — no multi-language support; EBA publications in other languages are not processed
 - **Hybrid retrieval available** — FTS5 keyword search is always active; sqlite-vec semantic search is selected automatically when the DB includes vectors (`nomic-embed-text` 768-dim) and Ollama is running locally; otherwise the runtime falls back to FTS5
 - **Stdio transport only** — no HTTP or SSE transport; MCP server communicates via stdin/stdout

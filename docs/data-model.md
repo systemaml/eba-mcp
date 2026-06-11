@@ -40,7 +40,30 @@ One indexed version per document in the POC.
 
 ### `document_relationships`
 
-Schema exists for future M4 work. The POC does not populate this table.
+Generated relationship rows used by `eba_get_status`.
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | INTEGER PRIMARY KEY | Internal row key |
+| `source_eba_id` | TEXT | Source EBA identifier |
+| `target_eba_id` | TEXT | Target EBA identifier |
+| `relationship_type` | TEXT | Current generated corpus uses `related_to` and `consolidates`; lifecycle relationships remain a curation backlog |
+
+### `document_toc`
+
+Persisted best-effort document outline built from parser section metadata.
+
+| Column | Type | Notes |
+|---|---|---|
+| `document_version_id` | INTEGER | FK to `document_versions.version_id` |
+| `section_ref` | TEXT | Normalized section reference, e.g. `4` or `4.1` |
+| `title` | TEXT | Section title |
+| `level` | INTEGER | Numeric hierarchy depth |
+| `parent_section_ref` | TEXT NULL | Parent section reference when known and present |
+| `page_start` / `page_end` | INTEGER NULL | Page range covered by the section |
+| `sequence_start` / `sequence_end` | INTEGER NULL | Chunk sequence range covered by the section |
+| `confidence` | REAL NULL | Parser metadata confidence |
+| `source` | TEXT NULL | Metadata source |
 
 ### `chunks`
 
@@ -55,6 +78,13 @@ One row per parsed paragraph/section chunk.
 | `paragraph_ref` | TEXT NULL | Numbered paragraph reference, if detected |
 | `page_start` | INTEGER | Source page start |
 | `page_end` | INTEGER | Source page end |
+| `section_ref` | TEXT NULL | Normalized section reference from parser metadata |
+| `section_title` | TEXT NULL | Section title from parser metadata |
+| `section_level` | INTEGER NULL | Numeric hierarchy depth |
+| `parent_section_ref` | TEXT NULL | Parent section reference when known and present |
+| `document_region` | TEXT NULL | `body`, `annex`, `front_matter`, `back_matter`, or `consultation_feedback` |
+| `metadata_confidence` | REAL NULL | Parser metadata confidence |
+| `metadata_source` | TEXT NULL | Metadata source |
 | `text` | TEXT | Extracted chunk text |
 | `text_hash` | TEXT | SHA256 prefix of chunk text |
 | `chunk_type` | TEXT | `paragraph`, `heading`, `table`, `annex`, or `footnote` |
@@ -123,12 +153,12 @@ CREATE VIRTUAL TABLE IF NOT EXISTS chunks_vec USING vec0(
 
 `chunks_vec.rowid` maps 1:1 to `chunks.rowid`. At query time the retrieval engine performs a nearest-neighbour search against the query embedding and joins the rowid results back to `chunks` to hydrate full citation metadata.
 
-Current production corpus: 42,146 vectors, `nomic-embed-text`, dim 768.
+Current production corpus: 41,345 vectors, `nomic-embed-text`, dim 768.
 
 ## Current corpus constraints
 
 - English only.
-- Semantic embedding vectors stored in `chunks_vec` (sqlite-vec); production corpus has 42,146 vectors, `nomic-embed-text`, dim 768.
-- No relationship population (backlog).
+- Semantic embedding vectors stored in `chunks_vec` (sqlite-vec); production corpus has 41,345 vectors, `nomic-embed-text`, dim 768.
+- Generated relationship rows are populated for current-reference discovery, but lifecycle relationship curation remains incomplete.
 - Full rebuild only; no incremental update model (backlog).
 - Runtime uses SQLite/FTS5 + optional sqlite-vec extension for hybrid retrieval.
