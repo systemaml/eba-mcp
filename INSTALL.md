@@ -1,8 +1,8 @@
 # Install EBA MCP
 
-This guide is for consumers and LLM agents that need to clone and run the EBA MCP server. The production corpus database is **not included in the repository**. Download `eba-corpus.db` from GitHub Releases and place it at `data/corpora/eba-corpus.db`.
+This guide is for consumers and LLM agents that need to clone and run the EBA MCP server. It does not cover rebuilding the corpus or publishing releases; maintainers should use [DEVELOPMENT.md](DEVELOPMENT.md).
 
-This is a consumer install guide. It does not cover rebuilding the corpus or publishing releases.
+The production corpus database is **not included in the repository**. Download `eba-corpus.db` from GitHub Releases and place it at `data/corpora/eba-corpus.db`.
 
 ## Software Requirements
 
@@ -10,10 +10,8 @@ This is a consumer install guide. It does not cover rebuilding the corpus or pub
 - **Node.js** >= 18
 - **npm**
 - **GitHub CLI (`gh`)** — recommended for downloading the corpus release artifact
-- **Ollama** — recommended for hybrid semantic retrieval ([install](https://ollama.com/))
+- **Ollama** — optional, recommended for hybrid semantic retrieval ([install](https://ollama.com/))
 - An MCP-compatible client (Claude Desktop, etc.)
-
----
 
 ## MCP Server Setup from Release Artifact
 
@@ -49,25 +47,20 @@ mkdir -p data/corpora
 Preferred agent-friendly command, from inside the cloned repository:
 
 ```bash
-gh repo view --json nameWithOwner,url,defaultBranchRef
-gh release list --repo systemaml/eba-mcp --limit 10
-```
-
-If `gh release list` returns no releases, the corpus artifact has not been published yet. Ask the repository maintainer to publish `eba-corpus.db` before continuing.
-
-```bash
+gh repo view systemaml/eba-mcp --json nameWithOwner,url,defaultBranchRef
+gh release list -R systemaml/eba-mcp --limit 10
 gh release download \
-  --repo systemaml/eba-mcp \
+  -R systemaml/eba-mcp \
   --pattern 'eba-corpus.db' \
   --dir data/corpora \
   --clobber
 ```
 
-This downloads the asset from the latest release visible to `gh`. If you need a specific release tag, add it before the flags:
+If you need a specific release tag, add it before the flags:
 
 ```bash
 gh release download <release-tag> \
-  --repo systemaml/eba-mcp \
+  -R systemaml/eba-mcp \
   --pattern 'eba-corpus.db' \
   --dir data/corpora \
   --clobber
@@ -81,13 +74,23 @@ https://github.com/systemaml/eba-mcp/releases
 
 Place the downloaded file at:
 
-```
+```text
 data/corpora/eba-corpus.db
 ```
 
 If no release exists yet, ask the repository maintainer to publish `eba-corpus.db` before continuing.
 
-### 5. Start the MCP server
+### 5. Optional: enable Ollama hybrid retrieval
+
+Hybrid retrieval embeds the query at runtime with Ollama and fuses semantic results with FTS5 keyword results. FTS retrieval works without Ollama.
+
+```bash
+ollama pull nomic-embed-text
+```
+
+Default Ollama URL: `http://localhost:11434`. Override it with `OLLAMA_URL` in the MCP server environment if needed.
+
+### 6. Start the MCP server
 
 ```bash
 node dist/index.js --db data/corpora/eba-corpus.db
@@ -96,22 +99,8 @@ node dist/index.js --db data/corpora/eba-corpus.db
 For MCP client configuration, use absolute paths:
 
 ```bash
-node /absolute/path/to/eba-mcp/dist/index.js \
-  --db /absolute/path/to/eba-mcp/data/corpora/eba-corpus.db
+node /absolute/path/to/eba-mcp/dist/index.js   --db /absolute/path/to/eba-mcp/data/corpora/eba-corpus.db
 ```
-
-### 6. Optional: Ollama for hybrid retrieval
-
-Hybrid retrieval embeds the query at runtime with Ollama and fuses semantic results with FTS5 keyword results. FTS-only retrieval works without Ollama.
-
-```bash
-# Install Ollama from https://ollama.com/, then:
-ollama pull nomic-embed-text
-```
-
-Default Ollama URL: `http://localhost:11434`. Override with `OLLAMA_URL` env var if needed.
-
----
 
 ## MCP Client Configuration
 
@@ -137,7 +126,7 @@ Add to `claude_desktop_config.json`, replacing the path with your clone location
 }
 ```
 
-Without Ollama, omit the `env` block or leave `OLLAMA_URL` unset; the server automatically falls back to FTS5 keyword search.
+Without Ollama, omit the `env` block or leave `OLLAMA_URL` unset; the server automatically falls back to FTS5 keyword retrieval.
 
 ### Other MCP Clients
 
@@ -149,13 +138,9 @@ args:    /absolute/path/to/eba-mcp/dist/index.js
 
 Use stdio transport. This server does not expose HTTP, SSE, or Streamable HTTP.
 
----
+## Retrieval Behavior
 
-## Retrieval behavior
-
-Retrieval defaults to hybrid for MCP clients. With the production vector-enabled DB and reachable Ollama, the server uses hybrid FTS5 + semantic retrieval. If Ollama or vector search is unavailable, it falls back to SQLite FTS5 and reports `search_mode: "fts_fallback"`; calls that request `search_mode: "fts"` report `"fts_only"`.
-
----
+Retrieval is automatic for MCP clients. With the production vector-enabled DB and reachable Ollama, the server uses hybrid FTS5 + semantic retrieval. If Ollama or vector search is unavailable, it falls back to SQLite FTS5. Clients do not choose the retrieval mode per request.
 
 ## Troubleshooting
 
@@ -177,7 +162,7 @@ Requires Node.js >= 18 on a supported OS and architecture.
 
 ### Ollama is unavailable
 
-Start Ollama and pull the model to enable hybrid retrieval. If Ollama is unavailable, no client-side mode switch is required; the server falls back to FTS5. Clients may still pass `search_mode: "fts"`, `"hybrid"`, or `"vector"` to control an individual `eba_search` call:
+Start Ollama and pull the model to enable hybrid retrieval. If Ollama is unavailable, no client-side mode switch is required; the server falls back to FTS5.
 
 ```bash
 ollama pull nomic-embed-text
@@ -191,8 +176,6 @@ Run the release download command from the setup section, then verify the file ex
 
 Use absolute paths in MCP client configuration. Ensure the user running the MCP client can read `dist/index.js` and the corpus database.
 
----
-
 ## Agent Query Guidance
 
 - Use English queries. The corpus is English, and `nomic-embed-text` is optimized for English. If the end user asks in Polish or another language, translate the search intent to focused English regulatory terms before calling `eba_search`.
@@ -203,4 +186,3 @@ Use absolute paths in MCP client configuration. Ensure the user running the MCP 
 - To validate a returned citation, pass its `citation_id` directly to `eba_validate_citation` as `citation_id` (or as `chunk_id` for backward compatibility).
 - Treat `eba_get_section` as broad navigation. Use `eba_get_toc` first and choose the narrowest useful section prefix; use `eba_get_paragraph` for precise paragraph context.
 - Do not present MCP output as legal advice or a definitive legal interpretation.
-- Use `eba_get_paragraph` after discovery when you need surrounding context for a known `eba_id` and `paragraph_ref`.
