@@ -9,7 +9,6 @@ export interface McpResponse {
   citations: unknown[];
   documents_considered?: string[];
   filters_applied?: Record<string, unknown>;
-  search_mode?: 'hybrid' | 'vector' | 'fts_fallback' | 'fts_only';
   embedding_model?: string;
   embeddings_available?: boolean;
   response_mode?: 'compact' | 'standard' | 'full';
@@ -33,7 +32,6 @@ export function buildResponse(
   options: {
     documents_considered?: string[];
     filters_applied?: Record<string, unknown>;
-    search_mode?: 'hybrid' | 'vector' | 'fts_fallback' | 'fts_only';
     embedding_model?: string;
     embeddings_available?: boolean;
     response_mode?: 'compact' | 'standard' | 'full';
@@ -64,7 +62,6 @@ export function buildResponse(
     citations,
     documents_considered: options.documents_considered,
     filters_applied: options.filters_applied,
-    search_mode: options.search_mode,
     embedding_model: options.embedding_model,
     embeddings_available: options.embeddings_available,
     response_mode: options.response_mode,

@@ -107,10 +107,6 @@ const SearchResponseMode = z
   .default('standard')
   .describe('Controls eba_search response size: compact returns short discovery excerpts, standard is bounded citation-ready output, full returns longer excerpts within the response budget.');
 
-const SearchModePreference = z
-  .enum(['hybrid', 'fts', 'vector'])
-  .optional()
-  .describe('Optional retrieval mode for eba_search. Omit for default hybrid preference with FTS fallback; use fts for keyword-only search or vector for semantic-only search when vectors are available.');
 
 // ── Shared filter objects ──────────────────────────────────────────────────
 
@@ -145,7 +141,6 @@ export const EbaSearchInput = z
       .optional()
       .describe('Final maximum number of citation objects returned after optional context expansion. If omitted, defaults depend on response_mode.'),
     response_mode: SearchResponseMode,
-    search_mode: SearchModePreference,
     max_chars: MaxChars,
   })
   .strict();

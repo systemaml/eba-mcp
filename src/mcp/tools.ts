@@ -1,4 +1,4 @@
-import { diffVersions, getContextForChunks, getCorpusInfo, getDocument, getDocumentStatus, getParagraph, getSection, getToc, getVersions, listDocuments, searchChunks, searchChunksWithMode, validateCitation } from '../db/retrieval.js';
+import { diffVersions, getContextForChunks, getCorpusInfo, getDocument, getDocumentAliasWarning, getDocumentStatus, getParagraph, getResolvedDocumentId, getSection, getToc, getVersions, listDocuments, searchChunks, searchChunksWithMode, validateCitation } from '../db/retrieval.js';
 import { buildCitation, buildCitations } from '../citations/formatter.js';
 import { buildResponse } from './formatters.js';
 import type { Chunk } from '../db/types.js';
@@ -221,12 +221,20 @@ function getSearchAnswerability(citationCount: number, isExactDocumentLookup: bo
   return citationCount === 1 ? 'exact' : 'partial';
 }
 
+function getAliasWarning(ebaId: string): string | null {
+  return getDocumentAliasWarning(ebaId);
+}
+
+function buildChunkCitation(chunk: Chunk, options: { maxChars?: number } = {}): CitationObject {
+  return buildCitation(chunk, chunk.eba_id || '', options);
+}
+
 export async function handleEbaSearch(input: EbaSearchInputType) {
   try {
     const responseMode = input.response_mode;
     const maxCitations = input.max_citations ?? getDefaultSearchMaxCitations(responseMode);
     const maxChars = input.max_chars ?? getDefaultSearchMaxChars(responseMode);
-    const searchResult = await searchChunksWithMode(input.query, input.filters || {}, input.limit || 10, input.search_mode);
+    const searchResult = await searchChunksWithMode(input.query, input.filters || {}, input.limit || 10);
     const baseChunks = searchResult.chunks;
     const expandedChunks = input.include_context ? getContextForChunks(baseChunks, 1, 1) : baseChunks;
     const orderedChunks = input.include_context ? prioritizeAnchorChunks(baseChunks, expandedChunks) : expandedChunks;
@@ -246,6 +254,7 @@ export async function handleEbaSearch(input: EbaSearchInputType) {
     const warnings = citationCapLimited
       ? [`eba_search returned ${citations.length} of ${availableCitations} available citations after context expansion. Narrow the query, increase max_citations, or use eba_get_paragraph/eba_get_section for exact context.`]
       : [];
+    warnings.push(...(searchResult.warnings ?? []));
 
     const isExactDocumentLookup = EBA_ID_PATTERN.test(input.query.trim()) || Boolean(input.filters?.eba_id);
 
@@ -255,7 +264,6 @@ export async function handleEbaSearch(input: EbaSearchInputType) {
       {
         documents_considered: [...new Set(chunks.map((chunk) => chunk.eba_id).filter(Boolean))] as string[],
         filters_applied: input.filters || {},
-        search_mode: searchResult.search_mode,
         embedding_model: searchResult.embedding_model,
         embeddings_available: searchResult.embeddings_available,
         response_mode: responseMode,
@@ -287,10 +295,14 @@ export async function handleEbaGetDocument(input: EbaGetDocumentInputType) {
   }
 
   const chunks = await searchChunks('', { eba_id: input.eba_id }, 50);
-  const citations = chunks.slice(0, 5).map(c => buildCitation(c, input.eba_id, { maxChars: input.max_chars }));
+  const citations = chunks.slice(0, 5).map(c => buildCitation(c, c.eba_id || document.eba_id, { maxChars: input.max_chars }));
   const warnings = [
     'eba_get_document returns metadata plus leading citation chunks only; use eba_get_toc and eba_get_section for section-level retrieval.',
   ];
+  const aliasWarning = getAliasWarning(input.eba_id);
+  if (aliasWarning) {
+    warnings.unshift(aliasWarning);
+  }
 
   if (document.publication_status === 'consultation') {
     warnings.push('Document is in consultation status');
@@ -311,9 +323,11 @@ export async function handleEbaGetDocument(input: EbaGetDocumentInputType) {
 export function handleEbaGetVersions(input: EbaGetVersionsInputType) {
   const versions = getVersions(input.eba_id);
   if (!versions) return buildResponse('no_match', []);
+  const aliasWarning = getAliasWarning(input.eba_id);
   return {
-    ...buildResponse('exact', [], {}),
+    ...buildResponse('exact', [], { warnings: aliasWarning ? [aliasWarning] : [] }),
     versions,
+    document_eba_id: getResolvedDocumentId(input.eba_id),
   };
 }
 
@@ -326,13 +340,18 @@ export function handleEbaDiffVersions(input: EbaDiffVersionsInputType) {
 
   if (result.error) {
     return {
-      ...buildResponse('error', [], { warnings: [result.error] }),
+      ...buildResponse('error', [], {
+        warnings: [getAliasWarning(input.eba_id), result.error].filter((warning): warning is string => Boolean(warning)),
+      }),
       error: result.error,
+      diff: result,
     };
   }
 
   return {
-    ...buildResponse('exact', [], {}),
+    ...buildResponse('exact', [], {
+      warnings: getAliasWarning(input.eba_id) ? [getAliasWarning(input.eba_id) as string] : [],
+    }),
     diff: result,
   };
 }
@@ -350,7 +369,7 @@ export function handleEbaGetParagraph(input: EbaGetParagraphInputType) {
       input.context_before || 0,
       input.context_after || 0,
     ).map((chunk) => ({
-      ...buildCitation(chunk, input.eba_id, { maxChars: input.max_chars }),
+      ...buildChunkCitation(chunk, { maxChars: input.max_chars }),
       is_anchor: chunk.paragraph_ref === paragraphRef,
       is_complete: !chunk.chunk_id.includes(':sub'),
     }))
@@ -360,7 +379,8 @@ export function handleEbaGetParagraph(input: EbaGetParagraphInputType) {
     return buildResponse('no_match', []);
   }
 
-  return buildResponse('exact', citations);
+  const aliasWarning = getAliasWarning(input.eba_id);
+  return buildResponse('exact', citations, { warnings: aliasWarning ? [aliasWarning] : [] });
 }
 
 export function handleEbaGetSection(input: EbaGetSectionInputType) {
@@ -371,7 +391,9 @@ export function handleEbaGetSection(input: EbaGetSectionInputType) {
   }
 
   return {
-    ...buildResponse('exact', chunks.map((chunk) => buildCitation(chunk, input.eba_id, { maxChars: input.max_chars }))),
+    ...buildResponse('exact', chunks.map((chunk) => buildChunkCitation(chunk, { maxChars: input.max_chars })), {
+      warnings: getAliasWarning(input.eba_id) ? [getAliasWarning(input.eba_id) as string] : [],
+    }),
     section: input.section,
     total_chunks: chunks.length,
   };
@@ -385,7 +407,9 @@ export function handleEbaGetToc(input: EbaGetTocInputType) {
   }
 
   return {
-    ...buildResponse(toc.length > 0 ? 'exact' : 'no_match', []),
+    ...buildResponse(toc.length > 0 ? 'exact' : 'no_match', [], {
+      warnings: getAliasWarning(input.eba_id) ? [getAliasWarning(input.eba_id) as string] : [],
+    }),
     toc,
     total: toc.length,
   };
@@ -423,7 +447,7 @@ export function handleEbaGetStatus(input: EbaGetStatusInputType) {
   }
 
   return {
-    ...buildResponse('exact', [], {}),
+    ...buildResponse('exact', [], { warnings: result.warnings }),
     status: result,
   };
 }
